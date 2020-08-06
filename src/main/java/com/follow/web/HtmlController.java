@@ -58,7 +58,7 @@ public class HtmlController {
      */
     @RequestMapping("/group_permission_management")
     public String grouppermissionmanagement(){
-        return "group_permission_management.";
+        return "group_permission_management";
     }
 
     /**
@@ -67,7 +67,7 @@ public class HtmlController {
      */
     @RequestMapping("/join_group")
     public String joingroup(){
-        return "join_group.";
+        return "join_group";
     }
 
 
@@ -77,7 +77,7 @@ public class HtmlController {
      */
     @RequestMapping("/form_template_setting")
     public String formtemplatesetting(){
-        return "form_template_setting.";
+        return "form_template_setting";
     }
 
 
@@ -88,9 +88,17 @@ public class HtmlController {
      */
     @RequestMapping("/follow_rules")
     public String followrules(){
-        return "follow_rules.";
+        return "follow_rules";
     }
 
+    /**
+     * 跳转到  诊疗方案  页
+     * @return
+     */
+    @RequestMapping("/treatment_plan")
+    public String treatmentplan(){
+        return "treatment_plan";
+    }
 
     /**
      * 跳转到  随访进度管理  页
@@ -98,8 +106,19 @@ public class HtmlController {
      */
     @RequestMapping("/follow_progress_management")
     public String followprogressmanagement(){
-        return "follow_progress_management.";
+        return "follow_progress_management";
     }
+
+
+    /**
+     * 跳转到  随访记录  页
+     * @return
+     */
+    @RequestMapping("/follow_records")
+    public String followrecords(){
+        return "follow_records";
+    }
+
 
     /**
      * 跳转到  标准化术语维护  页
@@ -107,7 +126,7 @@ public class HtmlController {
      */
     @RequestMapping("/maintenance_standardized_terms")
     public String maintenancestandardizedterms(){
-        return "maintenance_standardized_terms.";
+        return "maintenance_standardized_terms";
     }
 
 
