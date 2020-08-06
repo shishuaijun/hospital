@@ -1,0 +1,711 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <title>入组管理</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <link href="resources/css/jquery-ui-themes.css" type="text/css" rel="stylesheet"/>
+    <link href="resources/css/axure_rp_page.css" type="text/css" rel="stylesheet"/>
+    <link href="data/styles.css" type="text/css" rel="stylesheet"/>
+    <link href="files/入组管理/styles.css" type="text/css" rel="stylesheet"/>
+    <script src="resources/scripts/jquery-1.7.1.min.js"></script>
+    <script src="resources/scripts/jquery-ui-1.8.10.custom.min.js"></script>
+    <script src="resources/scripts/prototypePre.js"></script>
+    <script src="data/document.js"></script>
+    <script src="resources/scripts/prototypePost.js"></script>
+    <script src="files/入组管理/data.js"></script>
+    <script type="text/javascript">
+      $axure.utils.getTransparentGifPath = function() { return 'resources/images/transparent.gif'; };
+      $axure.utils.getOtherPath = function() { return 'resources/Other.html'; };
+      $axure.utils.getReloadPath = function() { return 'resources/reload.html'; };
+    </script>
+  </head>
+  <body>
+    <div id="base" class="">
+
+      <!-- dp (动态面板) -->
+      <div id="u285" class="ax_default" data-label="dp">
+        <div id="u285_state0" class="panel_state" data-label="入组范围" style="">
+          <div id="u285_state0_content" class="panel_state_content">
+
+            <!-- Unnamed (水平线) -->
+            <div id="u286" class="ax_default horizontal_line">
+              <img id="u286_img" class="img " src="images/分组管理/u49.png"/>
+            </div>
+
+            <!-- c2 (复选框) -->
+            <div id="u287" class="ax_default checkbox" data-label="c2">
+              <label for="u287_input" style="position: absolute; left: 0px;">
+                <div id="u287_text" class="text ">
+                  <p><span>自动同步新增患者</span></p>
+                </div>
+              </label>
+              <input id="u287_input" type="checkbox" value="checkbox"/>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u288" class="ax_default shape">
+              <div id="u288_div" class=""></div>
+              <div id="u288_text" class="text ">
+                <p><span>按科室</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u289" class="ax_default shape">
+              <div id="u289_div" class=""></div>
+              <div id="u289_text" class="text ">
+                <p><span>按病种</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u290" class="ax_default shape">
+              <div id="u290_div" class=""></div>
+              <div id="u290_text" class="text ">
+                <p><span>按人员</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u291" class="ax_default shape">
+              <div id="u291_div" class=""></div>
+              <div id="u291_text" class="text ">
+                <p><span>按结果集</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u292" class="ax_default shape">
+              <div id="u292_div" class=""></div>
+              <div id="u292_text" class="text ">
+                <p><span>自定义条件</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (垂直线) -->
+            <div id="u293" class="ax_default vertical_line">
+              <img id="u293_img" class="img " src="images/入组管理/u293.png"/>
+            </div>
+
+            <!-- c2 (复选框) -->
+            <div id="u294" class="ax_default checkbox" data-label="c2">
+              <label for="u294_input" style="position: absolute; left: 0px;">
+                <div id="u294_text" class="text ">
+                  <p><span>是否需要确认</span></p>
+                </div>
+              </label>
+              <input id="u294_input" type="checkbox" value="checkbox"/>
+            </div>
+
+            <!-- dp1 (动态面板) -->
+            <div id="u295" class="ax_default" data-label="dp1">
+              <div id="u295_state0" class="panel_state" data-label="科室" style="">
+                <div id="u295_state0_content" class="panel_state_content">
+
+                  <!-- Unnamed (矩形) -->
+                  <div id="u296" class="ax_default paragraph">
+                    <div id="u296_div" class=""></div>
+                    <div id="u296_text" class="text ">
+                      <p><span>科室</span></p>
+                    </div>
+                  </div>
+
+                  <!-- Unnamed (矩形) -->
+                  <div id="u297" class="ax_default shape">
+                    <div id="u297_div" class=""></div>
+                    <div id="u297_text" class="text ">
+                      <p><span>保存</span></p>
+                    </div>
+                  </div>
+
+                  <!-- Unnamed (下拉列表框) -->
+                  <div id="u298" class="ax_default droplist">
+                    <select id="u298_input">
+                      <option value="-请选择-">-请选择-</option>
+                      <option value="科室1">科室1</option>
+                      <option value="科室2">科室2</option>
+                      <option value="科室3">科室3</option>
+                      <option value="科室4">科室4</option>
+                      <option value="科室5">科室5</option>
+                      <option value="科室6">科室6</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div id="u295_state1" class="panel_state" data-label="病种" style="visibility: hidden;">
+                <div id="u295_state1_content" class="panel_state_content">
+
+                  <!-- Unnamed (矩形) -->
+                  <div id="u299" class="ax_default paragraph">
+                    <div id="u299_div" class=""></div>
+                    <div id="u299_text" class="text ">
+                      <p><span>疾病编码</span></p>
+                    </div>
+                  </div>
+
+                  <!-- Unnamed (文本框) -->
+                  <div id="u300" class="ax_default text_field">
+                    <input id="u300_input" type="text" value=""/>
+                  </div>
+
+                  <!-- Unnamed (矩形) -->
+                  <div id="u301" class="ax_default paragraph">
+                    <div id="u301_div" class=""></div>
+                    <div id="u301_text" class="text ">
+                      <p><span>~</span></p>
+                    </div>
+                  </div>
+
+                  <!-- Unnamed (文本框) -->
+                  <div id="u302" class="ax_default text_field">
+                    <input id="u302_input" type="text" value=""/>
+                  </div>
+
+                  <!-- Unnamed (矩形) -->
+                  <div id="u303" class="ax_default paragraph">
+                    <div id="u303_div" class=""></div>
+                    <div id="u303_text" class="text ">
+                      <p><span>疾病名称</span></p>
+                    </div>
+                  </div>
+
+                  <!-- Unnamed (文本框) -->
+                  <div id="u304" class="ax_default text_field">
+                    <input id="u304_input" type="text" value=""/>
+                  </div>
+
+                  <!-- Unnamed (矩形) -->
+                  <div id="u305" class="ax_default shape">
+                    <div id="u305_div" class=""></div>
+                    <div id="u305_text" class="text ">
+                      <p><span>保存</span></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="u295_state2" class="panel_state" data-label="医生" style="visibility: hidden;">
+                <div id="u295_state2_content" class="panel_state_content">
+
+                  <!-- Unnamed (矩形) -->
+                  <div id="u306" class="ax_default paragraph">
+                    <div id="u306_div" class=""></div>
+                    <div id="u306_text" class="text ">
+                      <p><span>医生</span></p>
+                    </div>
+                  </div>
+
+                  <!-- Unnamed (矩形) -->
+                  <div id="u307" class="ax_default paragraph">
+                    <div id="u307_div" class=""></div>
+                    <div id="u307_text" class="text ">
+                      <p><span>护士</span></p>
+                    </div>
+                  </div>
+
+                  <!-- Unnamed (下拉列表框) -->
+                  <div id="u308" class="ax_default droplist">
+                    <select id="u308_input">
+                      <option value="-请选择-">-请选择-</option>
+                      <option value="医生1">医生1</option>
+                      <option value="医生2">医生2</option>
+                      <option value="医生3">医生3</option>
+                      <option value="医生4">医生4</option>
+                      <option value="医生5">医生5</option>
+                    </select>
+                  </div>
+
+                  <!-- Unnamed (下拉列表框) -->
+                  <div id="u309" class="ax_default droplist">
+                    <select id="u309_input">
+                      <option value="-请选择-">-请选择-</option>
+                      <option value="医生1">医生1</option>
+                      <option value="医生2">医生2</option>
+                      <option value="医生3">医生3</option>
+                      <option value="医生4">医生4</option>
+                      <option value="医生5">医生5</option>
+                    </select>
+                  </div>
+
+                  <!-- Unnamed (矩形) -->
+                  <div id="u310" class="ax_default shape">
+                    <div id="u310_div" class=""></div>
+                    <div id="u310_text" class="text ">
+                      <p><span>保存</span></p>
+                    </div>
+                  </div>
+
+                  <!-- Unnamed (矩形) -->
+                  <div id="u311" class="ax_default paragraph">
+                    <div id="u311_div" class=""></div>
+                    <div id="u311_text" class="text ">
+                      <p><span>技师</span></p>
+                    </div>
+                  </div>
+
+                  <!-- Unnamed (矩形) -->
+                  <div id="u312" class="ax_default paragraph">
+                    <div id="u312_div" class=""></div>
+                    <div id="u312_text" class="text ">
+                      <p><span>药师</span></p>
+                    </div>
+                  </div>
+
+                  <!-- Unnamed (下拉列表框) -->
+                  <div id="u313" class="ax_default droplist">
+                    <select id="u313_input">
+                      <option value="-请选择-">-请选择-</option>
+                      <option value="医生1">医生1</option>
+                      <option value="医生2">医生2</option>
+                      <option value="医生3">医生3</option>
+                      <option value="医生4">医生4</option>
+                      <option value="医生5">医生5</option>
+                    </select>
+                  </div>
+
+                  <!-- Unnamed (下拉列表框) -->
+                  <div id="u314" class="ax_default droplist">
+                    <select id="u314_input">
+                      <option value="-请选择-">-请选择-</option>
+                      <option value="医生1">医生1</option>
+                      <option value="医生2">医生2</option>
+                      <option value="医生3">医生3</option>
+                      <option value="医生4">医生4</option>
+                      <option value="医生5">医生5</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div id="u295_state3" class="panel_state" data-label="导入" style="visibility: hidden;">
+                <div id="u295_state3_content" class="panel_state_content">
+
+                  <!-- Unnamed (矩形) -->
+                  <div id="u315" class="ax_default shape">
+                    <div id="u315_div" class=""></div>
+                    <div id="u315_text" class="text ">
+                      <p><span>保存</span></p>
+                    </div>
+                  </div>
+
+                  <!-- Unnamed (Right Arrow Button) -->
+                  <div id="u316" class="ax_default shape">
+                    <img id="u316_img" class="img " src="images/入组管理/u316.png"/>
+                    <div id="u316_text" class="text ">
+                      <p><span>选择结果集</span></p>
+                    </div>
+                  </div>
+
+                  <!-- Unnamed (矩形) -->
+                  <div id="u317" class="ax_default paragraph">
+                    <div id="u317_div" class=""></div>
+                    <div id="u317_text" class="text ">
+                      <p><span>查询条件1：疾病名称等于糖尿病</span></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="u295_state4" class="panel_state" data-label="条件" style="visibility: hidden;">
+                <div id="u295_state4_content" class="panel_state_content">
+
+                  <!-- Unnamed (内联框架) -->
+                  <div id="u318" class="ax_default">
+                    <iframe id="u318_input" scrolling="auto" frameborder="1" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                  </div>
+
+                  <!-- Unnamed (矩形) -->
+                  <div id="u319" class="ax_default label">
+                    <div id="u319_div" class=""></div>
+                    <div id="u319_text" class="text ">
+                      <p><span>疾病名称</span></p>
+                    </div>
+                  </div>
+
+                  <!-- Unnamed (下拉列表框) -->
+                  <div id="u320" class="ax_default droplist">
+                    <select id="u320_input">
+                      <option value="等于">等于</option>
+                      <option value="大于">大于</option>
+                      <option value="小于">小于</option>
+                    </select>
+                  </div>
+
+                  <!-- Unnamed (矩形) -->
+                  <div id="u321" class="ax_default label">
+                    <div id="u321_div" class=""></div>
+                    <div id="u321_text" class="text ">
+                      <p><span>高血压</span></p>
+                    </div>
+                  </div>
+
+                  <!-- Unnamed (矩形) -->
+                  <div id="u322" class="ax_default label">
+                    <div id="u322_div" class=""></div>
+                    <div id="u322_text" class="text ">
+                      <p><span>白蛋白</span></p>
+                    </div>
+                  </div>
+
+                  <!-- Unnamed (下拉列表框) -->
+                  <div id="u323" class="ax_default droplist">
+                    <select id="u323_input">
+                      <option value="大于">大于</option>
+                      <option value="小于">小于</option>
+                      <option value="等于">等于</option>
+                    </select>
+                  </div>
+
+                  <!-- Unnamed (矩形) -->
+                  <div id="u324" class="ax_default label">
+                    <div id="u324_div" class=""></div>
+                    <div id="u324_text" class="text ">
+                      <p><span>30</span></p>
+                    </div>
+                  </div>
+
+                  <!-- Unnamed (矩形) -->
+                  <div id="u325" class="ax_default label">
+                    <div id="u325_div" class=""></div>
+                    <div id="u325_text" class="text ">
+                      <p><span>AND</span></p>
+                    </div>
+                  </div>
+
+                  <!-- Unnamed (水平线) -->
+                  <div id="u326" class="ax_default line">
+                    <img id="u326_img" class="img " src="images/入组管理/u326.png"/>
+                  </div>
+
+                  <!-- Unnamed (垂直线) -->
+                  <div id="u327" class="ax_default line">
+                    <img id="u327_img" class="img " src="images/入组管理/u327.png"/>
+                  </div>
+
+                  <!-- Unnamed (矩形) -->
+                  <div id="u328" class="ax_default label">
+                    <div id="u328_div" class=""></div>
+                    <div id="u328_text" class="text ">
+                      <p><span>疾病名称</span></p>
+                    </div>
+                  </div>
+
+                  <!-- Unnamed (下拉列表框) -->
+                  <div id="u329" class="ax_default droplist">
+                    <select id="u329_input">
+                      <option value="等于">等于</option>
+                      <option value="大于">大于</option>
+                      <option value="小于">小于</option>
+                    </select>
+                  </div>
+
+                  <!-- Unnamed (矩形) -->
+                  <div id="u330" class="ax_default label">
+                    <div id="u330_div" class=""></div>
+                    <div id="u330_text" class="text ">
+                      <p><span>糖尿病</span></p>
+                    </div>
+                  </div>
+
+                  <!-- Unnamed (矩形) -->
+                  <div id="u331" class="ax_default label">
+                    <div id="u331_div" class=""></div>
+                    <div id="u331_text" class="text ">
+                      <p><span>药物</span></p>
+                    </div>
+                  </div>
+
+                  <!-- Unnamed (下拉列表框) -->
+                  <div id="u332" class="ax_default droplist">
+                    <select id="u332_input">
+                      <option value="等于">等于</option>
+                      <option value="大于">大于</option>
+                      <option value="小于">小于</option>
+                    </select>
+                  </div>
+
+                  <!-- Unnamed (矩形) -->
+                  <div id="u333" class="ax_default label">
+                    <div id="u333_div" class=""></div>
+                    <div id="u333_text" class="text ">
+                      <p><span>二甲双胍</span></p>
+                    </div>
+                  </div>
+
+                  <!-- Unnamed (矩形) -->
+                  <div id="u334" class="ax_default label">
+                    <div id="u334_div" class=""></div>
+                    <div id="u334_text" class="text ">
+                      <p><span>AND</span></p>
+                    </div>
+                  </div>
+
+                  <!-- Unnamed (水平线) -->
+                  <div id="u335" class="ax_default line">
+                    <img id="u335_img" class="img " src="images/入组管理/u326.png"/>
+                  </div>
+
+                  <!-- Unnamed (垂直线) -->
+                  <div id="u336" class="ax_default line">
+                    <img id="u336_img" class="img " src="images/入组管理/u327.png"/>
+                  </div>
+
+                  <!-- Unnamed (矩形) -->
+                  <div id="u337" class="ax_default label">
+                    <div id="u337_div" class=""></div>
+                    <div id="u337_text" class="text ">
+                      <p><span>OR</span></p>
+                    </div>
+                  </div>
+
+                  <!-- Unnamed (垂直线) -->
+                  <div id="u338" class="ax_default line">
+                    <img id="u338_img" class="img " src="images/入组管理/u338.png"/>
+                  </div>
+
+                  <!-- Unnamed (水平线) -->
+                  <div id="u339" class="ax_default line">
+                    <img id="u339_img" class="img " src="images/入组管理/u339.png"/>
+                  </div>
+
+                  <!-- Unnamed (垂直线) -->
+                  <div id="u340" class="ax_default vertical_line">
+                    <img id="u340_img" class="img " src="images/入组管理/u340.png"/>
+                  </div>
+
+                  <!-- Unnamed (矩形) -->
+                  <div id="u341" class="ax_default shape">
+                    <div id="u341_div" class=""></div>
+                    <div id="u341_text" class="text ">
+                      <p><span>保存</span></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="u285_state1" class="panel_state" data-label="入组时间" style="visibility: hidden;">
+          <div id="u285_state1_content" class="panel_state_content">
+
+            <!-- Unnamed (水平线) -->
+            <div id="u342" class="ax_default horizontal_line">
+              <img id="u342_img" class="img " src="images/分组管理/u49.png"/>
+            </div>
+
+            <!-- Unnamed (单选按钮) -->
+            <div id="u343" class="ax_default radio_button">
+              <label for="u343_input" style="position: absolute; left: 0px;">
+                <div id="u343_text" class="text ">
+                  <p><span>门诊</span></p>
+                </div>
+              </label>
+              <input id="u343_input" type="radio" value="radio" name="u343"/>
+            </div>
+
+            <!-- Unnamed (单选按钮) -->
+            <div id="u344" class="ax_default radio_button">
+              <label for="u344_input" style="position: absolute; left: 0px;">
+                <div id="u344_text" class="text ">
+                  <p><span>入院</span></p>
+                </div>
+              </label>
+              <input id="u344_input" type="radio" value="radio" name="u344"/>
+            </div>
+
+            <!-- Unnamed (单选按钮) -->
+            <div id="u345" class="ax_default radio_button">
+              <label for="u345_input" style="position: absolute; left: 0px;">
+                <div id="u345_text" class="text ">
+                  <p><span>手术</span></p>
+                </div>
+              </label>
+              <input id="u345_input" type="radio" value="radio" name="u345" checked/>
+            </div>
+
+            <!-- Unnamed (单选按钮) -->
+            <div id="u346" class="ax_default radio_button">
+              <label for="u346_input" style="position: absolute; left: 0px;">
+                <div id="u346_text" class="text ">
+                  <p><span>出院</span></p>
+                </div>
+              </label>
+              <input id="u346_input" type="radio" value="radio" name="u346"/>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u347" class="ax_default label">
+              <div id="u347_div" class=""></div>
+              <div id="u347_text" class="text ">
+                <p><span>1）基准事件：</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (单选按钮) -->
+            <div id="u348" class="ax_default radio_button">
+              <label for="u348_input" style="position: absolute; left: 0px;">
+                <div id="u348_text" class="text ">
+                  <p><span>本院</span></p>
+                </div>
+              </label>
+              <input id="u348_input" type="radio" value="radio" name="u348"/>
+            </div>
+
+            <!-- Unnamed (单选按钮) -->
+            <div id="u349" class="ax_default radio_button">
+              <label for="u349_input" style="position: absolute; left: 0px;">
+                <div id="u349_text" class="text ">
+                  <p><span>本科室</span></p>
+                </div>
+              </label>
+              <input id="u349_input" type="radio" value="radio" name="u349" checked/>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u350" class="ax_default label">
+              <div id="u350_div" class=""></div>
+              <div id="u350_text" class="text ">
+                <p><span>&nbsp;&nbsp;&nbsp; 筛选条件：</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (单选按钮) -->
+            <div id="u351" class="ax_default radio_button">
+              <label for="u351_input" style="position: absolute; left: 0px;">
+                <div id="u351_text" class="text ">
+                  <p><span>首次</span></p>
+                </div>
+              </label>
+              <input id="u351_input" type="radio" value="radio" name="u351" checked/>
+            </div>
+
+            <!-- Unnamed (单选按钮) -->
+            <div id="u352" class="ax_default radio_button">
+              <label for="u352_input" style="position: absolute; left: 0px;">
+                <div id="u352_text" class="text ">
+                  <p><span>末次</span></p>
+                </div>
+              </label>
+              <input id="u352_input" type="radio" value="radio" name="u352"/>
+            </div>
+
+            <!-- Unnamed (单选按钮) -->
+            <div id="u353" class="ax_default radio_button">
+              <label for="u353_input" style="position: absolute; left: 0px;">
+                <div id="u353_text" class="text ">
+                  <p><span>本就诊</span></p>
+                </div>
+              </label>
+              <input id="u353_input" type="radio" value="radio" name="u353"/>
+            </div>
+
+            <!-- Unnamed (单选按钮) -->
+            <div id="u354" class="ax_default radio_button">
+              <label for="u354_input" style="position: absolute; left: 0px;">
+                <div id="u354_text" class="text ">
+                  <p><span>任意就诊</span></p>
+                </div>
+              </label>
+              <input id="u354_input" type="radio" value="radio" name="u354" checked/>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u355" class="ax_default label">
+              <div id="u355_div" class=""></div>
+              <div id="u355_text" class="text ">
+                <p><span>2）起始：</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (文本框) -->
+            <div id="u356" class="ax_default text_field">
+              <input id="u356_input" type="text" value=""/>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u357" class="ax_default label">
+              <div id="u357_div" class=""></div>
+              <div id="u357_text" class="text ">
+                <p><span>年</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (文本框) -->
+            <div id="u358" class="ax_default text_field">
+              <input id="u358_input" type="text" value="1"/>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u359" class="ax_default label">
+              <div id="u359_div" class=""></div>
+              <div id="u359_text" class="text ">
+                <p><span>月</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (文本框) -->
+            <div id="u360" class="ax_default text_field">
+              <input id="u360_input" type="text" value=""/>
+            </div>
+
+            <!-- Unnamed (矩形) -->
+            <div id="u361" class="ax_default label">
+              <div id="u361_div" class=""></div>
+              <div id="u361_text" class="text ">
+                <p><span>日</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (单选按钮) -->
+            <div id="u362" class="ax_default radio_button">
+              <label for="u362_input" style="position: absolute; left: 0px;">
+                <div id="u362_text" class="text ">
+                  <p><span>入ICU</span></p>
+                </div>
+              </label>
+              <input id="u362_input" type="radio" value="radio" name="u362"/>
+            </div>
+
+            <!-- Unnamed (单选按钮) -->
+            <div id="u363" class="ax_default radio_button">
+              <label for="u363_input" style="position: absolute; left: 0px;">
+                <div id="u363_text" class="text ">
+                  <p><span>出ICU</span></p>
+                </div>
+              </label>
+              <input id="u363_input" type="radio" value="radio" name="u363"/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u364" class="ax_default paragraph">
+        <div id="u364_div" class=""></div>
+        <div id="u364_text" class="text ">
+          <p><span style="text-decoration:underline;">返回随访组</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (图片) -->
+      <div id="u365" class="ax_default image">
+        <img id="u365_img" class="img " src="images/建立分组/u107.png"/>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u366" class="ax_default shape">
+        <div id="u366_div" class=""></div>
+        <div id="u366_text" class="text ">
+          <p><span>入组范围</span></p>
+        </div>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u367" class="ax_default shape">
+        <div id="u367_div" class=""></div>
+        <div id="u367_text" class="text ">
+          <p><span>入组时间</span></p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
