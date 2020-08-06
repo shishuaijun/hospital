@@ -1,19 +1,17 @@
 package com.follow.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.io.Serializable;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
+
+import java.io.Serializable;
 
 /**
  * @author wangchunjun
  * @date 2020/8/6
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
 public class Department implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -24,6 +22,7 @@ public class Department implements Serializable {
     /**
      * 科室名称
      */
+    @TableField(value="department_name")
     private String departmentName;
 
     /**
