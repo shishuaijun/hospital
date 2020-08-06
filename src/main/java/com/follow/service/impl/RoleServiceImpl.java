@@ -1,8 +1,8 @@
 package com.follow.service.impl;
 
-import com.follow.entity.User;
-import com.follow.mapper.UserMapper;
-import com.follow.service.UserService;
+import com.follow.entity.Role;
+import com.follow.mapper.RoleMapper;
+import com.follow.service.RoleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +11,6 @@ import org.springframework.stereotype.Service;
  * @date 2020/8/6
  */
 @Service
-public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements RoleService {
 
 }

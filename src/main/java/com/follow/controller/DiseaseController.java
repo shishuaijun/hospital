@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
  * @date 2020/8/6
  */
 @Controller
-public class UserController {
+public class DiseaseController {
 
 }
 

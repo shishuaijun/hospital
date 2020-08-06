@@ -15,27 +15,12 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class User implements Serializable {
+public class Permissions implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
-
-    /**
-     * 用户姓名
-     */
-    private String userName;
-
-    /**
-     * 账号
-     */
-    private String account;
-
-    /**
-     * 密码
-     */
-    private String passWord;
+    private Integer id;
 
     /**
      * 角色id
@@ -43,9 +28,19 @@ public class User implements Serializable {
     private Integer roleId;
 
     /**
-     * 所属科室
+     * 角色名称
      */
-    private Integer departmentId;
+    private String roleName;
+
+    /**
+     * 用户名称
+     */
+    private String userName;
+
+    /**
+     * 权限
+     */
+    private String jurisdiction;
 
     /**
      * 创建时间
@@ -58,7 +53,7 @@ public class User implements Serializable {
     private LocalDateTime modifyTime;
 
     /**
-     * 是否删除(0.否 1.是)
+     * 是否删除（0.否、1.是）
      */
     private Integer isDelete;
 
