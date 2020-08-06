@@ -1,37 +1,42 @@
 package com.follow.entity;
 
-import java.time.LocalDateTime;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * @author wangchunjun
  * @date 2020/8/6
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
 public class Patient implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     /**
      * 患者名称
      */
+    @TableField(value = "patient_name")
     private String patientName;
 
     /**
      * 科室id
      */
+    @TableField(value = "department_id")
     private Integer departmentId;
 
     /**
      * 疾病id
      */
+    @TableField(value = "disease_id")
     private Integer diseaseId;
 
     /**
@@ -62,6 +67,7 @@ public class Patient implements Serializable {
     /**
      * 学历文化程度id
      */
+    @TableField(value = "education_id")
     private Integer educationId;
 
     /**
@@ -92,16 +98,20 @@ public class Patient implements Serializable {
     /**
      * 创建时间
      */
+    @TableField(value = "create_time",select = false)
     private LocalDateTime createTime;
 
     /**
      * 修改时间
      */
+    @TableField(value = "modify_time",select = false)
     private LocalDateTime modifyTime;
 
     /**
      * 是否入组（1：是，0：否）
      */
+    @TableField(value = "is_joingroup",select = false)
+    @TableLogic
     private Integer isJoingroup;
 
 

@@ -1,20 +1,19 @@
 package com.follow.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
+
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author wangchunjun
  * @date 2020/8/6
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
 public class Permissions implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -25,16 +24,19 @@ public class Permissions implements Serializable {
     /**
      * 角色id
      */
+    @TableField(value = "role_id")
     private Integer roleId;
 
     /**
      * 角色名称
      */
+    @TableField(value = "role_name")
     private String roleName;
 
     /**
      * 用户名称
      */
+    @TableField(value = "user_name")
     private String userName;
 
     /**
@@ -45,16 +47,20 @@ public class Permissions implements Serializable {
     /**
      * 创建时间
      */
-    private LocalDateTime createTime;
+    @TableField(value = "create_time",select = false)
+    private Date createTime;
 
     /**
      * 修改时间
      */
-    private LocalDateTime modifyTime;
+    @TableField(value = "modify_time",select = false)
+    private Date modifyTime;
 
     /**
      * 是否删除（0.否、1.是）
      */
+    @TableField(value = "is_delete",select = false)
+    @TableLogic
     private Integer isDelete;
 
 

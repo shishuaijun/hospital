@@ -1,19 +1,17 @@
 package com.follow.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.io.Serializable;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
+
+import java.io.Serializable;
 
 /**
  * @author wangchunjun
  * @date 2020/8/6
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
 public class Disease implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -24,11 +22,13 @@ public class Disease implements Serializable {
     /**
      * 疾病编码
      */
+    @TableField(value="disease_number")
     private String diseaseNumber;
 
     /**
      * 疾病名称
      */
+    @TableField(value="disease_name")
     private String diseaseName;
 
 
