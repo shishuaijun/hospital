@@ -25,12 +25,12 @@ public class JSONResult<T> {
     /**
      * 数据
      */
-    private List<T> data;
+    private List<T> result;
 
-    public JSONResult(ResultEum resultEum, Long count, List<T> data) {
+    public JSONResult(ResultEum resultEum, Long count, List<T> result) {
         this.code = resultEum.getCode();
         this.msg = resultEum.getContent();
         this.count = count;
-        this.data = data;
+        this.result = result;
     }
 }
