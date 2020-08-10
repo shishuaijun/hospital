@@ -63,5 +63,10 @@ public class Permissions implements Serializable {
     @TableLogic
     private Integer isDelete;
 
+    /**
+     * 角色级别
+     */
+    private String level ;
+
 
 }
