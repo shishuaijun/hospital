@@ -8,6 +8,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * @author wangchunjun
@@ -86,13 +87,13 @@ public class Followgroup implements Serializable {
      * 开始时间
      */
     @TableField(value = "fstrat_time")
-    private LocalDateTime fstratTime;
+    private Date fstratTime;
 
     /**
      * 结束时间
      */
     @TableField(value = "fend_time")
-    private LocalDateTime fendTime;
+    private Date fendTime;
 
     /**
      * 用户id，创建人id
@@ -104,13 +105,13 @@ public class Followgroup implements Serializable {
      * 创建时间
      */
     @TableField(value = "create_time",select = false)
-    private LocalDateTime createTime;
+    private Date createTime;
 
     /**
      * 修改时间
      */
     @TableField(value = "modify_time",select = false)
-    private LocalDateTime modifyTime;
+    private Date modifyTime;
 
     /**
      * 是否删除（0：否，1：是）

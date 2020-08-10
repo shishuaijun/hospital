@@ -2,579 +2,199 @@
 <html>
   <head>
     <title>分组管理</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-    <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <link href="resources/css/jquery-ui-themes.css" type="text/css" rel="stylesheet"/>
-    <link href="resources/css/axure_rp_page.css" type="text/css" rel="stylesheet"/>
-    <link href="data/styles.css" type="text/css" rel="stylesheet"/>
-    <link href="files/分组管理/styles.css" type="text/css" rel="stylesheet"/>
-    <script src="resources/scripts/jquery-1.7.1.min.js"></script>
-    <script src="resources/scripts/jquery-ui-1.8.10.custom.min.js"></script>
-    <script src="resources/scripts/prototypePre.js"></script>
-    <script src="data/document.js"></script>
-    <script src="resources/scripts/prototypePost.js"></script>
-    <script src="files/分组管理/data.js"></script>
-    <script type="text/javascript">
-      $axure.utils.getTransparentGifPath = function() { return 'resources/images/transparent.gif'; };
-      $axure.utils.getOtherPath = function() { return 'resources/Other.html'; };
-      $axure.utils.getReloadPath = function() { return 'resources/reload.html'; };
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <script type="text/javascript" src="layui/jQuery/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="layui/jQuery/jquery-2.2.3.min.js"></script>
+    <script type="text/javascript" src="layui/layui.all.js"></script>
+
+    <script type="text/javascript" src="layui/plugins/angularjs/angular.min.js"></script>
+    <script type="text/javascript" src="layui/plugins/angularjs/angular-animate.min.js"></script>
+    <script type="text/javascript" src="layui/plugins/angularjs/toaster.min.js"></script>
+
+
+
+    <script>
+      var table = layui.table;
+
+      $(function() {
+
+        //加载表格数据
+        table.render({
+          elem: '#mytable', //绑定表格的id
+          url:  '/findPage',
+          width: 1100,
+          method: 'post',
+          cols: [
+            [{
+              type: 'checkbox', //复选框，用于选中多个条目
+              fixed: 'left'
+            }, {
+              title: '序号',
+              field: 'id',
+              width: 60,
+              type: 'id',
+              fixed: 'left'
+            }, {
+              field: 'fName',
+              title: '随访组名称',
+              align: 'center', //字体居中
+              width: 200
+            }, {
+              field: 'departmentPerson',
+              title: '负责人',
+              align: 'center', //字体居中
+              width: 100
+            }, {
+              field: 'fstate',
+              title: '状态',
+              align: 'center', //字体居中
+              width: 150
+            }, {
+              field: 'departmentId',
+              title: '科室',
+              align: 'center', //字体居中
+              width: 150
+            }, {
+              field: 'createTime',
+              title: '创建日期',
+              align: 'center', //字体居中
+              templet : "<div>{{layui.util.toDateString(d.sbj_start, 'yyyy-MM-dd HH:mm:ss')}}</div>",
+              width: 250
+            }, {
+              width: 250,
+              align: 'center',
+              fixed: 'right',
+              title: '操作',
+              toolbar: '#myoperate'
+            }]
+          ],
+          limits: [5, 10], //每页条数的选择项，默认：[10,20,30,40,50,60,70,80,90]。
+          limit: 5,
+          page: true //是否开启分页
+        });
+
+      })
+
+      table.on('tool(mytable)', function(obj) {
+
+        //获取当前的JSON对象，可以通过data.属性获取对应的属性值
+        var data = obj.data;
+
+        //删除操作
+
+        if(obj.event === 'delete') {
+
+
+          layer.confirm('确认删除随访名为【' + data.fName + '】的记录吗？', {
+            icon: 3,
+            title: '提示'
+          }, function(index) {
+
+            $.ajax({
+              url: "/delete", //地址
+              type: "post", //请求类型
+              data: {
+                id: data.id
+              }, //要传的值，以键值对的形式存在
+              success: function(q) { //data是变量，是服务器传到jsp的数据。相当于以前从Servlet转发到jsp
+
+                if(q == "yes") {
+
+                  layer.alert("删除成功！", function() {
+
+                    //关闭弹框
+                    layer.closeAll();
+                    //重载表格数据
+                    table.reload("mytable");
+
+                    //删除当前行dom元素
+                    //										obj.del();
+                  })
+
+                } else {
+                  layer.alert("删除失败，请重试！")
+                }
+
+              }
+            });
+
+          });
+        }
+
+
+        //				跳转至修改页面
+        if(obj.event === 'update') {
+
+          window.location = "group_update.html?id=" + data.id;
+        }
+
+      });
+
+      //			跳转至新增页面
+      var add = function() {
+        window.location = "set_groups.html"
+      }
+
+      //			跳转至修改页面
+      //var update = function() {
+      //  window.location = "group_update.html?id=" + data.id;
+      //}
+
+
+
     </script>
+
+
+
+
+
   </head>
-  <body>
-    <div id="base" class="">
 
-      <!-- Unnamed (矩形) -->
-      <div id="u5" class="ax_default shape">
-        <div id="u5_div" class=""></div>
-      </div>
+  <body class="layui-layui-body">
 
-      <!-- Unnamed (表格) -->
-      <div id="u6" class="ax_default table">
-
-        <!-- Unnamed (单元格) -->
-        <div id="u7" class="ax_default table_cell">
-          <img id="u7_img" class="img " src="images/分组管理/u7.png"/>
-        </div>
-
-        <!-- Unnamed (单元格) -->
-        <div id="u8" class="ax_default table_cell">
-          <img id="u8_img" class="img " src="images/分组管理/u8.png"/>
-          <div id="u8_text" class="text ">
-            <p><span>名称</span></p>
-          </div>
-        </div>
-
-        <!-- Unnamed (单元格) -->
-        <div id="u9" class="ax_default table_cell">
-          <img id="u9_img" class="img " src="images/分组管理/u9.png"/>
-          <div id="u9_text" class="text ">
-            <p><span>入组率</span></p>
-          </div>
-        </div>
-
-        <!-- Unnamed (单元格) -->
-        <div id="u10" class="ax_default table_cell">
-          <img id="u10_img" class="img " src="images/分组管理/u10.png"/>
-          <div id="u10_text" class="text ">
-            <p><span>负责人</span></p>
-          </div>
-        </div>
-
-        <!-- Unnamed (单元格) -->
-        <div id="u11" class="ax_default table_cell">
-          <img id="u11_img" class="img " src="images/分组管理/u11.png"/>
-          <div id="u11_text" class="text ">
-            <p><span>状态</span></p>
-          </div>
-        </div>
-
-        <!-- Unnamed (单元格) -->
-        <div id="u12" class="ax_default table_cell">
-          <img id="u12_img" class="img " src="images/分组管理/u12.png"/>
-          <div id="u12_text" class="text ">
-            <p><span>科室</span></p>
-          </div>
-        </div>
-
-        <!-- Unnamed (单元格) -->
-        <div id="u13" class="ax_default table_cell">
-          <img id="u13_img" class="img " src="images/分组管理/u13.png"/>
-          <div id="u13_text" class="text ">
-            <p><span>创建日期</span></p>
-          </div>
-        </div>
-
-        <!-- Unnamed (单元格) -->
-        <div id="u14" class="ax_default table_cell">
-          <img id="u14_img" class="img " src="images/分组管理/u14.png"/>
-        </div>
-
-        <!-- Unnamed (单元格) -->
-        <div id="u15" class="ax_default table_cell">
-          <img id="u15_img" class="img " src="images/分组管理/u15.png"/>
-          <div id="u15_text" class="text ">
-            <p><span>肿瘤中心随访</span></p>
-          </div>
-        </div>
-
-        <!-- Unnamed (单元格) -->
-        <div id="u16" class="ax_default table_cell">
-          <img id="u16_img" class="img " src="images/分组管理/u16.png"/>
-          <div id="u16_text" class="text ">
-            <p><span>60%</span></p>
-          </div>
-        </div>
-
-        <!-- Unnamed (单元格) -->
-        <div id="u17" class="ax_default table_cell">
-          <img id="u17_img" class="img " src="images/分组管理/u17.png"/>
-          <div id="u17_text" class="text ">
-            <p><span>张三</span></p>
-          </div>
-        </div>
-
-        <!-- Unnamed (单元格) -->
-        <div id="u18" class="ax_default table_cell">
-          <img id="u18_img" class="img " src="images/分组管理/u18.png"/>
-          <div id="u18_text" class="text ">
-            <p><span>开放</span></p>
-          </div>
-        </div>
-
-        <!-- Unnamed (单元格) -->
-        <div id="u19" class="ax_default table_cell">
-          <img id="u19_img" class="img " src="images/分组管理/u19.png"/>
-          <div id="u19_text" class="text ">
-            <p><span>肿瘤中心</span></p>
-          </div>
-        </div>
-
-        <!-- Unnamed (单元格) -->
-        <div id="u20" class="ax_default table_cell">
-          <img id="u20_img" class="img " src="images/分组管理/u20.png"/>
-          <div id="u20_text" class="text ">
-            <p><span>2015-05-01</span></p>
-          </div>
-        </div>
-
-        <!-- Unnamed (单元格) -->
-        <div id="u21" class="ax_default table_cell">
-          <img id="u21_img" class="img " src="images/分组管理/u21.png"/>
-        </div>
-
-        <!-- Unnamed (单元格) -->
-        <div id="u22" class="ax_default table_cell">
-          <img id="u22_img" class="img " src="images/分组管理/u22.png"/>
-          <div id="u22_text" class="text ">
-            <p><span>内分泌随访</span></p>
-          </div>
-        </div>
-
-        <!-- Unnamed (单元格) -->
-        <div id="u23" class="ax_default table_cell">
-          <img id="u23_img" class="img " src="images/分组管理/u23.png"/>
-          <div id="u23_text" class="text ">
-            <p><span>70%</span></p>
-          </div>
-        </div>
-
-        <!-- Unnamed (单元格) -->
-        <div id="u24" class="ax_default table_cell">
-          <img id="u24_img" class="img " src="images/分组管理/u24.png"/>
-          <div id="u24_text" class="text ">
-            <p><span>李四</span></p>
-          </div>
-        </div>
-
-        <!-- Unnamed (单元格) -->
-        <div id="u25" class="ax_default table_cell">
-          <img id="u25_img" class="img " src="images/分组管理/u25.png"/>
-          <div id="u25_text" class="text ">
-            <p><span>关闭</span></p>
-          </div>
-        </div>
-
-        <!-- Unnamed (单元格) -->
-        <div id="u26" class="ax_default table_cell">
-          <img id="u26_img" class="img " src="images/分组管理/u26.png"/>
-          <div id="u26_text" class="text ">
-            <p><span>内分泌科</span></p>
-          </div>
-        </div>
-
-        <!-- Unnamed (单元格) -->
-        <div id="u27" class="ax_default table_cell">
-          <img id="u27_img" class="img " src="images/分组管理/u27.png"/>
-          <div id="u27_text" class="text ">
-            <p><span>2015-09-01</span></p>
-          </div>
-        </div>
-
-        <!-- Unnamed (单元格) -->
-        <div id="u28" class="ax_default table_cell">
-          <img id="u28_img" class="img " src="images/分组管理/u28.png"/>
-        </div>
-
-        <!-- Unnamed (单元格) -->
-        <div id="u29" class="ax_default table_cell">
-          <img id="u29_img" class="img " src="images/分组管理/u29.png"/>
-          <div id="u29_text" class="text ">
-            <p><span>高血压人群随访</span></p>
-          </div>
-        </div>
-
-        <!-- Unnamed (单元格) -->
-        <div id="u30" class="ax_default table_cell">
-          <img id="u30_img" class="img " src="images/分组管理/u30.png"/>
-          <div id="u30_text" class="text ">
-            <p><span>80%</span></p>
-          </div>
-        </div>
-
-        <!-- Unnamed (单元格) -->
-        <div id="u31" class="ax_default table_cell">
-          <img id="u31_img" class="img " src="images/分组管理/u31.png"/>
-          <div id="u31_text" class="text ">
-            <p><span>王五</span></p>
-          </div>
-        </div>
-
-        <!-- Unnamed (单元格) -->
-        <div id="u32" class="ax_default table_cell">
-          <img id="u32_img" class="img " src="images/分组管理/u32.png"/>
-          <div id="u32_text" class="text ">
-            <p><span>开放</span></p>
-          </div>
-        </div>
-
-        <!-- Unnamed (单元格) -->
-        <div id="u33" class="ax_default table_cell">
-          <img id="u33_img" class="img " src="images/分组管理/u33.png"/>
-          <div id="u33_text" class="text ">
-            <p><span>心研所</span></p>
-          </div>
-        </div>
-
-        <!-- Unnamed (单元格) -->
-        <div id="u34" class="ax_default table_cell">
-          <img id="u34_img" class="img " src="images/分组管理/u34.png"/>
-          <div id="u34_text" class="text ">
-            <p><span>2014-09-01</span></p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Unnamed (矩形) -->
-      <div id="u35" class="ax_default paragraph">
-        <div id="u35_div" class=""></div>
-        <div id="u35_text" class="text ">
-          <p><span>负责人：</span></p>
-        </div>
-      </div>
-
-      <!-- Unnamed (矩形) -->
-      <div id="u36" class="ax_default paragraph">
-        <div id="u36_div" class=""></div>
-        <div id="u36_text" class="text ">
-          <p><span>状态：</span></p>
-        </div>
-      </div>
-
-      <!-- Unnamed (矩形) -->
-      <div id="u37" class="ax_default paragraph">
-        <div id="u37_div" class=""></div>
-        <div id="u37_text" class="text ">
-          <p><span>随访组管理</span></p>
-        </div>
-      </div>
-
-      <!-- Unnamed (矩形) -->
-      <div id="u38" class="ax_default shape">
-        <div id="u38_div" class=""></div>
-        <div id="u38_text" class="text ">
-          <p><span>&nbsp;检 索</span></p>
-        </div>
-      </div>
-
-      <!-- Unnamed (矩形) -->
-      <div id="u39" class="ax_default shape">
-        <div id="u39_div" class=""></div>
-        <div id="u39_text" class="text ">
-          <p><span>清 空</span></p>
-        </div>
-      </div>
-
-      <!-- Unnamed (图片) -->
-      <div id="u40" class="ax_default image">
-        <img id="u40_img" class="img " src="images/分组管理/u40.png"/>
-      </div>
-
-      <!-- Unnamed (图片) -->
-      <div id="u41" class="ax_default image">
-        <img id="u41_img" class="img " src="images/分组管理/u41.png"/>
-      </div>
-
-      <!-- Unnamed (下拉列表框) -->
-      <div id="u42" class="ax_default droplist">
-        <select id="u42_input">
-          <option value="请选择">请选择</option>
-          <option value="开放">开放</option>
-          <option value="关闭">关闭</option>
-        </select>
-      </div>
-
-      <!-- Unnamed (矩形) -->
-      <div id="u43" class="ax_default paragraph">
-        <div id="u43_div" class=""></div>
-        <div id="u43_text" class="text ">
-          <p><span>科室：</span></p>
-        </div>
-      </div>
-
-      <!-- Unnamed (下拉列表框) -->
-      <div id="u44" class="ax_default droplist">
-        <select id="u44_input">
-          <option value="请选择">请选择</option>
-          <option value="内分泌科">内分泌科</option>
-          <option value="血液科">血液科</option>
-        </select>
-      </div>
-
-      <!-- name (文本框) -->
-      <div id="u45" class="ax_default text_field" data-label="name">
-        <input id="u45_input" type="text" value=""/>
-      </div>
-
-      <!-- Unnamed (矩形) -->
-      <div id="u46" class="ax_default paragraph">
-        <div id="u46_div" class=""></div>
-        <div id="u46_text" class="text ">
-          <p><span>创建日期：</span></p>
-        </div>
-      </div>
-
-      <!-- name (文本框) -->
-      <div id="u47" class="ax_default text_field" data-label="name">
-        <input id="u47_input" type="text" value=""/>
-      </div>
-
-      <!-- Unnamed (矩形) -->
-      <div id="u48" class="ax_default paragraph">
-        <div id="u48_div" class=""></div>
-        <div id="u48_text" class="text ">
-          <p><span>~</span></p>
-        </div>
-      </div>
-
-      <!-- Unnamed (水平线) -->
-      <div id="u49" class="ax_default horizontal_line">
-        <img id="u49_img" class="img " src="images/分组管理/u49.png"/>
-      </div>
-
-      <!-- name (文本框) -->
-      <div id="u50" class="ax_default text_field" data-label="name">
-        <input id="u50_input" type="text" value=""/>
-      </div>
-
-      <!-- Unnamed (矩形) -->
-      <div id="u51" class="ax_default paragraph">
-        <div id="u51_div" class=""></div>
-        <div id="u51_text" class="text ">
-          <p><span style="text-decoration:underline;">新建随访组</span></p>
-        </div>
-      </div>
-
-      <!-- Unnamed (矩形) -->
-      <div id="u52" class="ax_default shape">
-        <div id="u52_div" class=""></div>
-        <div id="u52_text" class="text ">
-          <p><span>编辑</span></p>
-        </div>
-      </div>
-
-      <!-- Unnamed (矩形) -->
-      <div id="u53" class="ax_default shape">
-        <div id="u53_div" class=""></div>
-        <div id="u53_text" class="text ">
-          <p><span>删除</span></p>
-        </div>
-      </div>
-
-      <!-- c2 (复选框) -->
-      <div id="u54" class="ax_default checkbox" data-label="c2">
-        <label for="u54_input" style="position: absolute; left: 0px;">
-          <div id="u54_text" class="text " style="display:none; visibility: hidden">
-            <p></p>
-          </div>
-        </label>
-        <input id="u54_input" type="checkbox" value="checkbox"/>
-      </div>
-
-      <!-- c2 (复选框) -->
-      <div id="u55" class="ax_default checkbox" data-label="c2">
-        <label for="u55_input" style="position: absolute; left: 0px;">
-          <div id="u55_text" class="text " style="display:none; visibility: hidden">
-            <p></p>
-          </div>
-        </label>
-        <input id="u55_input" type="checkbox" value="checkbox"/>
-      </div>
-
-      <!-- c2 (复选框) -->
-      <div id="u56" class="ax_default checkbox" data-label="c2">
-        <label for="u56_input" style="position: absolute; left: 0px;">
-          <div id="u56_text" class="text " style="display:none; visibility: hidden">
-            <p></p>
-          </div>
-        </label>
-        <input id="u56_input" type="checkbox" value="checkbox"/>
-      </div>
-
-      <!-- c2 (复选框) -->
-      <div id="u57" class="ax_default checkbox" data-label="c2">
-        <label for="u57_input" style="position: absolute; left: 0px;">
-          <div id="u57_text" class="text " style="display:none; visibility: hidden">
-            <p></p>
-          </div>
-        </label>
-        <input id="u57_input" type="checkbox" value="checkbox"/>
-      </div>
-
-      <!-- Unnamed (矩形) -->
-      <div id="u58" class="ax_default shape">
-        <div id="u58_div" class=""></div>
-      </div>
-
-      <!-- Unnamed (矩形) -->
-      <div id="u59" class="ax_default paragraph">
-        <div id="u59_div" class=""></div>
-        <div id="u59_text" class="text ">
-          <p><span>系统设置</span></p>
-        </div>
-      </div>
-
-      <!-- Unnamed (矩形) -->
-      <div id="u60" class="ax_default paragraph">
-        <div id="u60_div" class=""></div>
-        <div id="u60_text" class="text ">
-          <p><span>张三</span></p>
-        </div>
-      </div>
-
-      <!-- Unnamed (矩形) -->
-      <div id="u61" class="ax_default paragraph">
-        <div id="u61_div" class=""></div>
-        <div id="u61_text" class="text ">
-          <p><span>分组管理</span></p>
-        </div>
-      </div>
-
-      <!-- Unnamed (矩形) -->
-      <div id="u62" class="ax_default heading_1">
-        <div id="u62_div" class=""></div>
-        <div id="u62_text" class="text ">
-          <p><span>随访管理系统</span></p>
-        </div>
-      </div>
-
-      <!-- Unnamed (图片) -->
-      <div id="u63" class="ax_default image">
-        <img id="u63_img" class="img " src="images/分组管理/u63.png"/>
-      </div>
-
-      <!-- Unnamed (图片) -->
-      <div id="u64" class="ax_default image">
-        <img id="u64_img" class="img " src="images/分组管理/u63.png"/>
-      </div>
-
-      <!-- Unnamed (垂直线) -->
-      <div id="u65" class="ax_default vertical_line">
-        <img id="u65_img" class="img " src="images/分组管理/u65.png"/>
-      </div>
-
-      <!-- Unnamed (矩形) -->
-      <div id="u66" class="ax_default paragraph">
-        <div id="u66_div" class=""></div>
-        <div id="u66_text" class="text ">
-          <p><span>数据复核</span></p>
-        </div>
-      </div>
-
-      <!-- hide (动态面板) -->
-      <div id="u67" class="ax_default ax_default_hidden" data-label="hide" style="display:none; visibility: hidden">
-        <div id="u67_state0" class="panel_state" data-label="State1" style="">
-          <div id="u67_state0_content" class="panel_state_content">
-
-            <!-- Unnamed (矩形) -->
-            <div id="u68" class="ax_default shape">
-              <img id="u68_img" class="img " src="images/分组管理/u68.png"/>
-            </div>
-
-            <!-- Unnamed (矩形) -->
-            <div id="u69" class="ax_default paragraph">
-              <div id="u69_div" class=""></div>
-              <div id="u69_text" class="text ">
-                <p><span>表单总览</span></p>
-              </div>
-            </div>
-
-            <!-- Unnamed (矩形) -->
-            <div id="u70" class="ax_default paragraph">
-              <div id="u70_div" class=""></div>
-              <div id="u70_text" class="text ">
-                <p><span>术语管理</span></p>
-              </div>
-            </div>
-
-            <!-- Unnamed (矩形) -->
-            <div id="u71" class="ax_default paragraph">
-              <div id="u71_div" class=""></div>
-              <div id="u71_text" class="text ">
-                <p><span>用户管理</span></p>
-              </div>
-            </div>
-
-            <!-- Unnamed (矩形) -->
-            <div id="u72" class="ax_default paragraph">
-              <div id="u72_div" class=""></div>
-              <div id="u72_text" class="text ">
-                <p><span>标准化模板维护</span></p>
-              </div>
-            </div>
-
-            <!-- Unnamed (矩形) -->
-            <div id="u73" class="ax_default paragraph">
-              <div id="u73_div" class=""></div>
-              <div id="u73_text" class="text ">
-                <p><span>权限管理</span></p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- hide2 (动态面板) -->
-      <div id="u74" class="ax_default ax_default_hidden" data-label="hide2" style="display:none; visibility: hidden">
-        <div id="u74_state0" class="panel_state" data-label="State1" style="">
-          <div id="u74_state0_content" class="panel_state_content">
-
-            <!-- Unnamed (矩形) -->
-            <div id="u75" class="ax_default shape">
-              <img id="u75_img" class="img " src="images/分组管理/u75.png"/>
-            </div>
-
-            <!-- Unnamed (矩形) -->
-            <div id="u76" class="ax_default paragraph">
-              <div id="u76_div" class=""></div>
-              <div id="u76_text" class="text ">
-                <p><span>账户设置</span></p>
-              </div>
-            </div>
-
-            <!-- Unnamed (矩形) -->
-            <div id="u77" class="ax_default paragraph">
-              <div id="u77_div" class=""></div>
-              <div id="u77_text" class="text ">
-                <p><span>注销</span></p>
-              </div>
-            </div>
-
-            <!-- Unnamed (矩形) -->
-            <div id="u78" class="ax_default paragraph">
-              <div id="u78_div" class=""></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Unnamed (矩形) -->
-      <div id="u79" class="ax_default paragraph">
-        <div id="u79_div" class=""></div>
-        <div id="u79_text" class="text ">
-          <p><span>随访进度管理</span></p>
-        </div>
-      </div>
+  <div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+      <div class="layui-logo">分组管理</div>
     </div>
+
+
+
+    <div class="layui-body">
+
+      <div class="layui-card">
+        <!-- 内容主体区域 -->
+
+        <!--
+                        作者：offline
+                        时间：2020-08-06
+                        描述：表格区域
+                    -->
+        <div class="layui-card-body">
+
+          <input type="button" class="layui-btn layui-btn" value="新增" onclick="add()" />
+
+          <table id="mytable" lay-filter="mytable"></table>
+
+          <script type="text/html" id="myoperate">
+            <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="update">编辑</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
+          </script>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="layui-footer">
+      <!-- 底部固定区域 -->
+      <center>阳光嘉运科技有限公司&copy;2017-2019</center>
+    </div>
+
+  </div>
+
   </body>
+
 </html>

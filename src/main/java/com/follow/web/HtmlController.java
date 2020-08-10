@@ -52,6 +52,16 @@ public class HtmlController {
     public String setgroups(){
         return "set_groups";
     }
+
+    /**
+     * 跳转到  分组修改 页
+     * @return
+     */
+    @RequestMapping("/group_update")
+    public String groupupdate(){
+        return "group_update";
+    }
+
     /**
      * 跳转到  组内权限管理  页
      * @return
