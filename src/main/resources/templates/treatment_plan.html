@@ -97,6 +97,13 @@
             window.location = "treatment_plan1.html?diseaseId="+disease_id;
         }
 
+
+        function myFunction(){
+            setTimeout(function(){
+                alert("请更换诊疗方案")
+            },60000*2);
+        }
+
     </script>
 
 
@@ -151,6 +158,7 @@
     <div class="modal-footer">
         <button class="layui-btn" type="button" onclick="fanhui()"> 返 回</button>
 
+        <button class="layui-btn" type="button" onclick="myFunction()">诊疗方案开始执行</button>
         <button class="layui-btn" type="button" onclick="down1()">下一建议</button>
         <!--<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="down1">下一建议</a>-->
     </div>
