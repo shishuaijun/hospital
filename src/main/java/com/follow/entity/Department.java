@@ -26,9 +26,16 @@ public class Department implements Serializable {
     private String departmentName;
 
     /**
-     * 父级id
+     * 医院id
      */
-    private Integer pid;
+    @TableField(value="hospital_id")
+    private Integer hospitalId;
+
+    /**
+     * 负责人
+     */
+    @TableField(value="department_boss")
+    private String departmentBoss;
 
 
 }

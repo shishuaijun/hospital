@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <script src="layui/jQuery/jquery-2.2.3.min.js"></script>
+    <script>
+        function change(title){
+            $('iframe').attr('src',title);
+        }
+    </script>
+</head>
+<body>
+<script src="layui/layui.js" charset="utf-8"></script>
+<div>
+    <div>
+        <ul >
+            <li type="button" class="layui-btn layui-btn-sm layui-btn-normal" onclick="change('custompatient')" >自定义患者</li>
+           &nbsp; &nbsp;
+            <li type="button" class="layui-btn layui-btn-sm layui-btn-normal" onclick="change('importpatient')">导入Excel文件</li>
+        </ul>
+    </div>
+    <div style="padding: 15px;">
+        <iframe src="custompatient" style="width:100%;right: 650px;" frameborder="0"></iframe>
+    </div>
+</div>
+
+<script src="layui/layui.js" charset="utf-8"></script>
+</body>
+</html>

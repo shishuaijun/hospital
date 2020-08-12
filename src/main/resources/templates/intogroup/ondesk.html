@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="layui/css/layui.css"  media="all">
+    <script src="layui/jQuery/jquery-2.2.3.min.js"></script>
+
+    <script>
+
+        $(function () {
+            $.ajax({
+                url: "getdepartmentname",
+                type: "post"
+            }).success(function (data) {
+                var fall = data.result;
+                var v = "";
+                for (var i = 0; i < fall.length; i++) {
+                    v += '<option value="' + fall[i].id + '">' + fall[i].departmentName + '</option>';
+                }
+                $("#desk").append(v);
+            })
+        })
+        function save() {
+           var desk = $("#desk").val();
+           $.ajax({
+               url:"intotheroupupdate",
+               method:"post",
+               data:{
+                   "desk":desk
+               }
+           }).success(function (data) {
+               alert("成功");
+               history.go(0);
+           }).error(function (data) {
+               console.log("服务器异常");
+           })
+        }
+    </script>
+</head>
+<body>
+
+<div class="layui-form-item">
+    <label class="layui-form-label">科室</label>
+    <div class="layui-input-block">
+        <select  id="desk" >
+            <option value="">请选择</option>
+        </select>
+    </div>
+</div>
+<div >
+    <br><br>
+    <div style="width: 216px; margin: 0;">
+        <button type="button" onclick="save()" class="layui-btn layui-btn-fluid">保&nbsp;&nbsp;&nbsp;&nbsp;存</button>
+    </div>
+</div>
+</body>
+</html>
