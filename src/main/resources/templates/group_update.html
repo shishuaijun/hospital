@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <!--<script type="text/javascript" src="layui/jQuery/jquery-3.1.1.min.js"></script>-->
+    <script type="text/javascript" src="layui/jQuery/jquery-2.2.3.min.js"></script>
+    <script type="text/javascript" src="layui/layui.all.js"></script>
+
+    <script>
+        var form = layui.form;
+        var laydate = layui.laydate;
+        //设置全局变量id
+        var id;
+
+        $(function() {
+
+            laydate.render({
+                elem: '#mydate', //指定元素
+                type: 'date' //日期
+            });
+
+            //获取要查询的id
+            var search = window.location.search;
+            var searchArray = search.split("=");
+            id = searchArray[1];
+
+            $.ajax({
+                url:  "/findById", //地址
+                type: "post", //请求类型
+                data: {
+                    id: id
+                }, //要传的值，以键值对的形式存在
+                success: function(data) { //data是变量，是服务器传到jsp的数据。相当于以前从Servlet转发到jsp
+
+                    var fol = JSON.parse(data);
+
+                    //责任科室回显departmentId
+                    var departmentId = $("option");
+
+                    for(var i = 0; i < departmentId.length; i++) {
+
+                        if(fol.departmentId == departmentId[i].value) {
+                            departmentId[i].selected = true;
+                            break;
+                        }
+                    }
+
+                    $("#kid").val(fol.id);
+
+                    //负责人
+                    $("#departmentPerson").val(fol.departmentPerson);
+
+                    //随访组名称
+                    $("#fName").val(fol.fName);
+
+                    //联系电话
+                    $("#fphone").val(fol.fphone);
+
+                    //背景
+                    $("#fbackground").val(fol.fbackground);
+
+                    //状态（下拉框）
+                    var fstate = $(":radio");
+
+                    for (var i = 0; i < fstate.length; i++) {
+                        if(fol.fsate == fstate[i].value){
+                            fstate[i].checked = true;
+                        }
+                    }
+
+
+
+                    //初始化表单
+                    form.render();
+
+                }
+            });
+
+        })
+
+        //提交
+
+        var modifyEntity = function () {
+
+            var kid = $("#kid").val()
+
+            //责任科室（下拉框）
+            var departmentId = $("#departmentId").val()
+
+            //负责人（文本框）
+            var departmentPerson = $("#departmentPerson").val()
+
+            //创建时间
+            //var createTime = $("#createTime").val
+
+            //随访组名称
+            var fName = $("#fName").val();
+
+            //联系电话（文本框）
+            var fphone = $("#fphone").val()
+
+            //背景
+            var fbackground = $("#fbackground").val()
+
+            //状态（下拉框）
+            var fstate = $("#fstate").val()
+
+            //开始日期（date）
+            //var fstratTime = $("#fstratTime").val()
+
+            //结束日期（date）
+            //var fendTime = $("#fendTime").val()
+
+
+
+            //开始校验
+           /*
+            var errors = 0;
+            if(username.length < 2 || username.length > 4) {
+                layer.alert("用户名长度只能为2-4位，请重新输入！")
+                errors++;
+            }
+
+            if(errors == 0 && sex == undefined) {
+                layer.alert("请选择性别！")
+                errors++;
+            }
+
+            if(errors == 0 && division == "") {
+                layer.alert("请选择部门！")
+                errors++;
+            }
+
+            if(errors == 0 && hobby == "") {
+                layer.alert("请选择爱好！")
+                errors++;
+            }
+
+            if(errors == 0 && birthday == "") {
+                layer.alert("请选择生日！")
+                errors++;
+            }
+            */
+
+            //如果错误计数器为0，则认为校验通过，可以提交给后台处理
+            if(errors == 0) {
+
+                $.ajax({
+                    url: "/save2",
+                    type: "post",
+                    data: {
+                        id: kid,
+                        departmentId: departmentId,
+                        departmentPerson: departmentPerson,
+                        //createTime: createTime,
+                        fName: fName,
+                        fphone: fphone,
+                        fbackground: fbackground,
+                        fstate: fstate
+                        // fstratTime: fstratTime,
+                        // fendTime: fendTime
+                    }, //要传的值，以键值对的形式存在
+                    success: function (data) { //data是变量，是服务器传到jsp的数据。相当于以前从Servlet转发到jsp
+
+                        if (data == "yes") {
+
+                            layer.alert("修改成功！", function () {
+                                back();
+                            })
+
+                        } else {
+                            layer.alert("修改失败，请重试！")
+                        }
+
+                    }
+                });
+
+
+            }
+
+        }
+
+        //返回
+        var back = function() {
+            window.location = "group_management.html"
+        }
+
+    
+    </script>
+
+    <script>
+
+        //		返回至分组管理页面
+        var fanhui = function () {
+            window.location = "group_management.html"
+        }
+
+    </script>
+    
+    
+</head>
+<body>
+
+
+<form class="layui-form" style="width: 400px;">
+
+
+
+
+    <div class="modal-body">
+        <table class="table table-bordered table-striped">
+            <input type="hidden" name="id" id="kid"/>
+            <tr>
+                <td class="layui-form-label">责任科室：</td>
+                <td class="layui-input-block">
+                    <select id="departmentId">
+                        <option></option>
+                        <option value="1">内科</option>
+                        <option value="2">外科</option>
+                        <option value="3">妇科</option>
+                        <option value="4">儿科</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="layui-form-label">负责人：</td>
+                <td><input class="layui-input" type="text" id="departmentPerson"  onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" placeholder="请输入负责人" /></td>
+            </tr>
+            <tr>
+                <td class="layui-form-label">随访组名称：</td>
+                <td><input class="layui-input" type="text" id="fName" placeholder="请输入随访组名称" /></td>
+                </td>
+            </tr>
+            <tr>
+                <td class="layui-form-label">联系电话：</td>
+                <td><input class="layui-input" type="text" id="fphone" /></td>
+            </tr>
+            <tr>
+                <td class="layui-form-label">背景：</td>
+                <td><input class="layui-input" type="text" id="fbackground" /></td>
+            </tr>
+            <tr>
+                <td class="layui-form-label">状态：</td>
+                <td>
+                    <select id="fstate">
+                        <option></option>
+                        <option value="0">开放</option>
+                        <option value="1">关闭</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button class="layui-btn" type="button" onclick="modifyEntity()"> 保 存 </button>
+        <button class="layui-btn" type="button" onclick="fanhui()"> 返 回 </button>
+    </div>
+
+
+</form>
+
+
+
+</body>
+</html>
