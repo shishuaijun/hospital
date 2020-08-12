@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="layui/css/layui.css"  media="all">
+    <script src="layui/jQuery/jquery-2.2.3.min.js"></script>
+
+    <script>
+
+         $(function () {
+             $.ajax({
+                 url:"getdoctorname",
+                 type:"post"
+             }).success(function (data) {
+               var fall = data.result;
+                 var v = "";
+                 for (var i = 0; i <fall.length; i++) {
+                     v +='<option value="'+fall[i].id+'">'+fall[i].userName+'</option>';
+                 }
+               $("#doctor").append(v)
+             }),
+             $.ajax({
+                 url:"getnursename",
+                 type:"post"
+             }).success(function (data) {
+                 var fall = data.result;
+                 var v = "";
+                 for (var i = 0; i <fall.length; i++) {
+                     v +='<option value="'+fall[i].id+'">'+fall[i].userName+'</option>';
+                 }
+                 $("#nurse").append(v);
+             }),
+             $.ajax({
+                 url:"getmedicinename",
+                 type:"post"
+             }).success(function (data) {
+                 var fall = data.result;
+                 var v = "";
+                 for (var i = 0; i <fall.length; i++) {
+                     v +='<option value="'+fall[i].id+'">'+fall[i].userName+'</option>';
+                 }
+                 $("#medicine").append(v);
+             })
+
+         })
+
+        function save() {
+            var doctor = $("#doctor").val();
+            var nurse = $("#nurse").val();
+            var medicine = $("#medicine").val();
+            var array = new Array;
+            array.push(doctor);
+            array.push(nurse);
+            array.push(medicine);
+            console.log(array.toString());
+            $.ajax({
+                url:"intotheroupupdate",
+                method:"post",
+                data:{
+                    "array":array.toString()
+                }
+            }).success(function (data) {
+                alert("成功");
+                history.go(0);
+            }).error(function (data) {
+                console.log("服务器异常");
+            })
+        }
+    </script>
+</head>
+<body>
+
+<div class="layui-form-item">
+    <label class="layui-form-label">医生</label>
+    <div class="layui-input-block" >
+        <select  id="doctor" >
+            <option value="">请选择</option>
+        </select>
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">护士</label>
+    <div class="layui-input-block" >
+        <!--<select  id="#nurse"></select>-->
+        <select  id="nurse" >
+            <option value="">请选择</option>
+        </select>
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">药师</label>
+    <div class="layui-input-block">
+        <select  id="medicine" >
+            <option value="">请选择</option>
+        </select>
+    </div>
+</div>
+
+<div >
+    <br><br>
+    <div style="width: 216px; margin: 0;">
+        <button type="button" onclick="save()" class="layui-btn layui-btn-fluid">保&nbsp;&nbsp;&nbsp;&nbsp;存</button>
+    </div>
+</div>
+
+</body>
+</html>

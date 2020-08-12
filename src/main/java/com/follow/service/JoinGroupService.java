@@ -1,12 +1,60 @@
 package com.follow.service;
 
-import com.follow.entity.JoinGroup;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.follow.entity.JoinGroup;
+import com.follow.vo.CustomPatientVO;
+import com.follow.vo.CustomVo;
+import org.apache.poi.ss.usermodel.Workbook;
+
+import java.io.IOException;
 
 /**
+ * 入组管理 业务层
  * @author wangchunjun
  * @date 2020/8/6
  */
 public interface JoinGroupService extends IService<JoinGroup> {
 
+    /**
+     * 根据条件 将患者 进行入组
+     * @param desk
+     * @param illnessCoded
+     * @param illnessName
+     * @return
+     */
+    boolean intoTheGroup(Integer desk, String illnessCoded, String illnessName,String array);
+
+    /**
+     * 自定义条件 将患者 进行入组
+     * @param patient
+     * @return
+     */
+    boolean intoTheGroups(CustomPatientVO patient);
+
+    /**
+     * 根据 结果集id 进行入组
+     * @param id
+     * @return
+     */
+    boolean getResult(Integer id);
+
+    /**
+     * 导出 模板
+     * @return
+     */
+    Workbook exportExcel(String name)throws IOException;
+
+    /**
+     * 自 定义导入 患者信息
+     * @param newPath
+     * @return
+     */
+    boolean importExcel(String newPath) throws Exception;
+
+    /**
+     * 自定义患者 进行入组
+     * @param patient
+     * @return
+     */
+    boolean customPatient(CustomVo patient);
 }
