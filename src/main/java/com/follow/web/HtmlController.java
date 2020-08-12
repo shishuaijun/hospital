@@ -12,6 +12,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HtmlController {
 
     /**
+     * 跳转到登录
+     * @return login.html
+     */
+    @RequestMapping("/login")
+    public String login(){
+        return "login";
+    }
+
+    /**
      * 跳转到主页
      * @return index.html
      */
@@ -108,6 +117,15 @@ public class HtmlController {
     @RequestMapping("/treatment_plan")
     public String treatmentplan(){
         return "treatment_plan";
+    }
+
+    /**
+     * 跳转到  诊疗方案  2 页
+     * @return
+     */
+    @RequestMapping("/treatment_plan1")
+    public String treatmentplan1(){
+        return "treatment_plan1";
     }
 
     /**

@@ -114,6 +114,11 @@ public class Followgroup implements Serializable {
     private Date modifyTime;
 
     /**
+     * 疾病id
+     */
+    private Integer diseaseId;
+
+    /**
      * 是否删除（0：否，1：是）
      */
     @TableField(value = "is_delete",select = false)
