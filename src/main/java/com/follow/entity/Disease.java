@@ -6,6 +6,10 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
 /**
  * @author wangchunjun
@@ -30,6 +34,13 @@ public class Disease implements Serializable {
      */
     @TableField(value="disease_name")
     private String diseaseName;
+
+
+    /**
+     *  疾病id 的 父类id
+     */
+    @TableField(value="pid")
+    private Integer pid;
 
 
 }

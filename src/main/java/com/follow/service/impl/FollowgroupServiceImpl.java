@@ -4,9 +4,12 @@ import com.follow.entity.Followgroup;
 import com.follow.mapper.FollowgroupMapper;
 import com.follow.service.FollowgroupService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author wangchunjun
@@ -14,5 +17,13 @@ import java.util.Date;
  */
 @Service
 public class FollowgroupServiceImpl extends ServiceImpl<FollowgroupMapper, Followgroup> implements FollowgroupService {
+
+    @Resource
+    private FollowgroupMapper followgroupMapper;
+
+    @Override
+    public void insert(Followgroup followgroup) {
+        followgroupMapper.insert(followgroup);
+    }
 
 }

@@ -159,4 +159,15 @@ public class HtmlController {
 
 
 
+    /**
+     * 跳转到  疾病病种数据库  页
+     * @return
+     */
+    @RequestMapping("/disease_type_database")
+    public String diseasetypedatabase(){
+        return "disease_type_database";
+    }
+
+
+
 }
