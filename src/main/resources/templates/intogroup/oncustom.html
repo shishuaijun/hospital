@@ -474,7 +474,7 @@
                     var re = /^\d+$|^\d+[.]?\d+$/;
                     if(!re.test(patient.id)){
                       alert("患者唯一标识  请填写有效数字");
-                        return;
+                      return;
                     }
                 }
                 if(patient.idnumber ==undefined || patient.idnumber =="" ){}else {
@@ -497,7 +497,7 @@
                     data: patient,
                     success:function(data){
                         alert("成功");
-                        // history.go(0);
+                        history.go(0);
                     },
                     error:function(data){
 

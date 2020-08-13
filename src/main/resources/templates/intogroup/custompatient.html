@@ -16,21 +16,21 @@
         <div class="layui-form-item">
             <label class="layui-form-label">住院号</label>
             <div class="layui-input-inline">
-                <input type="text" name="illnessName" v-model="base.adminssionnumber" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+                <input type="text" id="adminssionnumber" v-model="base.adminssionnumber" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
             </div>
             <label class="layui-form-label">姓名</label>
             <div class="layui-input-inline">
-                <input type="text" name="illnessName"v-model="base.patientName" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+                <input type="text" id="patientName"v-model="base.patientName" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">门诊号</label>
             <div class="layui-input-inline">
-                <input type="text" name="illnessName" v-model="base.outpaientnumber" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+                <input type="text" id="outpaientnumber" v-model="base.outpaientnumber" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
             </div>
             <label class="layui-form-label">出生日期</label>
             <div class="layui-input-inline">
-                <input type="date" name="illnessName"v-model="base.birthday" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+                <input type="date" id="birthday"v-model="base.birthday" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
             </div>
         </div>
     </div>
@@ -51,13 +51,21 @@
         },
         methods: {
             save(){
+              var adminssionnumber = $("#adminssionnumber").val();
+              var patientName =$("#patientName").val();
+              var outpaientnumber = $("#outpaientnumber").val();
+              var birthday =$("#birthday").val();
+                if (adminssionnumber =="" && patientName==""&& outpaientnumber=="" && birthday==""){
+                    alert("还没填写信息 哦");
+                    return;
+                }
                 $.ajax({
                     url:"customPatient",
                     type:'post',
                     data: this.base,
                     success:function(data){
                         alert("成功");
-                        // history.go(0);
+                        history.go(0);
                     },
                     error:function(data){
                         alert("服务器异常");

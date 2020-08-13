@@ -87,6 +87,7 @@ public class JoinGroupController {
 
     /**
      * 获取医生 列表
+     * @return
      */
     @PostMapping("/getdoctorname")
     public JSONResult<User> getDoctorName() {
@@ -100,6 +101,7 @@ public class JoinGroupController {
 
     /**
      * 获取护士 列表
+     * @return
      */
     @PostMapping("/getnursename")
     public JSONResult<User> getNurseName() {
@@ -113,6 +115,7 @@ public class JoinGroupController {
 
     /**
      * 获取药师 列表
+     * @return
      */
     @PostMapping("/getmedicinename")
     public JSONResult<User> getMedicineName() {
@@ -123,8 +126,10 @@ public class JoinGroupController {
         jsonResult = new JSONResult<User>(ResultEum.SUCCESS, (long) size,userList);
         return jsonResult;
     }
+
     /**
      * 获取科室 列表
+     * @return
      */
     @PostMapping("/getdepartmentname")
     public JSONResult<Department> getDepartmentName() {
@@ -134,8 +139,10 @@ public class JoinGroupController {
         jsonResult = new JSONResult<Department>(ResultEum.SUCCESS, size,list);
         return jsonResult;
     }
+
     /**
      * 获取结果集 列表
+     * @return
      */
     @PostMapping("/getresult")
     public JSONResult<Result> getResult() {
@@ -199,8 +206,11 @@ public class JoinGroupController {
             e.printStackTrace();
         }
     }
+
     /**
      * 根据结果集 入组
+     * @param id
+     * @return
      */
     @PostMapping("/getresultbyid")
     public String ResultId(Integer id){
@@ -214,6 +224,11 @@ public class JoinGroupController {
         }
     }
 
+    /**
+     * 自定义/导入  自定义患者入组
+     * @param patient
+     * @return
+     */
     @PostMapping("/customPatient")
     public String customPatient(CustomVo patient){
         boolean isok = false;
@@ -225,4 +240,17 @@ public class JoinGroupController {
             return JSON.toJSONString(isok);
         }
     }
+    @PostMapping("/groupsettime")
+    public String groupSetTime(String standards, String basiss, String degrees, String doctors, String date){
+
+        boolean isok = false;
+        try {
+            isok = joinGroupService.saveGroupSetTime(standards, basiss, degrees, doctors, date);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            return JSON.toJSONString(isok);
+        }
+    }
+
 }

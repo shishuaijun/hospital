@@ -50,10 +50,10 @@
             var nurse = $("#nurse").val();
             var medicine = $("#medicine").val();
             var array = new Array;
-            array.push(doctor);
-            array.push(nurse);
-            array.push(medicine);
-            console.log(array.toString());
+            if (doctor =="" && nurse =="" && medicine ==""){
+                alert("还没选 哦");
+                return;
+            }
             $.ajax({
                 url:"intotheroupupdate",
                 method:"post",

@@ -23,6 +23,10 @@
         })
         function save() {
            var desk = $("#desk").val();
+            if (desk =="" ){
+                alert("还没选 哦");
+                return;
+            }
            $.ajax({
                url:"intotheroupupdate",
                method:"post",

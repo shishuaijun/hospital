@@ -12,8 +12,10 @@
        function save() {
            var illnessCoded = $("#illnessCoded").val();
            var illnessName = $("#illnessName").val();
-           console.log(illnessCoded);
-           console.log(illnessName);
+           if (illnessCoded =="" && illnessName==""){
+              alert("还没填写信息 哦");
+              return;
+           }
            $.ajax({
                url:"intotheroupupdate",
                method:"post",

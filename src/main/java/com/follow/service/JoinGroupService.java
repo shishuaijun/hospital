@@ -57,4 +57,15 @@ public interface JoinGroupService extends IService<JoinGroup> {
      * @return
      */
     boolean customPatient(CustomVo patient);
+
+    /**
+     * 入组时间
+     * @param standards
+     * @param basiss
+     * @param degrees
+     * @param doctors
+     * @param date
+     * @return
+     */
+    boolean saveGroupSetTime(String standards, String basiss, String degrees, String doctors, String date);
 }

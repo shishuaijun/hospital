@@ -48,6 +48,8 @@ public class JoinGroupServiceImpl extends ServiceImpl<JoinGroupMapper, JoinGroup
     private ResultMapper resultMapper;
     @Autowired
     private DepartmentMapper departmentMapper;
+    @Autowired
+    private JoinGroupTimeMapper joinGroupTimeMapper ;
 
     @Override
     public boolean intoTheGroup(Integer desk, String illnessCoded, String illnessName, String array) {
@@ -198,11 +200,13 @@ public class JoinGroupServiceImpl extends ServiceImpl<JoinGroupMapper, JoinGroup
             b= true;
         }
         if(EmptyUtils.isNotEmpty(patient.getOperationStartTime())){
-            oQueryWrapper.eq("operation_start_time",patient.getOperationStartTime());
+            LocalDateTime dateTime = transformTime(patient.getDischargeTime());
+            oQueryWrapper.eq("operation_start_time",dateTime);
             b= true;
         }
         if(EmptyUtils.isNotEmpty(patient.getOperationStopTime())){
-            oQueryWrapper.eq("operation_stop_time",patient.getOperationStopTime());
+            LocalDateTime dateTime = transformTime(patient.getDischargeTime());
+            oQueryWrapper.eq("operation_stop_time",dateTime);
             b= true;
         }
         if(EmptyUtils.isNotEmpty(patient.getSurgicalSpot())){
@@ -245,11 +249,13 @@ public class JoinGroupServiceImpl extends ServiceImpl<JoinGroupMapper, JoinGroup
             c =true;
         }
         if(EmptyUtils.isNotEmpty(patient.getAdmissionTime())){
-            aQueryWrapper.eq("admission_time",patient.getAdmissionTime());
+            LocalDateTime dateTime = transformTime(patient.getAdmissionTime());
+            aQueryWrapper.eq("admission_time",dateTime);
             c =true;
         }
         if(EmptyUtils.isNotEmpty(patient.getDischargeTime())){
-            aQueryWrapper.eq("discharge_time",patient.getDischargeTime());
+            LocalDateTime dateTime = transformTime(patient.getDischargeTime());
+            aQueryWrapper.eq("discharge_time",dateTime);
             c =true;
         }
         if(EmptyUtils.isNotEmpty(patient.getIsDie())){
@@ -394,6 +400,26 @@ public class JoinGroupServiceImpl extends ServiceImpl<JoinGroupMapper, JoinGroup
         return true;
     }
 
+
+    @Override
+    public boolean saveGroupSetTime(String standards, String basiss, String degrees, String doctors, String date) {
+
+        JoinGroupTime joinGroupTime = new JoinGroupTime();
+        joinGroupTime.setStandards(standards);
+        if (EmptyUtils.isNotEmpty(basiss)){
+            joinGroupTime.setBasiss(basiss=="本院"?1:2);
+        }
+        if (EmptyUtils.isNotEmpty(degrees)){
+            joinGroupTime.setDegrees(degrees=="首次"?1:2);
+        }
+        if (EmptyUtils.isNotEmpty(doctors)){
+            joinGroupTime.setDoctors(doctors=="本就诊"?1:2);
+        }
+        LocalDateTime dateTime = transformTime(date);
+        joinGroupTime.setGroupDate(dateTime);
+
+        return joinGroupTimeMapper.insert(joinGroupTime) > 0 ;
+    }
     /**
      * 患者入组、更改患者状态 复用
      * @param patients
@@ -417,6 +443,23 @@ public class JoinGroupServiceImpl extends ServiceImpl<JoinGroupMapper, JoinGroup
         }
     }
 
-
+    /**
+     * 时间 处理  复用
+     * @param date
+     * @return
+     */
+    protected LocalDateTime transformTime(String date) {
+        String[] ts = date.split("T");
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < ts.length; i++) {
+            if (sb.length()>0){
+                sb.append(" ");
+            }
+            sb.append(ts[i]);
+        }
+        sb.append(":00");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return LocalDateTime.parse(sb, dateTimeFormatter);
+    }
 }
 
