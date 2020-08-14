@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -137,4 +138,26 @@ public class TemplateController {
         }
     }
 
+    /**
+     * 发布 版本
+     * @param id
+     * @return
+     */
+    @PostMapping("/updatestatetemplate")
+    public String updatestatetemplate(Integer id){
+        System.out.println(id);
+        TemplateForm byId = templateFormService.getById(id);
+        boolean isok = false;
+        if(byId.getState()!=3){
+           return JSON.toJSONString(857);
+        }else {
+            TemplateForm templateForm = new TemplateForm();
+            templateForm.setId(id);
+            templateForm.setModifyMan("获取登陆用户");
+            templateForm.setState(1);
+            templateForm.setModifyTime(LocalDateTime.now());
+            isok = templateFormService.updateById(templateForm);
+        }
+        return JSON.toJSONString(isok);
+    }
 }

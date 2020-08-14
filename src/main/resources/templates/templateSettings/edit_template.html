@@ -437,7 +437,27 @@
         function go() {
             history.go(-1);
         }
-
+        function release(){
+            var search = window.location.search;
+            var searchArray = search.split("=");
+            id = searchArray[1];
+            $.ajax({
+                url: "updatestatetemplate",
+                type: "post",
+                data:{
+                    "id":id,
+                }
+            }).success(function (data) {
+                if (data=="true") {
+                    alert("发布成功!");
+                    history.go(-1);
+                }else if(data==857){
+                    alert("已是发布版本 无需再发布!");
+                }else {
+                    alert("发布失败!");
+                }
+            });
+        }
     </script>
 
 </head>
@@ -447,6 +467,10 @@
     <table>
         <tr>
             <th class="layui-form-item">
+                <div >
+                    <button type="button" onclick="release()"  class="layui-btn layui-btn-warm layui-btn-radius">发&nbsp;&nbsp;&nbsp;&nbsp;布</button>
+                </div>
+                <br><br>
                 <div class="layui-input-block">
                     <button type="button" onclick="jiben()" class="layui-btn layui-btn-primary layui-btn-xs">+</button>
                     <input type="checkbox" name="fatherjiben" onclick="jibenok(this)"><strong>基本信息</strong>
@@ -465,10 +489,10 @@
                     <div  style="text-align: left;" id="basicsContent"></div>
                     <div  style="text-align: left;" id="neirong"></div>
                      <div  style="text-align: left;" id="content"></div>
-                    <div >
+                    <div ><br>
                         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                        <button type="button" onclick="save()" class="layui-btn layui-btn-primary layui-btn-xs">确&nbsp;&nbsp;&nbsp;&nbsp;认</button>
-                        <button type="button" onclick="go()" class="layui-btn layui-btn-primary layui-btn-xs">返&nbsp;&nbsp;&nbsp;&nbsp;回</button>
+                        <button type="button" onclick="save()" class="layui-btn layui-btn-normal layui-btn-xs">确&nbsp;&nbsp;&nbsp;&nbsp;认</button>
+                        <button type="button" onclick="go()" class="layui-btn layui-btn-normal layui-btn-xs">返&nbsp;&nbsp;&nbsp;&nbsp;回</button>
                     </div>
 
                 </div>

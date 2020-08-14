@@ -103,7 +103,14 @@ public class IntoTheGroupHtmlController {
      */
     @RequestMapping("/returntogroup")
     public String returnToGroup(){
-        return "redirect:/set_groups";
+        return "redirect:/regroupManagement";
     }
-
+    /**
+     *  分组管理
+     * @return
+     */
+    @RequestMapping("/regroupManagement")
+    public String group_management(){
+        return "group_management";
+    }
 }
