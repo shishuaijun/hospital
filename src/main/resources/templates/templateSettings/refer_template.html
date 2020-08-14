@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="layui/css/layui.css"  media="all">
+    <script src="layui/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="js/vuejs-2.5.16.js"></script>
+    <style>
+
+        #search
+        {
+            margin: 10px 0;
+            height :50%;
+            width:45%;
+            float:left;
+            font-size: 28px;
+        }
+        #search2
+        {
+            margin: 10px 0;
+            height :50%;
+            width:45%;
+            float:right;
+            font-size: 28px;
+        }
+    </style>
+</head>
+<body>
+<a href="/form_template_setting" style="color: #ee7e06">返回模板设置</a>
+
+<div id="app">
+    <br><br>
+    <div id="search">
+        <h3 style="color: #3725ee" style="text-align: center">通用模板选择</h3>
+       <table>
+            <div class="layui-bg-orange">
+                <tr  v-for="(item,index) in list">
+                    <td> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   </td>
+                      <td><input type="checkbox" :value="item.id" name="check" /></td>
+                       <td> &nbsp;&nbsp;<td>{{ item.names }}</td>&nbsp;&nbsp;
+                    <td>  <input type="button" @click="look(item.contents)" value="······"></input></td>
+
+                </tr>
+            </div>
+        </table>
+    </div>
+        <br> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <button style="text-align: center" class="layui-btn layui-btn-normal" onclick="save()">保&nbsp;&nbsp;&nbsp;&nbsp;存</button>
+    <div id="search2">
+        <span id="particulars"></span>
+    </div>
+</div>
+</body>
+<script>
+    new Vue({
+       el:"#app",
+        data:{
+            list:{},
+        },
+        methods:{
+            look(text){
+                $('#particulars').empty();
+               $('#particulars').append(text);
+            }
+        },
+        mounted:function(){
+            let th = this;
+            $.ajax({
+                url: "getcommontemplate",
+                type: "post"
+            }).success(function (data) {
+                th.list = data.result ;
+            })
+        }
+    });
+    function save() {
+        let bool = false;
+        const array = new Array;
+        const check = $("[name=check]");
+        for (let i = 0; i < check.length; i++) {
+            if(check[i].checked){
+                array.push(check[i].value);
+                bool= true;
+            }
+        }
+        if(bool==false) {
+            alert("还没选哦");
+            return;
+        }
+        var word = prompt("请输入文件名称");
+        $.ajax({
+            url: "addtemplatecontents",
+            type: "post",
+            data:{
+                "ids":array.toString(),
+                "name":word
+            }
+        }).success(function (data) {
+            if(data=="true"){
+                alert("模板设置成功");
+                history.go(0);
+            }
+        })
+    };
+
+</script>
+</html>

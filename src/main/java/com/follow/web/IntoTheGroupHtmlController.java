@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
+ * 入组管理  页面跳转 控制层
  * @author wangchunjun
  * @date 2020/8/6
  */
