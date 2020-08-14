@@ -24,4 +24,9 @@ public class TreatmentPlanServiceImpl extends ServiceImpl<TreatmentPlanMapper, T
     public List<TreatmentPlan> getBydid(Integer diseaseId) {
         return treatmentPlanMapper.getBydid(diseaseId);
     }
+
+    @Override
+    public int saveDiseaseTreatment(String treatname, String medication, String examination, String treatment, String operation, String notice, String suggestion, Integer diseaseId) {
+        return treatmentPlanMapper.saveDiseaseTreatment(treatname,medication,examination,treatment,operation,notice,suggestion,diseaseId);
+    }
 }

@@ -38,14 +38,6 @@ public class HtmlController {
     }
 
     /**
-     * 跳转到  标准化模板维护 页
-     * @return
-     */
-    @RequestMapping("/standardized_template_maintenance")
-    public String standardizedtemplatemaintenance(){
-        return "standardized_template_maintenance";
-    }
-    /**
      * 跳转到 分组管理  页
      * @return
      */
@@ -147,6 +139,42 @@ public class HtmlController {
         return "follow_records";
     }
 
+    /**
+     * 跳转到  随访进度概览  页
+     * @return
+     */
+    @RequestMapping("/overview_progress")
+    public String overviewprogress(){
+        return "overview_progress";
+    }
+
+    /**
+     * 跳转到  随访查询  页
+     * @return
+     */
+    @RequestMapping("/follow_records_find")
+    public String followrecordsfind(){
+        return "follow_records_find";
+    }
+
+    /**
+     * 跳转到  全院权限维护  页
+     * @return
+     */
+    @RequestMapping("/authority_management_all")
+    public String authoritymanagementall(){
+        return "authority_management_all";
+    }
+
+    /**
+     * 跳转到  标准化模板维护  页
+     * @return
+     */
+    @RequestMapping("/standardized_template_maintenance")
+    public String standardizedtemplatemaintenance(){
+        return "standardized_template_maintenance";
+    }
+
 
     /**
      * 跳转到  标准化术语维护  页
@@ -157,6 +185,34 @@ public class HtmlController {
         return "maintenance_standardized_terms";
     }
 
+    /**
+     * 跳转到  CDR字典树建立  页
+     * @return
+     */
+    @RequestMapping("/establishment_cdr")
+    public String establishmentcdr(){
+        return "establishment_cdr";
+    }
+
+
+
+    /**
+     * 跳转到  CDR字典树建立 增加 页
+     * @return
+     */
+    @RequestMapping("/dictionaries_add")
+    public String dictionariesadd(){
+        return "dictionaries_add";
+    }
+
+    /**
+     * 跳转到  CDR字典树建立 修改 页
+     * @return
+     */
+    @RequestMapping("/dictionaries_update")
+    public String dictionariesupdate(){
+        return "dictionaries_update";
+    }
 
 
     /**
@@ -167,6 +223,35 @@ public class HtmlController {
     public String diseasetypedatabase(){
         return "disease_type_database";
     }
+
+
+    /**
+     * 跳转到  疾病病种数据库对应的添加诊疗方案页  页
+     * @return
+     */
+    @RequestMapping("/disease_treatment_add")
+    public String diseasetreatmentadd(){
+        return "disease_treatment_add";
+    }
+
+    /**
+     * 跳转到  疾病病种数据库对应的添加页  页
+     * @return
+     */
+    @RequestMapping("/disease_add")
+    public String diseaseadd(){
+        return "disease_add";
+    }
+
+    /**
+     * 跳转到  疾病病种数据库对应的修改页  页
+     * @return
+     */
+    @RequestMapping("/disease_update")
+    public String diseaseupdate(){
+        return "disease_update";
+    }
+
 
 
 

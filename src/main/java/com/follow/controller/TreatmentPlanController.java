@@ -38,5 +38,24 @@ public class TreatmentPlanController {
     }
 
 
+
+    /**
+     * 功能描述： TODO[ 增加疾病诊疗方案 ]
+     * @auther:  Zuan~
+     * @date:  2020/8/14  9:26
+     * @param:
+     * @return:
+     */
+    @RequestMapping("/saveDiseaseTreatment")
+    @ResponseBody
+    public String saveDiseaseTreatment(String treatname,String medication,String examination,String treatment,String operation,String notice,String suggestion,Integer diseaseId){
+        int i = treatmentPlanService.saveDiseaseTreatment(treatname,medication,examination,treatment,operation,notice,suggestion,diseaseId);
+        if (i >= 1){
+            return "yes";
+        }
+        return "no";
+    }
+
+
 }
 
