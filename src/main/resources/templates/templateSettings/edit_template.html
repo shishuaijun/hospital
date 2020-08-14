@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="layui/css/layui.css"  media="all">
+    <script src="layui/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="js/vuejs-2.5.16.js"></script>
+    <script>
+        var isok1 = true ;
+        var isok2 = true ;
+        var isok3 = true ;
+        var ling='患者唯一标识&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="id" name="title" placeholder="请输入患者唯一标识" ><br>';
+        var yi='姓名&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="name"  name="title" placeholder="请输入姓名" ><br>';
+        var er='性别&nbsp;&nbsp;&nbsp;&nbsp;<select type="text"id="sex"name="title" >\'+\n' +
+            '<option value="">请选择</option>\'+\n' +
+            '<option value="1">男</option>\'+\n' +
+            '<option value="0">女</option> >' +
+            '</select><br>';
+        var san='出生日期&nbsp;&nbsp;&nbsp;&nbsp;<input type="date" id="birthday" name="title" placeholder="请选择出生日期" ><br>';
+        var si='出生地&nbsp;&nbsp;&nbsp;&nbsp;<input type="text"id="address" name="title" placeholder="请输入出生地" ><br>';
+        var wu='文化程度&nbsp;&nbsp;&nbsp;&nbsp;<select type="text"id="educationId"name="title" >'+
+            '<option value="">请选择</option>'+
+            '<option value="1">初中</option>'+
+            '<option value="2">高中</option>'+
+            '<option value="3">大专</option>'+
+            '<option value="4">中专</option>'+
+            '<option value="5">本科</option>'+
+            '<option value="6">研究生</option>'+
+            '</select><br>';
+        var liu='移动电话&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="phone" name="title" placeholder="请输入电话号" ><br>';
+        var qi='电子邮件&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="email" name="title" placeholder="请输入电子邮箱" ><br>';
+        var ba='血型&nbsp;&nbsp;&nbsp;&nbsp;<select type="text" id="bloodtype" name="title">'+
+            '<option value="">请选择</option>'+
+            '<option value="A">A型血</option>'+
+            '<option value="B">B型血</option>'+
+            '<option value="AB">AB型血</option>'+
+            '<option value="O">O型血</option>'+
+            '<option value="RH阳">Rh阳性型血</option>'+
+            '<option value="RH阴">Rh阴性型血</option>'+
+            '</select><br>';
+        var jiu='身份证件号&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="idnumber" name="title" placeholder="请输入身份证件号" ><br>';
+        var shi='联系人&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="link" name="title" placeholder="请输入联系人姓名" ><br>';
+        var shiyi='主要诊断<input type="text" id="diagnosis" name="title" placeholder="请输入主要诊断" ><br>';
+        var shier='入院方式&nbsp;&nbsp;&nbsp;&nbsp;<select type="text"id="hospitalWay" >'+
+            '<option value="">请选择</option>'+
+            '<option value="0">普通入院</option>'+
+            '<option value="1">转入院</option>'+
+            '</select><br>';
+        var shisan='入院科室&nbsp;&nbsp;&nbsp;&nbsp;<select type="text" id="desk" >'+
+            '<option value="">请选择</option> '+
+            '<option value="0">骨科</option> '+
+            '<option value="1">神经外科</option> '+
+            '<option value="2">心内科</option> '+
+            '<option value="3">烧伤科</option> '+
+            '<option value="4">小儿科</option> '+
+            '<option value="5">妇科</option> '+
+            '</select><br>';
+        var shisi='住院天数<input type="text" id="hospitalDays" name="title" placeholder="请输入住院天数" ><br>';
+        var shiwu='入院时间<input type="datetime-local" id="admissionTime" name="title"  ><br>';
+        var shiliu='出院时间<input type="datetime-local" id="dischargeTime" name="title" ><br>';
+        var shiqi='是否死亡&nbsp;&nbsp;&nbsp;&nbsp;<select type="text" id="isDie" >'+
+            '<option value="">请选择</option>'+
+            '<option value="0">否</option>'+
+            '<option value="1">是</option>'+
+            '</select><br>';
+        var shiba='手术名称<input type="text" id="termOfOperation" name="title" placeholder="请输入手术名称" ><br>';
+        var shijiu='手术日期<input type="date" id="dateOfSurgery" name="title" ><br>';
+        var ershi='手术执行科室&nbsp;&nbsp;&nbsp;&nbsp;<select type="text" id="operationDepartment" >'+
+            '<option value="">请选择</option> '+
+            '<option value="0">普外手术室</option> '+
+            '<option value="1">骨科手术室</option> '+
+            '<option value="2">妇产科手术室</option> '+
+            '<option value="3">烧伤科手术室</option> '+
+            '<option value="4">五官科手术室</option> '+
+            '</select><br>';
+        var eryi='手术开始时间<input type="datetime-local" id="operationStartTime" name="title" ><br>';
+        var erer='手术结束时间<input type="datetime-local" id="operationStopTime" name="title" ><br>';
+        var ersan='手术部位<input type="text" id="surgicalSpot"name="title" placeholder="请输入手术部位" ><br>';
+        var array= [ling,yi,er,san,si,wu,liu,qi,ba,jiu,shi,shiyi,shier,shisan,shisi,shiwu,shiliu,shiqi,shiba,shijiu,ershi,eryi,erer,ersan];
+
+        function jiben(){
+            if(isok1){
+                $("#jiben").empty();
+                var v='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+                    '<input type="checkbox"value="0" name="childrenjiben" onclick="jibenc(this)"> <strong>患者唯一标识</strong>'+
+                    '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+                    '<input type="checkbox" value="1" onclick="jibenc(this)" name="childrenjiben"> <strong>姓名</strong>'+
+                    '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+                    '<input type="checkbox" value="2"  name="childrenjiben" onclick="jibenc(this)"> <strong>性别</strong>'+
+                    '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+                    '<input type="checkbox"  value="3" name="childrenjiben" onclick="jibenc(this)"> <strong>出生日期</strong>'+
+                    '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+                    '<input type="checkbox"  value="4" name="childrenjiben" onclick="jibenc(this)"> <strong>出生地</strong>'+
+                    '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+                    '<input type="checkbox"  value="5" name="childrenjiben" onclick="jibenc(this)"> <strong>文化程度</strong>'+
+                    '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+                    '<input type="checkbox"  value="6" name="childrenjiben" onclick="jibenc(this)"> <strong>移动电话</strong>'+
+                    '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+                    '<input type="checkbox"  value="7" name="childrenjiben" onclick="jibenc(this)"> <strong>电子邮件</strong>'+
+                    '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+                    '<input type="checkbox"  value="8" name="childrenjiben" onclick="jibenc(this)"> <strong>血型</strong>'+
+                    '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+                    '<input type="checkbox"  value="9" name="childrenjiben" onclick="jibenc(this)"> <strong>身份证号</strong>'+
+                    '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+                    '<input type="checkbox"  value="10" name="childrenjiben" onclick="jibenc(this)"> <strong>联系人</strong>';
+                $("#jiben").append(v);
+                isok1 =false;
+            }else{
+                $("#jiben").empty();
+                isok1 =true;
+            }
+
+        }
+        function shouye(){
+            if(isok2){
+                $("#shouye").empty();
+                var v='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+                    '<input type="checkbox" value="11" name="childrenshouye" onclick="shouyec(this)"> <strong>主要诊断</strong>'+
+                    '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+                    '<input type="checkbox" value="12" name="childrenshouye" onclick="shouyec(this)"> <strong>入院方式</strong>'+
+                    '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+                    '<input type="checkbox" value="13" name="childrenshouye" onclick="shouyec(this)"> <strong>入院科室</strong>'+
+                    '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+                    '<input type="checkbox" value="14" name="childrenshouye" onclick="shouyec(this)"> <strong>住院天数</strong>'+
+                    '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+                    '<input type="checkbox" value="15" name="childrenshouye" onclick="shouyec(this)"> <strong>入院时间</strong>'+
+                    '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+                    '<input type="checkbox" value="16" name="childrenshouye" onclick="shouyec(this)"> <strong>出院时间</strong>'+
+                    '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+                    '<input type="checkbox" value="17" name="childrenshouye" onclick="shouyec(this)"> <strong>是否死亡</strong>';
+                $("#shouye").append(v);
+                isok2=false;
+            }else{
+                $("#shouye").empty();
+                isok2=true;
+            }
+        }
+        function shoushu(){
+            if(isok3){
+                $("#shoushu").empty();
+                var v='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+                    '<input type="checkbox" value="18" name="childrenshoushu" onclick="shoushuc(this)" > <strong>手术名称</strong>'+
+                    '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+                    '<input type="checkbox" value="19" name="childrenshoushu" onclick="shoushuc(this)" > <strong>手术日期</strong>'+
+                    '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+                    '<input type="checkbox"  value="20" name="childrenshoushu" onclick="shoushuc(this)" > <strong>手术执行科室</strong>'+
+                    '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+                    '<input type="checkbox"  value="21" name="childrenshoushu" onclick="shoushuc(this)" > <strong>手术开始时间</strong>'+
+                    '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+                    '<input type="checkbox"  value="22" name="childrenshoushu" onclick="shoushuc(this)" > <strong>手术结束时间</strong>'+
+                    '<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+                    '<input type="checkbox"  value="23" name="childrenshoushu" onclick="shoushuc(this)" > <strong>手术部位</strong>';
+                $("#shoushu").append(v);
+                isok3=false;
+            }else{
+                $("#shoushu").empty();
+                isok3=true;
+            }
+        }
+        function jibenok(check){
+            // $("#neirong").empty();
+
+            var childrenChecked = $("[name=childrenjiben]");
+
+            if(check.checked){
+                // var o="";
+                for (var i = 0; i <childrenChecked.length ; i++) {
+                    childrenChecked[i].checked = true;
+                    console.log(childrenChecked[i].value);
+                    // o+=array[childrenChecked[i].value];
+                }
+                // $("#neirong").append(o);
+                // fangfa();
+            }else{
+                // $("#neirong").empty();
+                for (var i = 0; i < childrenChecked.length; i++) {
+                    childrenChecked[i].checked = false;
+                }
+                // fangfa();
+            }
+            $("#neirong").empty();
+            var o ="";
+            var childrenChecked1 = $("[name=childrenjiben]");
+            for (var i = 0; i <childrenChecked1.length ; i++) {
+                if (childrenChecked1[i].checked){
+                    o+=array[childrenChecked1[i].value];
+                }
+            }
+            var childrenChecked2 = $("[name=childrenshouye]");
+            for (var i = 0; i <childrenChecked2.length ; i++) {
+                if (childrenChecked2[i].checked){
+                    o+=array[childrenChecked2[i].value];
+                }
+            }
+            var childrenChecked3 = $("[name=childrenshoushu]");
+            for (var i = 0; i <childrenChecked3.length ; i++) {
+                if (childrenChecked3[i].checked){
+                    o+=array[childrenChecked3[i].value];
+                }
+            }
+            $("#neirong").append(o);
+        }
+        function shouyeok(check){
+
+            var childrenChecked = $("[name=childrenshouye]");
+            if(check.checked){
+                // var o="";
+                for (var i = 0; i <childrenChecked.length ; i++) {
+                    childrenChecked[i].checked = true;
+                    console.log(childrenChecked[i].value);
+                    // o+=array[childrenChecked[i].value];
+                }
+                // $("#neirong").append(o);
+                // fangfa();
+            }else{
+                // $("#neirong").empty();
+                for (var i = 0; i < childrenChecked.length; i++) {
+                    childrenChecked[i].checked = false;
+                }
+                // fangfa();
+            }
+            $("#neirong").empty();
+            var o ="";
+            var childrenChecked1 = $("[name=childrenjiben]");
+            for (var i = 0; i <childrenChecked1.length ; i++) {
+                if (childrenChecked1[i].checked){
+                    o+=array[childrenChecked1[i].value];
+                }
+            }
+            var childrenChecked2 = $("[name=childrenshouye]");
+            for (var i = 0; i <childrenChecked2.length ; i++) {
+                if (childrenChecked2[i].checked){
+                    o+=array[childrenChecked2[i].value];
+                }
+            }
+            var childrenChecked3 = $("[name=childrenshoushu]");
+            for (var i = 0; i <childrenChecked3.length ; i++) {
+                if (childrenChecked3[i].checked){
+                    o+=array[childrenChecked3[i].value];
+                }
+            }
+            $("#neirong").append(o);
+        }
+        function shoushuok(check){
+            var childrenChecked = $("[name=childrenshoushu]");
+            if(check.checked){
+                // var o="";
+                for (var i = 0; i <childrenChecked.length ; i++) {
+                    childrenChecked[i].checked = true;
+                    console.log(childrenChecked[i].value);
+                    // o+=array[childrenChecked[i].value];
+                }
+                // fangfa();
+                // $("#neirong").append(o);
+            }else{
+                // $("#neirong").empty();
+                for (var i = 0; i < childrenChecked.length; i++) {
+                    childrenChecked[i].checked = false;
+                }
+                // fangfa();
+            }
+            $("#neirong").empty();
+            var o ="";
+            var childrenChecked1 = $("[name=childrenjiben]");
+            for (var i = 0; i <childrenChecked1.length ; i++) {
+                if (childrenChecked1[i].checked){
+                    o+=array[childrenChecked1[i].value];
+                }
+            }
+            var childrenChecked2 = $("[name=childrenshouye]");
+            for (var i = 0; i <childrenChecked2.length ; i++) {
+                if (childrenChecked2[i].checked){
+                    o+=array[childrenChecked2[i].value];
+                }
+            }
+            var childrenChecked3 = $("[name=childrenshoushu]");
+            for (var i = 0; i <childrenChecked3.length ; i++) {
+                if (childrenChecked3[i].checked){
+                    o+=array[childrenChecked3[i].value];
+                }
+            }
+            $("#neirong").append(o);
+        }
+        function jibenc(check){
+            var childrench = $("[name=childrenjiben]");
+            var bool = true
+            if (check.checked){
+                for (var i = 0; i <childrench.length ; i++) {
+                    if (!childrench[i].checked){
+                        bool = false;
+                        break;
+                    }
+                }
+            }else{
+                bool= false;
+            }
+            $("#neirong").empty();
+            var o ="";
+            var childrenChecked1 = $("[name=childrenjiben]");
+            for (var i = 0; i <childrenChecked1.length ; i++) {
+                if (childrenChecked1[i].checked){
+                    o+=array[childrenChecked1[i].value];
+                }
+            }
+            var childrenChecked2 = $("[name=childrenshouye]");
+            for (var i = 0; i <childrenChecked2.length ; i++) {
+                if (childrenChecked2[i].checked){
+                    o+=array[childrenChecked2[i].value];
+                }
+            }
+            var childrenChecked3 = $("[name=childrenshoushu]");
+            for (var i = 0; i <childrenChecked3.length ; i++) {
+                if (childrenChecked3[i].checked){
+                    o+=array[childrenChecked3[i].value];
+                }
+            }
+            $("#neirong").append(o);
+            // $("#neirong").append(o);
+            $("[name=fatherjiben]").prop("checked",bool);
+        }
+        function shouyec(check){
+            console.log(check.value);
+            var childrench = $("[name=childrenshouye]");
+            var bool = true;
+            if (check.checked){
+                // fangfa();
+                for (var i = 0; i <childrench.length ; i++) {
+                    if (!childrench[i].checked){
+                        bool = false;
+                        break;
+                    }
+                }
+            }else{
+                bool= false;
+            }
+            $("#neirong").empty();
+            var o ="";
+            var childrenChecked1 = $("[name=childrenjiben]");
+            for (var i = 0; i <childrenChecked1.length ; i++) {
+                if (childrenChecked1[i].checked){
+                    o+=array[childrenChecked1[i].value];
+                }
+            }
+            var childrenChecked2 = $("[name=childrenshouye]");
+            for (var i = 0; i <childrenChecked2.length ; i++) {
+                if (childrenChecked2[i].checked){
+                    o+=array[childrenChecked2[i].value];
+                }
+            }
+            var childrenChecked3 = $("[name=childrenshoushu]");
+            for (var i = 0; i <childrenChecked3.length ; i++) {
+                if (childrenChecked3[i].checked){
+                    o+=array[childrenChecked3[i].value];
+                }
+            }
+            $("#neirong").append(o);
+            $("[name=fathershouye]").prop("checked",bool);
+        }
+        function shoushuc(check){
+            console.log(check.value);
+            var childrench = $("[name=childrenshoushu]");
+            var bool = true;
+            if (check.checked){
+                // fangfa();
+                for (var i = 0; i <childrench.length ; i++) {
+                    if (!childrench[i].checked){
+                        bool = false;
+                        break;
+                    }
+                }
+            }else{
+                // fangfa();
+                bool= false;
+            }
+            $("#neirong").empty();
+            var o ="";
+            var childrenChecked1 = $("[name=childrenjiben]");
+            for (var i = 0; i <childrenChecked1.length ; i++) {
+                if (childrenChecked1[i].checked){
+                    o+=array[childrenChecked1[i].value];
+                }
+            }
+            var childrenChecked2 = $("[name=childrenshouye]");
+            for (var i = 0; i <childrenChecked2.length ; i++) {
+                if (childrenChecked2[i].checked){
+                    o+=array[childrenChecked2[i].value];
+                }
+            }
+            var childrenChecked3 = $("[name=childrenshoushu]");
+            for (var i = 0; i <childrenChecked3.length ; i++) {
+                if (childrenChecked3[i].checked){
+                    o+=array[childrenChecked3[i].value];
+                }
+            }
+            $("#neirong").append(o);
+            $("[name=fathershoushu]").prop("checked",bool);
+        }
+        function save() {
+            var o ="";
+            var childrenChecked1 = $("[name=childrenjiben]");
+            for (var i = 0; i <childrenChecked1.length ; i++) {
+                if (childrenChecked1[i].checked){
+                    o+=array[childrenChecked1[i].value];
+                }
+            }
+            var childrenChecked2 = $("[name=childrenshouye]");
+            for (var i = 0; i <childrenChecked2.length ; i++) {
+                if (childrenChecked2[i].checked){
+                    o+=array[childrenChecked2[i].value];
+                }
+            }
+            var childrenChecked3 = $("[name=childrenshoushu]");
+            for (var i = 0; i <childrenChecked3.length ; i++) {
+                if (childrenChecked3[i].checked){
+                    o+=array[childrenChecked3[i].value];
+                }
+            }
+            var search = window.location.search;
+            var searchArray = search.split("=");
+            id = searchArray[1];
+            $.ajax({
+                url: "updatemessagetemplate",
+                type: "post",
+                data:{
+                    "id":id,
+                    "text":o
+                }
+            }).success(function (data) {
+                if (data=="true"){
+                    alert("添加成功!");
+                    history.go(-1);
+                }
+            });
+
+        }
+        function go() {
+            history.go(-1);
+        }
+
+    </script>
+
+</head>
+<body>
+
+<div>
+    <table>
+        <tr>
+            <th class="layui-form-item">
+                <div class="layui-input-block">
+                    <button type="button" onclick="jiben()" class="layui-btn layui-btn-primary layui-btn-xs">+</button>
+                    <input type="checkbox" name="fatherjiben" onclick="jibenok(this)"><strong>基本信息</strong>
+                    <div id="jiben"></div><br>
+                    <button type="button" onclick="shouye()" class="layui-btn layui-btn-primary layui-btn-xs">+</button>
+                    <input type="checkbox" name="fathershouye" onclick="shouyeok(this)"> <strong>首页信息</strong>
+                    <div id="shouye"></div><br>
+                    <button type="button" onclick="shoushu()" class="layui-btn layui-btn-primary layui-btn-xs">+</button>
+                    <input type="checkbox" name="fathershoushu" onclick="shoushuok(this)"> <strong>手术信息</strong>
+                    <div id="shoushu"></div>
+                </div>
+            </th>
+            <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+            <th>
+                <div id="app">
+                    <div  style="text-align: left;" id="basicsContent"></div>
+                    <div  style="text-align: left;" id="neirong"></div>
+                     <div  style="text-align: left;" id="content"></div>
+                    <div >
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                        <button type="button" onclick="save()" class="layui-btn layui-btn-primary layui-btn-xs">确&nbsp;&nbsp;&nbsp;&nbsp;认</button>
+                        <button type="button" onclick="go()" class="layui-btn layui-btn-primary layui-btn-xs">返&nbsp;&nbsp;&nbsp;&nbsp;回</button>
+                    </div>
+
+                </div>
+            </th>
+        </tr>
+    </table>
+
+</div>
+
+</body>
+<script>
+    $(function() {
+        //获取要查询的id
+        var search = window.location.search;
+        var searchArray = search.split("=");
+        id = searchArray[1];
+        $.ajax({
+            url: "getmessagetemplate",
+            type: "post",
+            data:{
+                "id":id
+            }
+        }).success(function (data) {
+            $("#basicsContent").empty();
+            $("#content").empty();
+            $("#basicsContent").append(data.result[0].basicsContent);
+            $("#content").append(data.result[0].content);
+        })
+    });
+
+</script>
+</html>
