@@ -65,7 +65,7 @@ public class TemplateFormServiceImpl extends ServiceImpl<TemplateFormMapper , Te
         templateForm1.setId(id);
         templateForm1.setModifyTime(LocalDateTime.now());
         templateForm1.setModifyMan("当前登录用户");
-        int i = templateFormMapper.update(templateForm1, null);
+        int i = templateFormMapper.updateById(templateForm1);
         return i > 0;
     }
 }
