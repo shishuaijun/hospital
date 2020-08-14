@@ -14,7 +14,7 @@ import java.util.List;
 public interface TreatmentPlanMapper extends BaseMapper<TreatmentPlan> {
 
 
-    @Select("select a.* from treatment_plan a,followgroup b where a.disease_id = b.disease_id and a.disease_id = #{diseaseId}")
+    @Select("select a.* from treatment_plan a,followgroup b,disease c where a.disease_id = b.disease_id and a.disease_id = c.id and a.disease_id = #{diseaseId}")
     List<TreatmentPlan> getBydid(Integer diseaseId);
 
 

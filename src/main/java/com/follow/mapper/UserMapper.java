@@ -2,6 +2,9 @@ package com.follow.mapper;
 
 import com.follow.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 /**
  * @author wangchunjun
@@ -9,4 +12,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface UserMapper extends BaseMapper<User> {
 
+    @Select("select * from user")
+    List<User> selectAll();
 }

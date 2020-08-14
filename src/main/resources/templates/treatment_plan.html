@@ -32,53 +32,55 @@
                     diseaseId: disease_id
                 }, //要传的值，以键值对的形式存在
                 success: function (data) { //data是变量，是服务器传到jsp的数据。相当于以前从Servlet转发到jsp
-                    var t = JSON.parse(data);
-                    var k = 0;
-                    /*if (t.length>=1){
-                      for (var i = 0; i < t.length; i++) {
-                        k = k+i;
-                        return k;
-                      }
-                    }else{
-                      return k;
+
+                    var a = JSON.parse(data);
+                    console.log(a);
+                    var k;
+                    if (a.length == 0) {
+                        alert("该病例尚无诊疗方案，请通知院方进行添加诊疗方案及随访案例。")
+                        window.location.href = "disease_type_database.html";
+                        k = "";
+                    } else {
+                        k = 0;
+
+
+                        var t = JSON.parse(data);
+                        //var k = 0;
+                        // 诊疗方案id
+                        $("#id").val(t[k].id);
+
+                        //诊疗方案名称
+                        $("#treatname").val(t[k].treatname);
+
+                        //用药
+                        $("#medication").val(t[k].medication);
+
+                        //检查
+                        $("#examination").val(t[k].examination);
+
+                        //治疗
+                        $("#treatment").val(t[k].treatment);
+
+                        //手术
+                        $("#operation").val(t[k].operation);
+
+                        //通知
+                        $("#notice").val(t[k].notice);
+
+                        //建议
+                        $("#suggestion").val(t[k].suggestion);
+
+                        $("#diseaseId").val(t[k].disease_id);
+
+                        //初始化表单
+                        form.render();
+
                     }
-                    alert(k);*/
-                    //console.log("k"+k);
-                    // 诊疗方案id
-                    $("#id").val(t[k].id);
-
-                    //诊疗方案名称
-                    $("#treatname").val(t[k].treatname);
-
-                    //用药
-                    $("#medication").val(t[k].medication);
-
-                    //检查
-                    $("#examination").val(t[k].examination);
-
-                    //治疗
-                    $("#treatment").val(t[k].treatment);
-
-                    //手术
-                    $("#operation").val(t[k].operation);
-
-                    //通知
-                    $("#notice").val(t[k].notice);
-
-                    //建议
-                    $("#suggestion").val(t[k].suggestion);
-
-                    $("#diseaseId").val(t[k].disease_id);
-
-                    //初始化表单
-                    form.render();
 
                 }
             });
 
         })
-
-
 
 
     </script>
@@ -91,17 +93,26 @@
         }
 
 
-
-        //
-        var down1 = function () {
-            window.location = "treatment_plan1.html?diseaseId="+disease_id;
+        //		返回至病种数据库页面
+        var fanhui1 = function () {
+            window.location = "disease_type_database.html"
         }
 
 
-        function myFunction(){
-            setTimeout(function(){
+        //下一个诊疗方案
+        var down1 = function () {
+            window.location = "treatment_plan1.html?diseaseId=" + disease_id;
+        }
+
+
+        function myFunction() {
+
+            setTimeout(function () {
+                alert("诊疗方案已确定，请于7天后更换诊疗方案")
+            }, 0);
+            setTimeout(function () {
                 alert("请更换诊疗方案")
-            },60000*2);
+            }, 60000 * 2);
         }
 
     </script>
@@ -112,6 +123,11 @@
 
 
 <form class="layui-form" style="width: 400px;">
+
+    <div class="modal-footer">
+        <button class="layui-btn" type="button" onclick="fanhui()"> 返回随访组页面</button>
+        <button class="layui-btn" type="button" onclick="fanhui1()"> 返回病种数据库</button>
+    </div>
 
     <div class="modal-body">
         <table class="table table-bordered table-striped">
@@ -156,7 +172,6 @@
     </div>
 
     <div class="modal-footer">
-        <button class="layui-btn" type="button" onclick="fanhui()"> 返 回</button>
 
         <button class="layui-btn" type="button" onclick="myFunction()">诊疗方案开始执行</button>
         <button class="layui-btn" type="button" onclick="down1()">下一建议</button>
