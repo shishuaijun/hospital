@@ -1,1 +1,243 @@
-﻿
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="layui/css/layui.css"  media="all">
+    <script src="layui/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="js/vuejs-2.5.16.js"></script>
+    <style>
+
+        #search
+        {
+            margin: 10px 0;
+            height :50%;
+            width:40%;
+            float:left;
+            font-size: 20px;
+        }
+        #search2
+        {
+            margin: 10px 0;
+            height :50%;
+            width:60%;
+            float:right;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+<a href="/returntogroup" style="color: #ee7e06">返回随访组</a>
+<div id="app">
+    <h3 style="color: #3725ee;text-align: center">随访规则设定</h3>
+    <br><br>
+    <div id="search">
+
+        <div  style="text-align: right;">
+            <button type="button" onclick="add()" class="layui-btn layui-btn"><i class="layui-icon"></i></button>
+        </div>
+        <div style="background-color: #9F9F9F ;text-align: center">基线</div>
+        <table>
+            <tr v-for="(item,index) in list">
+                <td >
+                    <span style="background-color: #0de275 ;">随访规则</span>&nbsp;&nbsp;{{index+1}}<br>
+                    事件&nbsp;&nbsp;{{item.conditionOne}} {{item.conditionTwo}} {{item.benchmarkEvents}}<br>
+                    起始时间&nbsp;&nbsp;事件后{{item.beginMonth}}月<br>
+                    间隔时间&nbsp;&nbsp;{{item.intervalMonth}},共:{{item.continued}}次<br>
+                    提前{{item.notice}}天自动通知 <br></td>
+            </tr>
+        </table>
+    </div>
+
+    <div id="search2">
+        <div id="pointOfTime"> </div>
+        <div id="templateSelection"></div>
+    </div>
+
+</div>
+</body>
+<script>
+    function save() {
+        var standards ="";
+        var standard = $('[name=standard]');
+        for (var i = 0; i <standard.length ; i++) {
+            if(standard[i].checked ){
+                standards=standard[i].value;
+            }
+        }
+        var basiss="";
+        var basis = $('[name=basis]');
+        for (var i = 0; i <basis.length ; i++) {
+            if(basis[i].checked ){
+                basiss=basis[i].value;
+            }
+        }
+        var degrees="";
+        var degree = $('[name=degree]');
+        for (var i = 0; i <degree.length ; i++) {
+            if(degree[i].checked ){
+                var degrees=degree[i].value;
+            }
+        }
+        var doctors="";
+        var doctor = $('[name=doctor]');
+        for (var i = 0; i <doctor.length ; i++) {
+            if(doctor[i].checked ){
+                var doctors=doctor[i].value;
+            }
+        }
+        var begin = $('#begin').val();
+        var interval = $('#interval').val();
+        var continued = $('#continued').val();
+        var notice = $('#notice').val();
+        if(standards==""){
+            alert("基准事件 未选中");
+            return;
+        }
+        if(basiss==""&&degrees==""&&doctors==""){
+            alert("筛选条件 选一个吧");
+            return;
+        }
+        if(begin==""){
+            alert("启始日期 还未选");
+            return;
+        }
+        if(begin>12||begin <0){
+            alert("输入 非法");
+            return;
+        }
+        if(interval==""){
+            alert("间隔日期 还未选");
+            return;
+        }
+        if(interval>12||begin <0){
+            alert("输入 非法");
+            return;
+        }
+        var re = /^\d+$|^\d+[.]?\d+$/;
+        if(!re.test(begin)){
+            alert("请输入有效起始日期 ");
+            return;
+        }
+        if(!re.test(interval)){
+            alert("请输入有效间隔日期 ");
+            return;
+        }
+        if(!re.test(continued)){
+            alert("请输入有效持续次数");
+            return;
+        }
+        if(!re.test(notice)){
+            alert("请输入有效通知天数 ");
+            return;
+        }
+        $.ajax({
+            url:"addfollowuprules",
+            type:"post",
+            data:{
+                "benchmarkEvents":standards,
+                "conditionOne":basiss,
+                "conditionTwo":degrees,
+                "conditionThree":doctors,
+                "beginMonth":begin,
+                "intervalMonth":interval,
+                "continued":continued,
+                "notice":notice
+            }
+        }).success(function (data){
+            if (data=="true"){
+                alert("随访规则设置 成功！");
+                history.go(0);
+            }else{
+                alert("随访规则设置 失败！");
+            }
+        }).error(function (data) {
+            alert("服务器异常");
+        });
+
+    }
+    function add() {
+        var o='<div >&nbsp;&nbsp;&nbsp;时点设置\n' +
+            '                <div  style="text-align: center;">\n' +
+            '                    <button type="button" onclick="save()" class="layui-btn layui-btn">保&nbsp;&nbsp;存</button></div>\n' +
+            '            </div>\n' +
+            '            <div class="layui-form-item">\n' +
+            '                <label class="layui-form-label">基准事件:</label>\n' +
+            '                <div class="layui-input-block">\n' +
+            '                    <input type="radio" name="standard" value="门诊">门诊\n' +
+            '                    <input type="radio" name="standard" value="入院" >入院\n' +
+            '                    <input type="radio" name="standard" value="出院">出院\n' +
+            '                    <input type="radio" name="standard" value="手术">手术\n' +
+            '                    <input type="radio" name="standard" value="入ICU">入ICU\n' +
+            '                    <input type="radio" name="standard" value="出ICU">出ICU\n' +
+            '                </div>\n' +
+            '            </div>\n' +
+            '            <div class="layui-form-item">\n' +
+            '                <label class="layui-form-label">筛选条件</label>\n' +
+            '                <div class="layui-input-block">\n' +
+            '                    <input type="radio" name="basis" value="本院"  >本院\n' +
+            '                    <input type="radio" name="basis" value="本科室" >本科室\n' +
+            '                </div>\n' +
+            '                <div class="layui-input-block">\n' +
+            '                    <input type="radio" name="degree" value="第一次"  >首次\n' +
+            '                    <input type="radio" name="degree" value="最后一次" >末次\n' +
+            '                </div>\n' +
+            '                <div class="layui-input-block">\n' +
+            '                    <input type="radio" name="doctor" value="本就诊"  >本就诊\n' +
+            '                    <input type="radio" name="doctor" value="任意就诊" >任意就诊\n' +
+            '                </div>\n' +
+            '            </div>\n' +
+            '            <div class="layui-form-item">\n' +
+            '                <div class="layui-inline">\n' +
+            '                    <label class="layui-form-label">起始:&nbsp;&nbsp;</label>\n' +
+            '                    <div class="layui-input-block">\n' +
+            '                        <input style="width: 50px;"type="text" name="begin" id="begin" autocomplete="off">&nbsp;&nbsp;月\n' +
+            '\n' +
+            '                    </div>\n' +
+            '                </div>\n' +
+            '                <div class="layui-inline">\n' +
+            '                    <label class="layui-form-label">间隔:&nbsp;</label>\n' +
+            '                    <div class="layui-input-block">\n' +
+            '                        <input style="width: 50px;" type="text" name="interval" id="interval" >&nbsp;&nbsp;月\n' +
+            '                    </div>\n' +
+            '                </div>\n' +
+            '            </div>\n' +
+            '            <div class="layui-form-item">\n' +
+            '                <div class="layui-inline">\n' +
+            '                    <label class="layui-form-label">持续:&nbsp;</label>\n' +
+            '                    <div class="layui-input-block">\n' +
+            '                        <input style="width: 50px;" type="text" name="continued" id="continued" autocomplete="off" >&nbsp;&nbsp;次\n' +
+            '                    </div>\n' +
+            '                </div>\n' +
+            '                <div class="layui-inline">\n' +
+            '                    <label class="layui-form-label">提前:&nbsp;</label>\n' +
+            '                    <div class="layui-input-block">\n' +
+            '                        <input style="width: 50px;"type="text" name="notice" id="notice" >&nbsp;&nbsp;天自动通知\n' +
+            '                    </div>\n' +
+            '                </div>\n' +
+            '            </div>';
+
+        $("#pointOfTime").empty();
+        $("#pointOfTime").append(o);
+    }
+
+    new Vue({
+        el:"#app",
+        data:{
+            list:{},
+        },
+        methods:{
+        },
+         mounted:function(){
+             let th = this;
+             $.ajax({
+                 url: "getFollowUpRulesList",
+                 type: "post"
+             }).success(function (data) {
+                 th.list = data.result ;
+             })
+         }
+    });
+
+</script>
+</html>
