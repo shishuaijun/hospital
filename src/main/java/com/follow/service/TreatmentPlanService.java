@@ -12,4 +12,6 @@ import java.util.List;
 public interface TreatmentPlanService extends IService<TreatmentPlan> {
 
     List<TreatmentPlan> getBydid(Integer diseaseId);
+
+    int saveDiseaseTreatment(String treatname, String medication, String examination, String treatment, String operation, String notice, String suggestion, Integer diseaseId);
 }

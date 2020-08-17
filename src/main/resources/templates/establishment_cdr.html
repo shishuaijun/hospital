@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>病种数据库建立</title>
+    <title>CDR字典树建立</title>
+
 
     <link rel="stylesheet" href="layui/css/layui.css">
     <script type="text/javascript" src="layui/jQuery/jquery-3.1.1.min.js"></script>
@@ -17,12 +18,12 @@
     <script>
         var table = layui.table;
 
-        $(function() {
+        $(function () {
 
             //加载表格数据
             table.render({
                 elem: '#mytable', //绑定表格的id
-                url:  '/findDisease',
+                url: '/findCdr',
                 width: 1100,
                 method: 'post',
                 cols: [
@@ -33,22 +34,27 @@
                         type: 'id',
                         fixed: 'left'
                     }, {
-                        field: 'diseaseNumber',
-                        title: '疾病编号',
+                        field: 'dictionariesName',
+                        title: '字典名称',
                         align: 'center', //字体居中
                         width: 200
                     }, {
-                        field: 'diseaseName',
-                        title: '疾病名称',
+                        field: 'dictionariesCod',
+                        title: '值编码',
                         align: 'center', //字体居中
                         width: 100
                     }, {
-                        field: 'pid',
-                        title: '父类id',
+                        field: 'dictionariesCodName',
+                        title: '值名称',
                         align: 'center', //字体居中
                         width: 150
                     }, {
-                        width: 550,
+                        field: 'shunxu',
+                        title: '顺序',
+                        align: 'center', //字体居中
+                        width: 150
+                    }, {
+                        width: 350,
                         align: 'center',
                         fixed: 'right',
                         title: '操作',
@@ -62,32 +68,33 @@
 
         })
 
-        table.on('tool(mytable)', function(obj) {
+
+        table.on('tool(mytable)', function (obj) {
 
             //获取当前的JSON对象，可以通过data.属性获取对应的属性值
             var data = obj.data;
             console.log(data.id)
 
             //删除操作
-            if(obj.event === 'deleteDisease') {
+            if (obj.event === 'deleteDictionaries') {
 
 
-                layer.confirm('确认删除病种记录中名为【' + data.diseaseName + '】的记录吗？', {
+                layer.confirm('确认删除字典名为【' + data.dictionariesName + '】的记录吗？', {
                     icon: 3,
                     title: '提示'
-                }, function(index) {
+                }, function (index) {
 
                     $.ajax({
-                        url: "/deleteDisease", //地址
+                        url: "/deleteDictionaries", //地址
                         type: "post", //请求类型  看1
                         data: {
                             id: data.id
                         }, //要传的值，以键值对的形式存在
-                        success: function(q) { //data是变量，是服务器传到jsp的数据。相当于以前从Servlet转发到jsp
+                        success: function (q) { //data是变量，是服务器传到jsp的数据。相当于以前从Servlet转发到jsp
 
-                            if(q == "yes") {
+                            if (q == "yes") {
 
-                                layer.alert("删除成功！", function() {
+                                layer.alert("删除成功！", function () {
 
                                     //关闭弹框
                                     layer.closeAll();
@@ -110,30 +117,18 @@
 
 
             //				跳转至修改页面
-            if(obj.event === 'updateDisease') {
-                window.location = "disease_update.html?id=" + data.id;
+            if (obj.event === 'updateDictionaries') {
+                window.location = "dictionaries_update.html?id=" + data.id;
             }
 
-
-            //				跳转至诊疗方案页面
-            if (obj.event === 'treatmentplan') {
-
-                window.location = "treatment_plan.html?id=" + data.id;
-            }
-
-
-
-            //添加诊疗方案treatmentplanadd
-            if (obj.event === 'treatmentplanadd') {
-                window.location = "disease_treatment_add.html?id=" + data.id;
-            }
 
         })
     </script>
 
     <script type="text/javascript">
-        function addDisease() {
-            window.location = "disease_add.html";
+        //跳转增加页面
+        function addDictionaries() {
+            window.location = "dictionaries_add.html";
         }
     </script>
 
@@ -145,9 +140,8 @@
 
 <div class="layui-layout layui-layout-admin">
     <div class="layui-header">
-        <div class="layui-logo">病种数据库管理</div>
+        <div class="layui-logo">CDR字典建立</div>
     </div>
-
 
 
     <div class="layui-body">
@@ -156,20 +150,54 @@
             <!-- 内容主体区域 -->
             <!--
                 作者：offline
-                时间：2020-08-06
+                时间：2020-08-14
                描述：表格区域
              -->
             <div class="layui-card-body">
 
-                <input type="button" class="layui-btn layui-btn" value="新增" onclick="addDisease()" />
+                <form class="layui-form" action="">
+                    <div>
+                        <label class="layui-form-label">字典名称：</label>
+                        <div class="layui-inline">
+                            <input class="layui-input" name="dictionariesName" id="dictionariesName" autocomplete="off"
+                                   placeholder="请输入参数：">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="layui-form-label">值编码：</label>
+                        <div class="layui-inline">
+                            <input class="layui-input" name="dictionariesCod" id="dictionariesCod" autocomplete="off"
+                                   placeholder="请输入参数：">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="layui-form-label">值名称：</label>
+                        <div class="layui-inline">
+                            <input class="layui-input" name="dictionariesCodName" id="dictionariesCodName"
+                                   autocomplete="off" placeholder="请输入参数：">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="layui-form-label">顺序：</label>
+                        <div class="layui-inline">
+                            <input class="layui-input" name="shunxu" id="shunxu" autocomplete="off"
+                                   placeholder="请输入参数：">
+                        </div>
+                    </div>
 
+                    <button type="button" class="layui-btn" data-type="reload" id="search">搜索</button>
+                    <button type="reset" class="layui-btn">重置</button>
+
+                </form>
+                <br>
+                <div>
+                    <input type="button" class="layui-btn layui-btn" value="新增" onclick="addDictionaries()"/>
+                </div>
                 <table id="mytable" lay-filter="mytable"></table>
 
                 <script type="text/html" id="myoperate">
-                    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="updateDisease">编辑</a>
-                    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="deleteDisease">删除</a>
-                    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="treatmentplan">查看诊疗方案</a>
-                    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="treatmentplanadd">添加诊疗方案</a>
+                    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="updateDictionaries">编辑</a>
+                    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="deleteDictionaries">删除</a>
                 </script>
 
             </div>

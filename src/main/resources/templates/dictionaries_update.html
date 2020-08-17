@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <!--<script type="text/javascript" src="layui/jQuery/jquery-3.1.1.min.js"></script>-->
+    <script type="text/javascript" src="layui/jQuery/jquery-2.2.3.min.js"></script>
+    <script type="text/javascript" src="layui/layui.all.js"></script>
+
+    <script>
+        var form = layui.form;
+        var laydate = layui.laydate;
+        //设置全局变量id
+        var id;
+
+        $(function() {
+
+            laydate.render({
+                elem: '#mydate', //指定元素
+                type: 'date' //日期
+            });
+
+            //获取要查询的id
+            var search = window.location.search;
+            var searchArray = search.split("=");
+            id = searchArray[1];
+
+            $.ajax({
+                url:  "/findByIdDictionaries", //地址
+                type: "post", //请求类型
+                data: {
+                    id: id
+                }, //要传的值，以键值对的形式存在
+                success: function(data) { //data是变量，是服务器传到jsp的数据。相当于以前从Servlet转发到jsp
+
+                    var fol = JSON.parse(data);
+
+
+                    $("#kid").val(fol.id);
+
+                    // 字典名称
+                    $("#dictionariesName").val(fol.dictionariesName);
+
+                    // 值编码
+                    $("#dictionariesCod").val(fol.dictionariesCod);
+
+                    // 值名称
+                    $("#dictionariesCodName").val(fol.dictionariesCodName);
+
+                    // 顺序
+                    $("#shunxu").val(fol.shunxu);
+
+
+
+
+
+                    //初始化表单
+                    form.render();
+
+                }
+            });
+
+        })
+
+        //提交
+
+        var saveDictionaries = function () {
+
+            var kid = $("#kid").val()
+
+            //字典名称
+            var dictionariesName = $("#dictionariesName").val()
+
+            //值编号
+            var dictionariesCod = $("#dictionariesCod").val()
+
+            //值名称
+            var dictionariesCodName = $("#dictionariesCodName").val()
+
+            //顺序
+            var shunxu = $("#shunxu").val()
+
+
+
+
+
+
+            //如果错误计数器为0，则认为校验通过，可以提交给后台处理
+            if(errors == 0) {
+
+                $.ajax({
+                    url: "/saveDictionaries",
+                    type: "post",
+                    data: {
+                        id: kid,
+                        dictionariesName: dictionariesName,
+                        dictionariesCod: dictionariesCod,
+                        dictionariesCodName: dictionariesCodName,
+                        shunxu: shunxu
+                    }, //要传的值，以键值对的形式存在
+                    success: function (data) { //data是变量，是服务器传到jsp的数据。相当于以前从Servlet转发到jsp
+
+                        if (data == "yes") {
+
+                            layer.alert("修改成功！", function () {
+                                back();
+                            })
+
+                        } else {
+                            layer.alert("修改失败，请重试！")
+                        }
+
+                    }
+                });
+
+
+            }
+
+        }
+
+        //返回
+        var back = function() {
+            window.location = "establishment_cdr.html"
+        }
+
+    
+    </script>
+
+    <script>
+
+        //		返回至分组管理页面
+        var fanhui = function () {
+            window.location = "establishment_cdr.html"
+        }
+
+    </script>
+    
+    
+</head>
+<body>
+
+
+<form class="layui-form" style="width: 400px;">
+
+
+
+
+    <div class="modal-body">
+        <table class="table table-bordered table-striped">
+            <input type="hidden" name="id" id="kid"/>
+                <tr>
+                    <td><label class="layui-form-label">字典名称：</label></td>
+                    <td><input id="dictionariesName" type="text" value="" placeholder="如A10或B20"/></td>
+                </tr>
+                <tr>
+                    <td><label class="layui-form-label">值编号：</label></td>
+                    <td><input id="dictionariesCod" type="text" value=""/></td>
+                </tr>
+
+
+                <tr>
+                    <td><label class="layui-form-label">值名称：</label></td>
+                    <td>
+                        <input id="dictionariesCodName" type="text" value=""/>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label class="layui-form-label">顺序：</label></td>
+                    <td>
+                        <input id="shunxu" type="text" value=""/>
+                    </td>
+                </tr>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button class="layui-btn" type="button" onclick="saveDictionaries()"> 保 存 </button>
+        <button class="layui-btn" type="button" onclick="fanhui()"> 返回CDR字典 </button>
+    </div>
+
+
+</form>
+
+
+
+</body>
+</html>

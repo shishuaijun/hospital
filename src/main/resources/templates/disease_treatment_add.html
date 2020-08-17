@@ -1,0 +1,216 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>增加病种治疗方案</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+
+    <link href="resources/css/jquery-ui-themes.css" type="text/css" rel="stylesheet"/>
+    <link href="resources/css/axure_rp_page.css" type="text/css" rel="stylesheet"/>
+    <link href="data/styles.css" type="text/css" rel="stylesheet"/>
+     <script src="resources/scripts/jquery-1.7.1.min.js"></script>
+     <script src="resources/scripts/jquery-ui-1.8.10.custom.min.js"></script>
+
+    <script type="text/javascript" src="layui/layui.all.js"></script>
+
+    <script type="text/javascript">
+        $axure.utils.getTransparentGifPath = function () {
+            return 'resources/images/transparent.gif';
+        };
+        $axure.utils.getOtherPath = function () {
+            return 'resources/Other.html';
+        };
+        $axure.utils.getReloadPath = function () {
+            return 'resources/reload.html';
+        };
+    </script>
+
+    <!-- 获取 url 路径上的 值， 传过来的id 值 -->
+    <script type="text/javascript">
+        var url = location.search;
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            strs = str.split("=");
+            //变量的名称
+            alert(strs[0]);
+            //变量的值
+            alert(strs[1]);
+        }
+    </script>
+
+
+
+
+    <script>
+
+        //		返回至病种数据库页面
+        var fanhui1 = function () {
+            window.location = "disease_type_database.html"
+        }
+
+    </script>
+
+    <script type="text/javascript">
+        var form = layui.form;
+
+        //提交
+        var saveDiseaseTreatment = function () {
+
+
+            //诊疗方案名称
+            var treatname = $("#treatname").val()
+            //用药
+            var medication = $("#medication").val()
+            //检查
+            var examination = $("#examination").val()
+            //治疗
+            var treatment = $("#treatment").val()
+            //手术
+            var operation = $("#operation").val()
+            //通知
+            var notice = $("#notice").val()
+            //建议
+            var suggestion = $("#suggestion").val()
+
+            //疾病编号id
+            var disease_id = $("#diseaseId").val()
+
+
+            /**
+             * 开始校验
+             */
+            /* var errors = 0;
+
+            if(departmentId == undefined){
+                layer.alert("请选择责任科室 !!! ");
+                errors++;
+            }
+            if (errors == 0 && departmentPerson == ""){
+                layer.alert("请输入负责人并为数字 !!! ");
+                errors++;
+            }
+            if (errors == 0 && fName == ""){
+                layer.alert("请输入随访组名称 !!! ");
+                errors++;
+            }
+            if (errors == 0 && fphone == ""){
+                layer.alert("请输入联系电话 !!! ");
+                errors++;
+            }
+            if (errors == 0 && fbackground == ""){
+                layer.alert("请输入背景 !!! ");
+                errors++;
+            }
+            if (errors == 0 && fstate == ""){
+                layer.alert("请选择状态 !!! ");
+                errors++;
+            }
+            if (errors == 0 && fstratTime == ""){
+                layer.alert("请选择开始时间 !!! ");
+                errors++;
+            }
+            if (errors == 0 && fendTime == ""){
+                layer.alert("请选择结束时间 !!! ");
+                errors++;
+            }*/
+
+            // 如果错误计数器为0， 则认为校验通过，可以提交给后台处理
+
+            $.ajax({
+                url: "/saveDiseaseTreatment",
+                type: "post",
+                data: {
+                    treatname:treatname,
+                    medication:medication,
+                    examination:examination,
+                    treatment:treatment,
+                    operation:operation,
+                    notice:notice,
+                    suggestion:suggestion,
+                    diseaseId:strs[1]
+                }, //要传的值，以键值对的形式存在
+                success: function (data) { //data是变量，是服务器传到jsp的数据。相当于以前从Servlet转发到jsp
+
+                    if (data == "yes") {
+
+                        layer.alert("添加成功！", function () {
+                            back1();
+                        })
+
+                    } else {
+                        layer.alert("添加失败，请重试！")
+                    }
+
+                }
+            });
+
+
+        }
+
+
+
+        //返回
+        var back1 = function() {
+            window.location = "disease_type_database.html"
+        }
+    </script>
+</head>
+<body>
+<form class="layui-form layui-icon-align-center" >
+    <div id="u106" class="ax_default paragraph">
+        <p><span style="text-decoration:underline;">
+            <input type="button" class="layui-btn layui-btn" value="返回病种数据页" onclick="back1()"/>
+        </span></p>
+    </div>
+
+    <div style="margin-top: 100px;margin-left: 100px;  align-content: center">
+        <table id="table1" align="center" border="1" style="float:right;top:10px;right:10px;" >
+
+
+
+            <input type="hidden" id="disease_id" name="strs[1]">
+            <tr>
+                <td>诊疗方案名称：</td>
+                <td><input id="treatname" type="text" value=""/></td>
+                <td>用药：</td>
+                <td><input id="medication" type="text" value=""/></td>
+            </tr>
+            <tr>
+                <td>检查：</td>
+                <td><input id="examination" type="text" value=""/></td>
+                <td>治疗：</td>
+                <td><input id="treatment" type="text" value=""/></td>
+            </tr>
+            <tr>
+                <td>手术：</td>
+                <td><input id="operation" type="text" value=""/></td>
+                <td>通知：</td>
+                <td><input id="notice" type="text" value=""/></td>
+            </tr>
+
+            <tr>
+                <td>建议：</td>
+                <td><input id="suggestion" type="textarea" value=""/></td>
+            </tr>
+
+            <tr>
+                <td rowspan="2" align="center">
+                    <div class="layui-input-block" align="center">
+                        <button class="layui-btn" type="button" onclick="saveDiseaseTreatment()"> 保 存 </button>
+                        <button class="layui-btn layui-btn-primary" type="reset"> 重 置 </button>
+                        <button class="layui-btn" type="button" onclick="fanhui1()"> 返 回 </button>
+                    </div>
+                </td>
+
+            </tr>
+
+        </table>
+    </div>
+
+
+</form>
+
+
+</body>
+</html>
