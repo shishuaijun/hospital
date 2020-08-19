@@ -62,9 +62,9 @@ public class FollowUpProgressController {
      * @return
      */
     @PostMapping("/getcheckbypatientidlist")
-    public JSONResult<FollowUpCheckVO> getCheckByPatientIdList(Integer id){
+    public JSONResult getCheckByPatientIdList(Integer id){
         List<FollowUpCheckVO> list = followUpPorgressService.getList(id);
-        return new JSONResult<FollowUpCheckVO>(ResultEum.SUCCESS,0L,list);
+        return new JSONResult(ResultEum.SUCCESS,0L,list);
     }
 
     /**
@@ -91,10 +91,10 @@ public class FollowUpProgressController {
      * @return
      */
     @PostMapping("/getfollowuplist")
-    public JSONResult<FollowUpResultVO> getfollowuplist(){
+    public JSONResult getfollowuplist(){
 
         List<FollowUpResultVO> list = followUpPorgressService.followUpResult();
-        return new JSONResult<FollowUpResultVO>(ResultEum.SUCCESS,0L,list);
+        return new JSONResult(ResultEum.SUCCESS,0L,list);
     }
     /**
      * 导出 随访组 信息

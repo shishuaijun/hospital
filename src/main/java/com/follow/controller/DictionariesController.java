@@ -7,7 +7,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.follow.dto.DataUtil;
 import com.follow.entity.Dictionaries;
 import com.follow.entity.Disease;
+import com.follow.entity.TemplateForm;
 import com.follow.service.DictionariesService;
+import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.annotations.Insert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 
 /**
  * @author ssj
@@ -37,6 +40,13 @@ public class DictionariesController {
     @RequestMapping("/findCdr")
     public String findCdr(Integer page, Integer limit){
         Page<Dictionaries> page1 = dictionariesService.page(new Page<>(page, limit));
+
+        //解决bug：最后一页删除最后一条数据后，页面显示无数据，需要将页数减一，重新进行查询
+        while (page1.getSize() == 0){
+            page = page - 1;
+            page1 = dictionariesService.page(new Page<>(page, limit));
+        }
+
         DataUtil dataUtil = new DataUtil();
         dataUtil.setCode(0);
         dataUtil.setMsg("success");
@@ -103,6 +113,36 @@ public class DictionariesController {
 
 
 
+
+
+    /**
+     * 功能描述： TODO[ 模糊查询 + 分页 ]
+     * @auther:  Zuan~
+     * @date:  2020/8/18 10：54
+     * @param:
+     * @return:
+     */
+    @RequestMapping("/findByConditions1")
+    @ResponseBody
+    public String findByConditions1(String dictionariesName,String dictionariesCod,String dictionariesCodName,String shunxu,Integer page,Integer limit){
+        PageInfo<Dictionaries> pageInfo = dictionariesService.findByConditions1( dictionariesName, dictionariesCod,dictionariesCodName,shunxu, page, limit);
+
+        // 解决bug：最后一页删除多条数据后，页面显示无数据，需要将页数减一，重新进行查询
+        while (pageInfo.getList().size() == 0) {
+            page = page - 1;
+            pageInfo = dictionariesService.findByConditions1(dictionariesName, dictionariesCod,dictionariesCodName,shunxu, page, limit);
+        }
+
+        //HashMap<String, Object> map = new HashMap<String, Object>();
+        HashMap<String, Object> map1 = new HashMap<String, Object>();
+
+        map1.put("code", 0);
+        map1.put("data", pageInfo.getList());
+        map1.put("count", pageInfo.getTotal());
+
+        String jsonString = JSON.toJSONString(map1);
+        return jsonString;
+    }
 
 }
 

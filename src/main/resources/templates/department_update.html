@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+
+
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <!--<script type="text/javascript" src="layui/jQuery/jquery-3.1.1.min.js"></script>-->
+    <script type="text/javascript" src="layui/jQuery/jquery-2.2.3.min.js"></script>
+    <script type="text/javascript" src="layui/layui.all.js"></script>
+
+    <script>
+        var form = layui.form;
+        var laydate = layui.laydate;
+        //设置全局变量id
+        var id;
+
+        $(function() {
+
+            laydate.render({
+                elem: '#mydate', //指定元素
+                type: 'date' //日期
+            });
+
+            //获取要查询的id
+            var search = window.location.search;
+            var searchArray = search.split("=");
+            id = searchArray[1];
+
+            $.ajax({
+                url:  "/findByIdDepartment", //地址
+                type: "post", //请求类型
+                data: {
+                    id: id
+                }, //要传的值，以键值对的形式存在
+                success: function(data) { //data是变量，是服务器传到jsp的数据。相当于以前从Servlet转发到jsp
+
+                    var fol = JSON.parse(data);
+
+
+                    $("#kid").val(fol.id);
+
+                    //科室名称
+                    $("#departmentName").val(fol.departmentName);
+
+                    //医院id
+                    $("#hospitalId").val(fol.hospitalId);
+
+                    //负责人
+                    $("#departmentBoss").val(fol.departmentBoss);
+
+
+
+                    //初始化表单
+                    form.render();
+
+                }
+            });
+
+        })
+
+        //提交
+
+        var modifyEntity = function () {
+
+            var kid = $("#kid").val()
+
+            //科室名称
+            var departmentName = $("#departmentName").val();
+
+            //医院编号
+            var hospitalId = $("#hospitalId").val();
+
+            //负责人
+            var departmentBoss = $("#departmentBoss").val();
+
+
+            //如果错误计数器为0，则认为校验通过，可以提交给后台处理
+            if(errors == 0) {
+
+                $.ajax({
+                    url: "/saveDepartment",
+                    type: "post",
+                    data: {
+                        id: kid,
+                        departmentName: departmentName,
+                        hospitalId: hospitalId,
+                        departmentBoss: departmentBoss
+                    }, //要传的值，以键值对的形式存在
+                    success: function (data) { //data是变量，是服务器传到jsp的数据。相当于以前从Servlet转发到jsp
+
+                        if (data == "yes") {
+
+                            layer.alert("修改成功！", function () {
+                                back();
+                            })
+
+                        } else {
+                            layer.alert("修改失败，请重试！")
+                        }
+
+                    }
+                });
+
+
+            }
+
+        }
+
+        //返回
+        var back = function() {
+            window.location = "authority_management_all.html"
+        }
+
+    
+    </script>
+
+    <script>
+
+        //		返回至科室权限管理页面
+        var fanhui = function () {
+            window.location = "authority_management_all.html"
+        }
+
+    </script>
+    
+    
+</head>
+<body>
+
+
+<form class="layui-form" style="width: 400px;">
+
+
+
+
+    <div class="modal-body">
+        <table class="table table-bordered table-striped">
+            <input type="hidden" name="id" id="kid"/>
+            <tr>
+                <td class="layui-form-label">科室名称：</td>
+                <td><input class="layui-input" type="text" id="departmentName"  onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" /></td>
+            </tr>
+            <tr>
+                <td class="layui-form-label">医院编号：</td>
+                <td><input class="layui-input" type="text" id="hospitalId"  onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" /></td>
+            </tr>
+            <tr>
+                <td class="layui-form-label">负责人：</td>
+                <td><input class="layui-input" type="text" id="departmentBoss"  onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" /></td>
+            </tr>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button class="layui-btn" type="button" onclick="modifyEntity()"> 保 存 </button>
+        <button class="layui-btn" type="button" onclick="fanhui()"> 返 回 </button>
+    </div>
+
+
+</form>
+
+
+
+</body>
+</html>

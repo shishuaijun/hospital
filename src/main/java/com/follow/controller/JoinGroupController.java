@@ -95,12 +95,12 @@ public class JoinGroupController {
      * @return
      */
     @PostMapping("/getdoctorname")
-    public JSONResult<User> getDoctorName() {
+    public JSONResult getDoctorName() {
         String name = "医生";
         List<User> userList = roleService.getsUserName(name);
-        JSONResult<User> jsonResult = null ;
+        JSONResult jsonResult = null ;
         int size = userList.size();
-        jsonResult = new JSONResult<User>(ResultEum.SUCCESS, (long) size,userList);
+        jsonResult = new JSONResult(ResultEum.SUCCESS, (long) size,userList);
         return jsonResult;
     }
 
@@ -109,12 +109,12 @@ public class JoinGroupController {
      * @return
      */
     @PostMapping("/getnursename")
-    public JSONResult<User> getNurseName() {
+    public JSONResult getNurseName() {
         String name = "护士";
         List<User> userList = roleService.getsUserName(name);
-        JSONResult<User> jsonResult = null ;
+        JSONResult jsonResult = null ;
         int size = userList.size();
-        jsonResult = new JSONResult<User>(ResultEum.SUCCESS, (long) size,userList);
+        jsonResult = new JSONResult(ResultEum.SUCCESS, (long) size,userList);
         return jsonResult;
     }
 
@@ -123,12 +123,12 @@ public class JoinGroupController {
      * @return
      */
     @PostMapping("/getmedicinename")
-    public JSONResult<User> getMedicineName() {
+    public JSONResult getMedicineName() {
         String name = "药师";
         List<User> userList = roleService.getsUserName(name);
-        JSONResult<User> jsonResult = null ;
+        JSONResult jsonResult = null ;
         int size = userList.size();
-        jsonResult = new JSONResult<User>(ResultEum.SUCCESS, (long) size,userList);
+        jsonResult = new JSONResult(ResultEum.SUCCESS, (long) size,userList);
         return jsonResult;
     }
 
@@ -137,11 +137,11 @@ public class JoinGroupController {
      * @return
      */
     @PostMapping("/getdepartmentname")
-    public JSONResult<Department> getDepartmentName() {
+    public JSONResult getDepartmentName() {
         List<Department> list = departmentService.list();
-        JSONResult<Department> jsonResult = null ;
+        JSONResult jsonResult = null ;
         long size = list.size();
-        jsonResult = new JSONResult<Department>(ResultEum.SUCCESS, size,list);
+        jsonResult = new JSONResult(ResultEum.SUCCESS, size,list);
         return jsonResult;
     }
 
@@ -150,11 +150,11 @@ public class JoinGroupController {
      * @return
      */
     @PostMapping("/getfollowUpGroupname")
-    public JSONResult<Followgroup> getFollowUpGroupName() {
+    public JSONResult getFollowUpGroupName() {
         List<Followgroup> list = followgroupService.list();
-        JSONResult<Followgroup> jsonResult = null ;
+        JSONResult jsonResult = null ;
         long size = list.size();
-        jsonResult = new JSONResult<Followgroup>(ResultEum.SUCCESS, size,list);
+        jsonResult = new JSONResult(ResultEum.SUCCESS, size,list);
         return jsonResult;
     }
 
@@ -184,11 +184,11 @@ public class JoinGroupController {
      * @return
      */
     @PostMapping("/getresult")
-    public JSONResult<Result> getResult() {
+    public JSONResult getResult() {
         List<Result> list = resultService.list();
-        JSONResult<Result> jsonResult = null ;
+        JSONResult jsonResult = null ;
         long size = list.size();
-        jsonResult = new JSONResult<Result>(ResultEum.SUCCESS,size,list);
+        jsonResult = new JSONResult(ResultEum.SUCCESS,size,list);
         return jsonResult;
     }
 

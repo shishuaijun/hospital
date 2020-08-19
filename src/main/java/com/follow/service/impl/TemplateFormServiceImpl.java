@@ -6,10 +6,14 @@ import com.follow.entity.TemplateForm;
 import com.follow.mapper.TemplateCommonMapper;
 import com.follow.mapper.TemplateFormMapper;
 import com.follow.service.TemplateFormService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author wangchunjun
@@ -66,6 +70,38 @@ public class TemplateFormServiceImpl extends ServiceImpl<TemplateFormMapper , Te
         templateForm1.setModifyTime(LocalDateTime.now());
         templateForm1.setModifyMan("当前登录用户");
         int i = templateFormMapper.updateById(templateForm1);
+        return i > 0;
+    }
+
+
+    /**
+     * 功能描述： TODO[ 模糊查询 + 分页 ]
+     * @auther:  Zuan~
+     * @date:  2020/8/17  16:31
+     * @param:
+     * @return:
+     */
+    @Override
+    public PageInfo<TemplateForm> findByConditions( String name, String modifyMan, Integer page, Integer limit) {
+
+        PageHelper.startPage(page, limit);
+        List<TemplateForm> list = templateFormMapper.findByConditions(name,modifyMan, page, limit);
+
+        PageInfo<TemplateForm> pageInfo = new PageInfo<TemplateForm>(list);
+
+        return pageInfo;
+    }
+
+    @Override
+    public boolean savemessagetemplate(String name,String text) {
+        TemplateForm templateForm1 = new TemplateForm();
+        templateForm1.setName(name);
+        templateForm1.setBasicsContent(text);
+        templateForm1.setCreationTime(LocalDateTime.now());
+        templateForm1.setModifyTime(LocalDateTime.now());
+        templateForm1.setModifyMan("当前登录用户");
+
+        int i = templateFormMapper.insert(templateForm1);
         return i > 0;
     }
 }

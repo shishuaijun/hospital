@@ -28,7 +28,7 @@ public class Department implements Serializable {
     /**
      * 医院id
      */
-    @TableField(value="hospital_id")
+    @TableField("hospital_id")
     private Integer hospitalId;
 
     /**
@@ -38,4 +38,10 @@ public class Department implements Serializable {
     private String departmentBoss;
 
 
+    public Department(Integer id, String departmentName, Integer hospitalId, String departmentBoss) {
+        this.id = id;
+        this.departmentName = departmentName;
+        this.hospitalId = hospitalId;
+        this.departmentBoss = departmentBoss;
+    }
 }

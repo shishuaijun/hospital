@@ -1,7 +1,11 @@
 package com.follow.web;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * 跳转页面 控制器
@@ -167,12 +171,40 @@ public class HtmlController {
     }
 
     /**
+     * 跳转到  全院权限维护 科室权限管理添加  页
+     * @return
+     */
+    @RequestMapping("/department_add")
+    public String departmentadd(){
+        return "department_add";
+    }
+
+    /**
+     * 跳转到  全院权限维护 科室权限管理修改 页
+     * @return
+     */
+    @RequestMapping("/department_update")
+    public String department_update(){
+        return "department_update";
+    }
+
+    /**
      * 跳转到  标准化模板维护  页
      * @return
      */
     @RequestMapping("/standardized_template_maintenance")
     public String standardizedtemplatemaintenance(){
         return "standardized_template_maintenance";
+    }
+
+
+    /**
+     * 跳转到  标准化模板添加  页
+     * @return
+     */
+    @RequestMapping("/template_add")
+    public String templateadd(){
+        return "template_add";
     }
 
 
@@ -254,5 +286,20 @@ public class HtmlController {
 
 
 
+    /**
+     * 跳转到  设置权限 页
+     * @return
+     */
+    @RequestMapping("/permissions_set_up")
+    public String permissionsSetUp(@RequestParam(value = "deskId",required = false)Object deskId, Model model){
+        model.addAttribute("deskId",deskId);
+        System.out.println("----------------"+deskId);
+        return "permissions_set_up" ;
+    }
+
+    @RequestMapping("permissions_update")
+    public String permissionsUpdate(){
+        return  "permissions_update" ;
+    }
 
 }

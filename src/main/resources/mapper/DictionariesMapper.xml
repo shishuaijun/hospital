@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.follow.mapper.DictionariesMapper">
+	<resultMap id="BaseResultMap" type="com.follow.entity.Dictionaries">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="dictionaries_name" jdbcType="VARCHAR" property="dictionariesName" />
+		<result column="dictionaries_cod" jdbcType="VARCHAR" property="dictionariesCod" />
+		<result column="dictionaries_cod_name" jdbcType="VARCHAR" property="dictionariesCodName" />
+		<result column="shunxu" jdbcType="VARCHAR" property="shunxu" />
+
+	</resultMap>
+
+
+
+	<select id="findByConditions1" resultMap="BaseResultMap">
+		select
+			id,dictionaries_name,dictionaries_cod,dictionaries_cod_name,shunxu from dictionaries where 1=1
+		<if test="dictionariesName!='' and dictionariesName!=null">
+			and dictionaries_name like concat('%',#{dictionariesName},'%')
+		</if>
+		<if test="dictionariesCod!='' and dictionariesCod!=null">
+			and dictionaries_cod like concat('%',#{dictionariesCod},'%')
+		</if>
+		<if test="dictionariesCodName!='' and dictionariesCodName!=null">
+			and dictionaries_cod_name like concat('%',#{dictionariesCodName},'%')
+		</if>
+		<if test="shunxu!='' and shunxu!=null">
+			and shunxu like concat('%',#{shunxu},'%')
+		</if>
+		limit #{page}, #{limit}
+	</select>
+
+
+
+
+</mapper>
