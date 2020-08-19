@@ -84,7 +84,7 @@ public class TemplateController {
     @PostMapping("/getcommontemplate")
     public JSONResult getcommontemplate(){
         List<TemplateCommon> list = templateCommonService.list();
-        return new JSONResult<TemplateCommon>(ResultEum.SUCCESS,(long)list.size(),list);
+        return new JSONResult(ResultEum.SUCCESS,(long)list.size(),list);
 
     }
 
