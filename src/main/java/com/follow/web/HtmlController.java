@@ -167,6 +167,24 @@ public class HtmlController {
     }
 
     /**
+     * 跳转到  全院权限维护 科室权限管理添加  页
+     * @return
+     */
+    @RequestMapping("/department_add")
+    public String departmentadd(){
+        return "department_add";
+    }
+
+    /**
+     * 跳转到  全院权限维护 科室权限管理修改 页
+     * @return
+     */
+    @RequestMapping("/department_update")
+    public String department_update(){
+        return "department_update";
+    }
+
+    /**
      * 跳转到  标准化模板维护  页
      * @return
      */

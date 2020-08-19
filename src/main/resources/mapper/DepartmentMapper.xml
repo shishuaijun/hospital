@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.follow.mapper.DepartmentMapper">
+	<resultMap id="BaseResultMap" type="com.follow.entity.Department">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="department_name" jdbcType="VARCHAR" property="departmentName" />
+		<result column="hospital_id" jdbcType="INTEGER" property="hospitalId" />
+		<result column="department_boss" jdbcType="VARCHAR" property="departmentBoss" />
+	</resultMap>
+
+
+
+	<select id="findByDepartment" resultMap="BaseResultMap">
+		select
+			id,department_name,hospital_id,department_boss from department where 1=1
+		<if test="departmentName!='' and departmentName!=null">
+			and department_name like concat('%',#{departmentName},'%')
+		</if>
+		<if test="departmentBoss!='' and departmentBoss!=null">
+			and department_boss like concat('%',#{departmentBoss},'%')
+		</if>
+		limit #{page}, #{limit}
+	</select>
+
+
+
+
+</mapper>

@@ -1,0 +1,174 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>建立分组</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+
+    <link href="resources/css/jquery-ui-themes.css" type="text/css" rel="stylesheet"/>
+    <link href="resources/css/axure_rp_page.css" type="text/css" rel="stylesheet"/>
+    <link href="data/styles.css" type="text/css" rel="stylesheet"/>
+
+    <link href="files/建立分组/styles.css" type="text/css" rel="stylesheet"/>
+     <script src="resources/scripts/jquery-1.7.1.min.js"></script>
+    <!--<script src="../static/resources/scripts/jquery-1.7.1.min.js"></script>-->
+     <script src="resources/scripts/jquery-ui-1.8.10.custom.min.js"></script>
+    <!--<script src="../static/resources/scripts/jquery-ui-1.8.10.custom.min.js"></script>-->
+    <script src="resources/scripts/prototypePre.js"></script>
+    <script src="data/document.js"></script>
+    <script src="resources/scripts/prototypePost.js"></script>
+    <script src="files/建立分组/data.js"></script>
+
+    <script type="text/javascript" src="layui/layui.all.js"></script>
+    <script type="text/javascript">
+        $axure.utils.getTransparentGifPath = function () {
+            return 'resources/images/transparent.gif';
+        };
+        $axure.utils.getOtherPath = function () {
+            return 'resources/Other.html';
+        };
+        $axure.utils.getReloadPath = function () {
+            return 'resources/reload.html';
+        };
+    </script>
+    <script>
+
+        //		返回至分组管理页面
+        var fanhui = function () {
+            window.location = "authority_management_all.html"
+        }
+
+    </script>
+   <!--
+    <script type="text/javascript">
+        function shijian() {
+            var sj = new Date();
+            var year = sj.getFullYear();
+            var month = sj.getMonth() + 1;
+            var ri = sj.getDate();
+            var hour = sj.getHours();
+            var fen = sj.getMinutes();
+            var miao = sj.getSeconds();
+            var hour1;
+            if (hour >= 10) {
+                hour1 = hour;
+            } else {
+                hour1 = "0" + hour;
+            }
+            var fen1;
+            if (fen >= 10) {
+                fen1 = fen;
+            } else {
+                fen1 = "0" + fen;
+            }
+            var miao1;
+            if (miao >= 10) {
+                miao1 = miao;
+            } else {
+                miao1 = "0" + miao;
+            }
+            var sr = year + "/" + month + "/" + ri + "&nbsp; &nbsp; &nbsp; &nbsp;" + hour1 + ":" + fen1 + ":" + miao1;
+            var nd = document.getElementById("createTime");
+            nd.innerHTML = sr;
+            setTimeout("shijian()", 1000);
+        }
+
+        setTimeout("shijian()", 0);
+    </script>
+-->
+    <script type="text/javascript">
+        var form = layui.form;
+
+        //提交
+        var saveEntity = function () {
+
+            //科室名称
+            var departmentName = $("#departmentName").val()
+
+            //医院id
+            var hospitalId = $("#hospitalId").val()
+
+            //负责人（文本框）
+            var departmentBoss = $("#departmentBoss").val()
+
+
+
+            // 如果错误计数器为0， 则认为校验通过，可以提交给后台处理
+
+            $.ajax({
+                url: "/saveDepartment",
+                type: "post",
+                data: {
+                    departmentName: departmentName,
+                    hospitalId: hospitalId,
+                    departmentBoss: departmentBoss
+                }, //要传的值，以键值对的形式存在
+                success: function (data) { //data是变量，是服务器传到jsp的数据。相当于以前从Servlet转发到jsp
+
+                    if (data == "yes") {
+
+                        layer.alert("添加成功！", function () {
+                            back();
+                        })
+
+                    } else {
+                        layer.alert("添加失败，请重试！")
+                    }
+
+                }
+            });
+
+
+        }
+
+        //返回
+        var back = function() {
+            window.location = "authority_management_all.html";
+        }
+    </script>
+</head>
+<body>
+<form class="layui-form">
+    <div id="u106" class="ax_default paragraph">
+        <p><span style="text-decoration:underline;">
+            <input type="button" class="layui-btn layui-btn" value="返回科室权限管理" onclick="back()"/>
+        </span></p>
+    </div>
+
+    <div style="margin-top: 100px;margin-left: 100px; ">
+        <table id="table1" align="center" border="1" style="float:right;top:10px;right:10px;" >
+            <tr>
+                <td>科室名称：</td>
+                <td><input id="departmentName" type="text" value=""/></td>
+            </tr>
+            <tr>
+                <td>医院编号：</td>
+                <td><input id="hospitalId" type="text" value=""/></td>
+            </tr>
+            <tr>
+                <td>负责人：</td>
+                <td><input id="departmentBoss" type="text" value=""/></td>
+            </tr>
+
+
+            <tr>
+                <td rowspan="2" align="center">
+                    <div class="layui-input-block" align="center">
+                        <button class="layui-btn" type="button" onclick="saveEntity()"> 保 存 </button>
+                        <button class="layui-btn layui-btn-primary" type="reset"> 重 置 </button>
+                        <button class="layui-btn" type="button" onclick="fanhui()"> 返 回 </button>
+                    </div>
+                </td>
+
+            </tr>
+
+        </table>
+    </div>
+
+
+</form>
+
+
+</body>
+</html>

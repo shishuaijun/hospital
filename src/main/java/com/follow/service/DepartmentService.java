@@ -2,6 +2,7 @@ package com.follow.service;
 
 import com.follow.entity.Department;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.github.pagehelper.PageInfo;
 
 /**
  * @author wangchunjun
@@ -9,4 +10,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface DepartmentService extends IService<Department> {
 
+    PageInfo<Department> findByDepartment(String departmentName, String departmentBoss, Integer page, Integer limit);
 }
