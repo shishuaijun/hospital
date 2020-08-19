@@ -19,7 +19,6 @@ public class TreatmentPlanServiceImpl extends ServiceImpl<TreatmentPlanMapper, T
     @Resource
     private TreatmentPlanMapper treatmentPlanMapper;
 
-
     @Override
     public List<TreatmentPlan> getBydid(Integer diseaseId) {
         return treatmentPlanMapper.getBydid(diseaseId);
@@ -29,4 +28,6 @@ public class TreatmentPlanServiceImpl extends ServiceImpl<TreatmentPlanMapper, T
     public int saveDiseaseTreatment(String treatname, String medication, String examination, String treatment, String operation, String notice, String suggestion, Integer diseaseId) {
         return treatmentPlanMapper.saveDiseaseTreatment(treatname,medication,examination,treatment,operation,notice,suggestion,diseaseId);
     }
+
+
 }

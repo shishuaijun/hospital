@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="js/vuejs-2.5.16.js"></script>
+    <link rel="stylesheet" href="layui/css/layui.css"  media="all">
+    <script src="layui/jQuery/jquery-2.2.3.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <input type="button" @click="go" value="返回"><br><br>
+    <table>
+        <div class="layui-bg-orange">选择治疗方案</div>
+        <br>
+        <div class="layui-bg-orange">
+            <tr v-for="(item,index) in list">
+                <td><input type="radio" name="check" @click="checked(item.treatname)"/></td>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <td >{{index+1}}: {{item.treatname}}</td>
+            </tr>
+        </div>
+    </table>
+    <br> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <button style="text-align: center" class="layui-btn layui-btn-normal" @click="save">保&nbsp;&nbsp;&nbsp;&nbsp;存</button>
+</div>
+</body>
+
+<script>
+    new Vue({
+        el:"#app",
+        data:{
+            list:{},
+            treatname:{}
+        },
+        methods:{
+            go(){
+              history.go(-1);
+            },
+            save(){
+                var search = window.location.search;
+                var searchArray = search.split("=");
+                id = searchArray[1];
+                var treatname = this.treatname;
+                if(treatname==undefined){
+                    alert("还未勾选");
+                }else {
+                    $.ajax({
+                        url: "updatefollowemplateplan",
+                        type: "post",
+                        data:{
+                            "treatname":treatname,
+                            "id":id
+                        }
+                    }).success(function (data) {
+                        if(data=="true"){
+                            alert("成功");
+                            history.go(0);
+                        }else {
+                            alert("失败");
+                        }
+                    })
+                }
+            },
+            checked(tname){
+                this.treatname=tname;
+            }
+
+        },
+        mounted:function(){
+            let th = this;
+            $.ajax({
+                url: "gettemplateplan",
+                type: "post"
+            }).success(function (data) {
+                th.list = data.data ;
+            })
+
+        }
+    })
+
+</script>
+</html>

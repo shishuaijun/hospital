@@ -50,6 +50,8 @@ public class JoinGroupServiceImpl extends ServiceImpl<JoinGroupMapper, JoinGroup
     private DepartmentMapper departmentMapper;
     @Autowired
     private JoinGroupTimeMapper joinGroupTimeMapper ;
+    @Autowired
+    private JoinGroupProgressMapper joinGroupProgressMapper;
 
     @Override
     public boolean intoTheGroup(Integer desk, String illnessCoded, String illnessName, String array) {
@@ -124,6 +126,11 @@ public class JoinGroupServiceImpl extends ServiceImpl<JoinGroupMapper, JoinGroup
                         joinGroup.setGroupTime(LocalDateTime.now());
                         joinGroupMapper.insert(joinGroup);
                         patientMapper.deleteById(patientControlk.getPatientId());
+                        JoinGroupProgress joinGroupProgress = new JoinGroupProgress();
+                        joinGroupProgress.setPatientId(patientControlk.getPatientId());
+                        joinGroupProgress.setCondition(0);
+                        joinGroupProgress.setNextDate(LocalDateTime.now());
+                        joinGroupProgressMapper.insert(joinGroupProgress);
                     }
                 }
             }
@@ -227,6 +234,11 @@ public class JoinGroupServiceImpl extends ServiceImpl<JoinGroupMapper, JoinGroup
                     joinGroup.setGroupTime(LocalDateTime.now());
                     joinGroupMapper.insert(joinGroup);
                     patientMapper.deleteById(patientOperationInformation.getPatientId());
+                    JoinGroupProgress joinGroupProgress = new JoinGroupProgress();
+                    joinGroupProgress.setPatientId(patient.getId());
+                    joinGroupProgress.setCondition(0);
+                    joinGroupProgress.setNextDate(LocalDateTime.now());
+                    joinGroupProgressMapper.insert(joinGroupProgress);
                 }
             }
         }
@@ -278,6 +290,12 @@ public class JoinGroupServiceImpl extends ServiceImpl<JoinGroupMapper, JoinGroup
                     joinGroup.setGroupTime(LocalDateTime.now());
                     joinGroupMapper.insert(joinGroup);
                     patientMapper.deleteById(patientOperationInformation.getPatientId());
+
+                    JoinGroupProgress joinGroupProgress = new JoinGroupProgress();
+                    joinGroupProgress.setPatientId(patientOperationInformation.getPatientId());
+                    joinGroupProgress.setCondition(0);
+                    joinGroupProgress.setNextDate(LocalDateTime.now());
+                    joinGroupProgressMapper.insert(joinGroupProgress);
                 }
             }
         }
@@ -367,6 +385,11 @@ public class JoinGroupServiceImpl extends ServiceImpl<JoinGroupMapper, JoinGroup
             joinGroup.setPatientControlId(patient.getId());
             joinGroup.setGroupTime(LocalDateTime.now());
             joinGroupMapper.insert(joinGroup);
+            JoinGroupProgress joinGroupProgress = new JoinGroupProgress();
+            joinGroupProgress.setPatientId(patient.getId());
+            joinGroupProgress.setCondition(0);
+            joinGroupProgress.setNextDate(LocalDateTime.now());
+            joinGroupProgressMapper.insert(joinGroupProgress);
         }
         return true;
     }
@@ -395,7 +418,6 @@ public class JoinGroupServiceImpl extends ServiceImpl<JoinGroupMapper, JoinGroup
         if(isok){
             patients  = patientMapper.selectList(wrapper);
         }
-        System.out.println(patients);
         addUpateJoinGroup(patients,"自定义/导入-患者");
         return true;
     }
@@ -439,6 +461,14 @@ public class JoinGroupServiceImpl extends ServiceImpl<JoinGroupMapper, JoinGroup
                 joinGroup.setGroupTime(LocalDateTime.now());
                 joinGroupMapper.insert(joinGroup);
                 patientMapper.deleteById(patient.getId());
+
+                JoinGroupProgress joinGroupProgress = new JoinGroupProgress();
+                joinGroupProgress.setPatientId(patient.getId());
+                joinGroupProgress.setCondition(0);
+                joinGroupProgress.setNextDate(LocalDateTime.now());
+               joinGroupProgressMapper.insert(joinGroupProgress);
+
+
             }
         }
     }

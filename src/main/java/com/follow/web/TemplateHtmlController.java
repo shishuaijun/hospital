@@ -29,4 +29,13 @@ public class TemplateHtmlController {
         return "templateSettings/edit_template";
     }
 
+    @RequestMapping("/follow_up_list")
+    public String followUpList(){
+        return "templateSettings/follow_up_list";
+    }
+     @RequestMapping("/choiceoftreatment")
+    public String choiceoftreatment(){
+        return "templateSettings/choiceoftreatment";
+    }
+
 }
