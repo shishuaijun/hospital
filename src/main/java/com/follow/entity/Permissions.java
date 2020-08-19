@@ -66,7 +66,8 @@ public class Permissions implements Serializable {
     /**
      * 角色级别
      */
-    private String level ;
+    @TableField("followgroup_id")
+    private Integer followgroupId ;
 
 
 }

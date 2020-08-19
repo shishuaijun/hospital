@@ -4,7 +4,12 @@ import com.follow.entity.Permissions;
 import com.follow.mapper.PermissionsMapper;
 import com.follow.service.PermissionsService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.follow.vo.PermissionsFollowgroupVo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author wangchunjun
@@ -13,4 +18,41 @@ import org.springframework.stereotype.Service;
 @Service
 public class PermissionsServiceImpl extends ServiceImpl<PermissionsMapper, Permissions> implements PermissionsService {
 
+    @Autowired
+    private PermissionsMapper permissionsMapper;
+
+    @Override
+    public List<PermissionsFollowgroupVo> queryPermissionsFollowgroup(Integer page, Integer limit) {
+        Integer topPage = (page-1)*limit;
+        List<PermissionsFollowgroupVo> permissionsFollowgroupVos = new ArrayList<>();
+        for (PermissionsFollowgroupVo vo : permissionsMapper.selectPermissionsFollowgroupVo(topPage, limit)) {
+            switch (vo.getLevel()){
+                case "1":
+                    vo.setLevel("一级");
+                    break;
+                case "2":
+                    vo.setLevel("二级");
+                    break;
+                case "3":
+                    vo.setLevel("三级");
+                    break;
+                default:
+                    vo.setLevel("等级过高");
+                    break;
+            }
+            permissionsFollowgroupVos.add(vo);
+        }
+        return permissionsFollowgroupVos;
+    }
+
+    @Override
+    public Integer queryPermissionsFollowgroupSize(){
+        return permissionsMapper.selectPermissionsFollowgroupSize();
+    }
+
+    @Override
+    public PermissionsFollowgroupVo queryPermissionsById(String id) {
+        PermissionsFollowgroupVo permissionsFollowgroupVo = permissionsMapper.selectPermissionsByid(id);
+        return permissionsFollowgroupVo;
+    }
 }

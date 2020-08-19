@@ -1,7 +1,11 @@
 package com.follow.web;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * 跳转页面 控制器
@@ -139,6 +143,20 @@ public class HtmlController {
         return "maintenance_standardized_terms";
     }
 
+    /**
+     * 跳转到  设置权限 页
+     * @return
+     */
+    @RequestMapping("/permissions_set_up")
+    public String permissionsSetUp(@RequestParam(value = "deskId",required = false)Object deskId, Model model){
+        model.addAttribute("deskId",deskId);
+        System.out.println("----------------"+deskId);
+        return "permissions_set_up" ;
+    }
 
+    @RequestMapping("permissions_update")
+    public String permissionsUpdate(){
+        return  "permissions_update" ;
+    }
 
 }
