@@ -87,7 +87,7 @@
             ,cols: [
                 [
                     ,{field:'title', title:'名称' }
-                    ,{field:'rate', title:'入组率'}
+                    ,{field:'rate', title:'入组率' }
                     ,{field:'principal', title:'负责人'}
                     ,{field:'state', title:'状态',templet:function (d) {
                         if (d.state==0){
@@ -97,7 +97,9 @@
                         }
                     }}
                     ,{field:'desk', title:'科室'}
-                    ,{field:'time', title:'创建日期'}
+                    ,{field:'time', title:'创建日期',templet:function (d) {
+                        return '<span>'+d.time.toString().substring(0,11)+'</span>';
+                    }}
                     ,{fixed: 'right', title:'操作', toolbar: '#barDemo'}
                 ]
             ]

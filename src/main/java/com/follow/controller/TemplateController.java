@@ -3,21 +3,19 @@ package com.follow.controller;
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.follow.common.EmptyUtils;
-import com.follow.common.JSONResult;
 import com.follow.common.ResultEum;
+import com.follow.dto.DataResult;
 import com.follow.dto.DataUtil;
 import com.follow.entity.TemplateCommon;
 import com.follow.entity.TemplateForm;
 import com.follow.service.TemplateCommonService;
 import com.follow.service.TemplateFormService;
 import com.github.pagehelper.PageInfo;
-import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -82,9 +80,9 @@ public class TemplateController {
      * @return
      */
     @PostMapping("/getcommontemplate")
-    public JSONResult getcommontemplate(){
+    public DataResult getcommontemplate(){
         List<TemplateCommon> list = templateCommonService.list();
-        return new JSONResult(ResultEum.SUCCESS,(long)list.size(),list);
+        return new DataResult(ResultEum.SUCCESS,(long)list.size(),list);
 
     }
 
@@ -114,12 +112,11 @@ public class TemplateController {
      * @return
      */
     @RequestMapping("/getmessagetemplate")
-    public JSONResult getMessageTemplate(Integer id){
-        System.out.println(id);
+    public DataResult getMessageTemplate(Integer id){
         TemplateForm templateForm = templateFormService.getById(id);
         ArrayList<TemplateForm> templateForms = new ArrayList<>();
         templateForms.add(templateForm);
-        return new JSONResult(ResultEum.SUCCESS,0L,templateForms);
+        return new DataResult(ResultEum.SUCCESS,0L,templateForms);
     }
 
     /**
@@ -147,7 +144,6 @@ public class TemplateController {
      */
     @PostMapping("/updatestatetemplate")
     public String updatestatetemplate(Integer id){
-        System.out.println(id);
         TemplateForm byId = templateFormService.getById(id);
         boolean isok = false;
         if(byId.getState()!=3){

@@ -177,14 +177,13 @@ public class FollowUpPorgressServiceImpl implements FollowUpPorgressService {
 
     @Override
     public List<FollowUpTheRateVO> theRatelist(String principal, Integer desk, Integer state, String time,Integer page,Integer limit) {
-        System.out.println(page);
-        System.out.println(limit);
-        System.out.println(principal);
-        System.out.println(desk);
-        System.out.println(state);
-        System.out.println(time);
-        String begintime ="2020-08-11";
-        String endtime ="2020-08-20";
+        String begintime ="";
+        String endtime ="";
+        if(EmptyUtils.isNotEmpty(time)){
+           String[] split = time.split(" , ");
+            begintime = split[0];
+            endtime = split[1];
+        }
         Integer startPage = (page-1) * limit;
         List<FollowUpTheRateVO> theRatelist = followUpPorgressMapper.getTheRatelist(principal, desk, state, begintime, endtime ,startPage,limit);
         return theRatelist;

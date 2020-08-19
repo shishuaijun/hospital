@@ -2,8 +2,8 @@ package com.follow.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.follow.common.EmptyUtils;
-import com.follow.common.JSONResult;
 import com.follow.common.ResultEum;
+import com.follow.dto.DataResult;
 import com.follow.dto.DataUtil;
 import com.follow.service.FollowUpPorgressService;
 import com.follow.vo.FollowUpCheckVO;
@@ -62,9 +62,9 @@ public class FollowUpProgressController {
      * @return
      */
     @PostMapping("/getcheckbypatientidlist")
-    public JSONResult getCheckByPatientIdList(Integer id){
+    public DataResult getCheckByPatientIdList(Integer id){
         List<FollowUpCheckVO> list = followUpPorgressService.getList(id);
-        return new JSONResult(ResultEum.SUCCESS,0L,list);
+        return new DataResult(ResultEum.SUCCESS,0L,list);
     }
 
     /**
@@ -91,10 +91,10 @@ public class FollowUpProgressController {
      * @return
      */
     @PostMapping("/getfollowuplist")
-    public JSONResult getfollowuplist(){
+    public DataResult getfollowuplist(){
 
         List<FollowUpResultVO> list = followUpPorgressService.followUpResult();
-        return new JSONResult(ResultEum.SUCCESS,0L,list);
+        return new DataResult(ResultEum.SUCCESS,0L,list);
     }
     /**
      * 导出 随访组 信息
