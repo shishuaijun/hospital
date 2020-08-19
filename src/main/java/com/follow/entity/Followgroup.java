@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -116,6 +115,7 @@ public class Followgroup implements Serializable {
     /**
      * 疾病id
      */
+    @TableField(value = "disease_id")
     private Integer diseaseId;
 
     /**

@@ -2,9 +2,154 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title></title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="layui/css/layui.css"  media="all">
+    <script src="layui/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="js/vuejs-2.5.16.js"></script>
+    <style>
+
+        #search
+        {
+            margin: 10px 0;
+            height :50%;
+            width:45%;
+            float:left;
+            font-size: 28px;
+        }
+        #search2
+        {
+            margin: 10px 0;
+            height :50%;
+            width:45%;
+            float:right;
+            font-size: 28px;
+        }
+    </style>
 </head>
 <body>
- 随访记录页面
+
+ <div id="app">
+
+     <div id="search">
+         <div id="pim"></div>
+         <div id="cure"></div>
+     </div>
+     <div id="search2">
+         <div >
+             <input style="text-align: center;" type="button" value="保存" @click="save"><br>
+             <span style="color: #0a6cd6">基本信息</span> <br>
+             姓名<input type="text" disabled="disabled" v-model="base.name"/>
+             性别<input type="text"  disabled="disabled" v-model="base.sex">
+                 </input> <br>
+             出生日期<input type="text" disabled="disabled" v-model="base.birthday"/>
+             手机号<input type="text" disabled="disabled" v-model="base.phone"/> <br>
+             <span style="color: #0a6cd6">体格检查 </span> <br>
+             身高<input type="text"  v-model="base.height">cm
+             体重<input type="text"  v-model="base.weigth">kg
+             <br>BMI<input type="text" v-model="base.abbr">
+             <br>
+                 <span style="color: #0a6cd6"> 实验室检查</span><br>
+             白细胞 <input type="text"  v-model="base.hemameba"> mmol/L
+             血糖 <input type="text"  v-model="base.glucometer"> mmol/L
+         </div>
+     </div>
+
+ </div>
 </body>
+
+<script>
+
+    $(function() {
+        //获取要查询的id
+        var search = window.location.search;
+        var searchArray = search.split("=");
+        id = searchArray[1];
+        if(id==undefined){
+            window.location.href="follow_progress_management";
+            alert("选择 您要查看 的患者");
+        }else{
+            $.ajax({
+                url:"getpatientrecords",
+                type:"post",
+                data:{
+                    "id":id
+                }
+            }).success(function (res) {
+                var data = res.data[0];
+                var o ='<strong>'+data.patientName+'</strong>&nbsp;&nbsp;&nbsp;'+data.adminssionnumber +'<a style="text-align: right;color: #00F7DE" href="follow_progress_management">&nbsp;&nbsp;&nbsp;<i class="layui-icon layui-icon-prev"></i>返回</a><br>'+
+                    '住院号 '+data.outpaientnumber+'<br>'+
+                    '出生日期 '+data.birthday+'<br><br>'+
+                    '<span style="color: #1E9FFF;"onclick="look()">展开其他随访组</span><br><br>' ;
+                $("#pim").append(o);
+            }),
+            $.ajax({
+                url:"getprogress",
+                type:"post",
+                data:{
+                    "id":id
+                }
+            }).success(function (res) {
+                var data = res.data[0];
+                var treatmentScheme=""
+                if(data.treatmentScheme != null){
+                    treatmentScheme =data.treatmentScheme;
+                }
+                var v = '<span style="color: #ff4f06;" onclick="select()">选择治疗方案</span><br>'+
+                        '<td>' + treatmentScheme + '</td>';
+                $("#cure").append(v);
+            })
+        }
+    });
+
+    function look() {
+        window.location.href="follow_up_list?id=";
+    }
+    function select() {
+        var search = window.location.search;
+        var searchArray = search.split("=");
+        id = searchArray[1];
+        window.location.href="choiceoftreatment?id="+id;
+    }
+    new Vue({
+        el:"#app",
+        data:{
+            base:{},
+        },
+        methods:{
+            save(){
+                $.ajax({
+                    url: "updatecheckbypatientid",
+                    type: "post",
+                    data: this.base
+                }).success(function (data) {
+                   if(data=="true"){
+                       alert("录入成功");
+                       history.go(0);
+                   }else {
+                       alert("录入失败");
+                   }
+                })
+            }
+        },
+        mounted:function(){
+            //获取要查询的id
+            var search = window.location.search;
+            var searchArray = search.split("=");
+            id = searchArray[1];
+            let th = this;
+            $.ajax({
+                url: "getcheckbypatientidlist",
+                type: "post",
+                data:{
+                    "id": id
+                }
+            }).success(function (data) {
+                th.base = data.result[0];
+            })
+        }
+    });
+</script>
 </html>

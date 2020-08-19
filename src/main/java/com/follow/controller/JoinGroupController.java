@@ -5,9 +5,8 @@ import com.alibaba.fastjson.JSON;
 import com.follow.common.EmptyUtils;
 import com.follow.common.JSONResult;
 import com.follow.common.ResultEum;
-import com.follow.entity.Department;
-import com.follow.entity.Result;
-import com.follow.entity.User;
+import com.follow.dto.DataUtil;
+import com.follow.entity.*;
 import com.follow.service.*;
 import com.follow.vo.CustomPatientVO;
 import com.follow.vo.CustomVo;
@@ -24,6 +23,8 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,9 +40,13 @@ public class JoinGroupController {
     @Autowired
     private RoleService roleService;
     @Autowired
+    private PatientService patientService;
+    @Autowired
     private DepartmentService departmentService;
     @Autowired
     private ResultService resultService;
+    @Autowired
+    private FollowgroupService followgroupService;
 
     /**
      * 根据条件 将患者 进行入组
@@ -140,6 +145,40 @@ public class JoinGroupController {
         return jsonResult;
     }
 
+    /**
+     * 获取随访组 名称
+     * @return
+     */
+    @PostMapping("/getfollowUpGroupname")
+    public JSONResult<Followgroup> getFollowUpGroupName() {
+        List<Followgroup> list = followgroupService.list();
+        JSONResult<Followgroup> jsonResult = null ;
+        long size = list.size();
+        jsonResult = new JSONResult<Followgroup>(ResultEum.SUCCESS, size,list);
+        return jsonResult;
+    }
+
+    /**
+     * 获取患者 信息
+     * @return
+     */
+    @PostMapping("/getpatientrecords")
+    public DataUtil getatientrRecords(Integer id) {
+        ArrayList<CustomVo> patients = new ArrayList<>();
+        Patient byId = patientService.getById(id);
+        CustomVo customVo = new CustomVo();
+        customVo.setPatientName(byId.getPatientName());
+        customVo.setAdminssionnumber(byId.getSex()==1?"男":"女");
+        customVo.setOutpaientnumber(byId.getAdminssionnumber());
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String localTime = df.format(byId.getBirthday());
+        String substring = localTime.substring(0,11);
+        customVo.setBirthday(substring);
+        patients.add(customVo);
+        DataUtil<CustomVo> patientDataUtil = new DataUtil<>();
+        patientDataUtil.setData(patients);
+        return patientDataUtil;
+    }
     /**
      * 获取结果集 列表
      * @return

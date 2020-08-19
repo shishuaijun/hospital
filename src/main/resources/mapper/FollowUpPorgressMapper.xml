@@ -7,7 +7,7 @@
 
     SELECT j.group_name groupName ,group_time groupTime,o.condition,next_date nextDate,p.id ,patient_name name,adminssionnumber,outpaientnumber,sex,birthday
      FROM join_group j,join_group_progress o,patient p
-     where p.is_joingroup = 0 and p.id = j.patient_control_id and p.id  =o.patient_id
+     where p.id = j.patient_control_id and p.id  =o.patient_id
         <if test="beginDate !=null and beginDate !=''">
             <!-- and j.group_time BETWEEN '#{beginDate}' AND '#{endDate}'
             and o.next_date BETWEEN '#{beginDate}' AND '#{endDate}'-->
