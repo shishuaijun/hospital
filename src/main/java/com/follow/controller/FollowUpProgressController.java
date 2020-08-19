@@ -9,6 +9,7 @@ import com.follow.service.FollowUpPorgressService;
 import com.follow.vo.FollowUpCheckVO;
 import com.follow.vo.FollowUpProgressVO;
 import com.follow.vo.FollowUpResultVO;
+import com.follow.vo.FollowUpTheRateVO;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -128,4 +129,22 @@ public class FollowUpProgressController {
             return JSON.toJSONString(isok);
         }
     }
+
+    @RequestMapping("/getOverviewprogresslist")
+    public DataUtil<FollowUpTheRateVO> getTheRatelist(String principal,Integer desk,Integer state,String time,Integer page,Integer limit){
+
+       List<FollowUpTheRateVO> list = followUpPorgressService.theRatelist(principal, desk, state, time,page,limit);
+        DataUtil<FollowUpTheRateVO> dataUtil = new DataUtil<>();
+        int count = 0 ;
+        if(EmptyUtils.isNotEmpty(list)){
+            count = list.size();
+        }
+        dataUtil.setCode(0);
+        dataUtil.setMsg("成功");
+        dataUtil.setCount(count);
+        dataUtil.setData(list);
+        return dataUtil;
+    }
+
+
 }

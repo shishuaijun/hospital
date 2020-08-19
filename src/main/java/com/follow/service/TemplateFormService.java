@@ -24,4 +24,5 @@ public interface TemplateFormService extends IService<TemplateForm> {
      * @return
      */
     boolean updateMessageTemplate(Integer id, String text);
+
 }

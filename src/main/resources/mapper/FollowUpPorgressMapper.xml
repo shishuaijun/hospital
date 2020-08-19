@@ -35,4 +35,27 @@
         </if>
     LIMIT #{startPage} ,#{limit}
     </select>
+
+    <select id="getTheRatelist" resultType="com.follow.vo.FollowUpTheRateVO">
+        SELECT f.f_name title,u.user_name principal,f.fstate state, d.department_name desk ,f.`create_time` time FROM followgroup f ,department d ,`user` u
+        where f.is_delete = 0
+        AND f.department_id =d.id
+        AND f.department_person = u.id
+        <if test="beginDate !=null and beginDate !=''">
+             and f.`create_time` &gt;  #{beginDate}
+        </if>
+        <if test="endDate !=null and endDate !=''">
+            and f.`create_time` &lt;  #{endDate}
+        </if>
+        <if test="principal !=null and principal !='' ">
+            and u.user_name = #{principal}
+        </if>
+        <if test="desk !=null and desk !='' ">
+            and d.id = #{desk}
+        </if>
+        <if test="state !=null and state !='' ">
+            and  f.fstate = #{state}
+        </if>
+        LIMIT #{startPage} ,#{limit}
+    </select>
 </mapper>

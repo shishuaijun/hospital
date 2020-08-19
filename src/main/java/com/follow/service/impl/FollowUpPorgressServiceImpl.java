@@ -15,6 +15,7 @@ import com.follow.service.FollowUpPorgressService;
 import com.follow.vo.FollowUpCheckVO;
 import com.follow.vo.FollowUpProgressVO;
 import com.follow.vo.FollowUpResultVO;
+import com.follow.vo.FollowUpTheRateVO;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -172,5 +173,20 @@ public class FollowUpPorgressServiceImpl implements FollowUpPorgressService {
 
 
         return i > 0;
+    }
+
+    @Override
+    public List<FollowUpTheRateVO> theRatelist(String principal, Integer desk, Integer state, String time,Integer page,Integer limit) {
+        System.out.println(page);
+        System.out.println(limit);
+        System.out.println(principal);
+        System.out.println(desk);
+        System.out.println(state);
+        System.out.println(time);
+        String begintime ="2020-08-11";
+        String endtime ="2020-08-20";
+        Integer startPage = (page-1) * limit;
+        List<FollowUpTheRateVO> theRatelist = followUpPorgressMapper.getTheRatelist(principal, desk, state, begintime, endtime ,startPage,limit);
+        return theRatelist;
     }
 }
