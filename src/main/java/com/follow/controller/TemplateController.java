@@ -10,14 +10,15 @@ import com.follow.entity.TemplateCommon;
 import com.follow.entity.TemplateForm;
 import com.follow.service.TemplateCommonService;
 import com.follow.service.TemplateFormService;
+import com.github.pagehelper.PageInfo;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -32,6 +33,7 @@ public class TemplateController {
     private TemplateFormService templateFormService;
     @Autowired
     private TemplateCommonService templateCommonService;
+
     /**
      * 获取模板 列表
      * @param page
@@ -121,7 +123,7 @@ public class TemplateController {
     }
 
     /**
-     * 添加 模板 样式
+     * 修改 模板 样式
      * @param id
      * @param text
      * @return
@@ -160,4 +162,54 @@ public class TemplateController {
         }
         return JSON.toJSONString(isok);
     }
+
+
+    /**
+     * 功能描述： TODO[ 模糊查询 + 分页 ]
+     * @auther:  Zuan~
+     * @date:  2020/8/17  16:26
+     * @param:
+     * @return:
+     */
+    @RequestMapping("/findByConditions")
+    @ResponseBody
+    public String findByConditions(String name,String modifyMan,Integer page,Integer limit){
+        PageInfo<TemplateForm> pageInfo = templateFormService.findByConditions( name, modifyMan, page, limit);
+
+        // 解决bug：最后一页删除多条数据后，页面显示无数据，需要将页数减一，重新进行查询
+        while (pageInfo.getList().size() == 0) {
+            page = page - 1;
+            pageInfo = templateFormService.findByConditions(name, modifyMan, page, limit);
+        }
+
+        //HashMap<String, Object> map = new HashMap<String, Object>();
+        HashMap<String, Object> map1 = new HashMap<String, Object>();
+
+        map1.put("code", 0);
+        map1.put("data", pageInfo.getList());
+        map1.put("count", pageInfo.getTotal());
+
+        String jsonString = JSON.toJSONString(map1);
+        return jsonString;
+    }
+
+
+
+    /**
+     * 添加 模板 样式
+     * @param text
+     * @return
+     */
+    @PostMapping("/savemessagetemplate")
+    public String savemessagetemplate(String name,String text){
+        boolean isok2 = false;
+        try {
+            isok2 = templateFormService.savemessagetemplate(name,text);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            return JSON.toJSONString(isok2);
+        }
+    }
+
 }

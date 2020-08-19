@@ -20,6 +20,7 @@
 
         $(function () {
 
+
             //加载表格数据
             table.render({
                 elem: '#mytable', //绑定表格的id
@@ -133,6 +134,73 @@
     </script>
 
 
+    <!-- 模糊查询 + 分页 -->
+    <script type="text/javascript">
+        //加载表格数据
+        var loadData1 = function() {
+
+            var dictionariesName = $("#dictionariesName").val()
+            var dictionariesCod = $("#dictionariesCod").val()
+            var dictionariesCodName = $("#dictionariesCodName").val()
+            var shunxu = $("#shunxu").val()
+
+            //加载表格数据
+            table.render({
+                elem: '#mytable', //绑定表格的id
+                url: '/findByConditions1',
+                width: 1100,
+                method: 'get',
+                where:{
+                    dictionariesName:dictionariesName,
+                    dictionariesCod:dictionariesCod,
+                    dictionariesCodName:dictionariesCodName,
+                    shunxu:shunxu
+                },
+                cols: [
+                    [{
+                        title: '序号',
+                        field: 'id',
+                        width: 60,
+                        type: 'id',
+                        fixed: 'left'
+                    }, {
+                        field: 'dictionariesName',
+                        title: '字典名称',
+                        align: 'center', //字体居中
+                        width: 200
+                    }, {
+                        field: 'dictionariesCod',
+                        title: '值编码',
+                        align: 'center', //字体居中
+                        width: 100
+                    }, {
+                        field: 'dictionariesCodName',
+                        title: '值名称',
+                        align: 'center', //字体居中
+                        width: 150
+                    }, {
+                        field: 'shunxu',
+                        title: '顺序',
+                        align: 'center', //字体居中
+                        width: 150
+                    }, {
+                        width: 350,
+                        align: 'center',
+                        fixed: 'right',
+                        title: '操作',
+                        toolbar: '#myoperate'
+                    }]
+                ],
+                limits: [5, 10], //每页条数的选择项，默认：[10,20,30,40,50,60,70,80,90]。
+                limit: 5,
+                page: true //是否开启分页
+            });
+
+
+        }
+
+    </script>
+
 </head>
 
 
@@ -185,9 +253,13 @@
                         </div>
                     </div>
 
-                    <button type="button" class="layui-btn" data-type="reload" id="search">搜索</button>
-                    <button type="reset" class="layui-btn">重置</button>
-
+                    <!--按钮-->
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn" type="button" onclick="loadData1()">查询</button>
+                            <button class="layui-btn layui-btn-primary" type="reset">重置</button>
+                        </div>
+                    </div>
                 </form>
                 <br>
                 <div>

@@ -177,6 +177,16 @@ public class HtmlController {
 
 
     /**
+     * 跳转到  标准化模板添加  页
+     * @return
+     */
+    @RequestMapping("/template_add")
+    public String templateadd(){
+        return "template_add";
+    }
+
+
+    /**
      * 跳转到  标准化术语维护  页
      * @return
      */
@@ -251,6 +261,7 @@ public class HtmlController {
     public String diseaseupdate(){
         return "disease_update";
     }
+
 
 
 
