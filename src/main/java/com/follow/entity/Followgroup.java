@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -112,6 +111,12 @@ public class Followgroup implements Serializable {
      */
     @TableField(value = "modify_time",select = false)
     private Date modifyTime;
+
+    /**
+     * 疾病id
+     */
+    @TableField(value = "disease_id")
+    private Integer diseaseId;
 
     /**
      * 是否删除（0：否，1：是）

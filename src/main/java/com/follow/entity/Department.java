@@ -34,8 +34,9 @@ public class Department implements Serializable {
     /**
      * 负责人
      */
-    @TableField("department_boss")
+    @TableField(value="department_boss")
     private String departmentBoss;
+
 
     public Department(Integer id, String departmentName, Integer hospitalId, String departmentBoss) {
         this.id = id;

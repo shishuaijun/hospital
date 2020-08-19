@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.follow.mapper.TemplateFormMapper">
+	<resultMap id="BaseResultMap" type="com.follow.entity.TemplateForm">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="content" jdbcType="VARCHAR" property="content" />
+		<result column="basics_content" jdbcType="VARCHAR" property="basicsContent" />
+		<result column="version" jdbcType="INTEGER" property="version" />
+		<result column="state" jdbcType="INTEGER" property="state" />
+		<result column="modify_man" jdbcType="VARCHAR" property="modifyMan" />
+		<result column="is_input_data" jdbcType="INTEGER" property="isInputData" />
+		<result column="creation_time" jdbcType="VARCHAR" property="creationTime" />
+		<result column="modify_time" jdbcType="VARCHAR" property="modifyTime" />
+		<result column="is_delete" jdbcType="VARCHAR" property="isDelete" />
+	</resultMap>
+
+
+
+	<select id="findByConditions" resultMap="BaseResultMap">
+		select
+			id,name,version,modify_man,modify_time,creation_time from template_form where 1=1
+		<if test="name!='' and name!=null">
+			and name like concat('%',#{name},'%')
+		</if>
+		<if test="modifyMan!='' and modifyMan!=null">
+			and modify_man like concat('%',#{modifyMan},'%')
+		</if>
+		limit #{page}, #{limit}
+	</select>
+
+
+
+
+</mapper>

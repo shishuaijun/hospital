@@ -27,10 +27,15 @@ public class JoinGroup implements Serializable {
     private String groupName;
 
     /**
+     * 入组规则
+     */
+    private String rule;
+
+    /**
      * 患者id
      */
-    @TableField(value = "patientControl_id")
-    private String patientControlId;
+    @TableField(value = "patient_control_id")
+    private Integer patientControlId;
 
     /**
      * 入组时间

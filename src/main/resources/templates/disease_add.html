@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>病种数据库添加页面</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+
+
+     <script src="resources/scripts/jquery-1.7.1.min.js"></script>
+     <script src="resources/scripts/jquery-ui-1.8.10.custom.min.js"></script>
+
+    <script type="text/javascript" src="layui/layui.all.js"></script>
+
+    <script type="text/javascript">
+     /*   $axure.utils.getTransparentGifPath = function () {
+            return 'resources/images/transparent.gif';
+        };
+        $axure.utils.getOtherPath = function () {
+            return 'resources/Other.html';
+        };
+        $axure.utils.getReloadPath = function () {
+            return 'resources/reload.html';
+        };*/
+    </script>
+    <script>
+
+        //		返回至分组管理页面
+        var fanhui = function () {
+            window.location = "disease_type_database.html"
+        }
+
+    </script>
+
+    <script type="text/javascript">
+        var form = layui.form;
+
+        //提交
+        var saveDiseaseDabtabase = function () {
+
+
+            //疾病编号（文本框）
+            var diseaseNumber = $("#diseaseNumber").val()
+
+            //疾病名称（文本框）
+            var diseaseName = $("#diseaseName").val()
+
+            //状态（下拉框）
+            var pid = $("[name='pid']:checked").val()
+
+
+            // 如果错误计数器为0， 则认为校验通过，可以提交给后台处理
+
+            $.ajax({
+                url: "/saveDiseaseDabtabase",
+                type: "post",
+                data: {
+                    diseaseNumber: diseaseNumber,
+                    diseaseName: diseaseName,
+                    pid: pid
+                }, //要传的值，以键值对的形式存在
+                success: function (data) { //data是变量，是服务器传到jsp的数据。相当于以前从Servlet转发到jsp
+
+                    if (data == "yes") {
+
+                        layer.alert("添加成功！", function () {
+                            back();
+                        })
+
+                    } else {
+                        layer.alert("添加失败，请重试！")
+                    }
+
+                }
+            });
+        }
+
+        //返回
+        var back = function() {
+            window.location = "disease_type_database.html";
+        }
+    </script>
+</head>
+<body>
+<form class="layui-form">
+    <div id="u106" class="ax_default paragraph">
+        <p><span style="text-decoration:underline;">
+            <input type="button" class="layui-btn layui-btn" value="返回病种数据库" onclick="back()"/>
+        </span></p>
+    </div>
+
+    <div style="margin-top: 100px;margin-left: 10px; ">
+        <table id="table1" align="center" border="1" style="float:right;top:10px;right:10px;" >
+            <tr>
+                <td><label class="layui-form-label">疾病编号：</label></td>
+
+                <td><input id="diseaseNumber" type="text" value="" placeholder="如A10或B20"/></td>
+
+            </tr>
+            <tr>
+                <td>疾病名称：</td>
+                <td><input id="diseaseName" type="text" value=""/></td>
+            </tr>
+
+
+            <tr>
+                <td>父类id：</td>
+                <td>
+                    <div class="layui-input-block" style="width: 100px;">
+                        <select id="pid" >
+                            <option value="0">未分类</option>
+                            <option value="1">神经内科</option>
+                            <option value="2">肾内科</option>
+                            <option value="3">内分泌</option>
+                        </select>
+                    </div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td rowspan="2" align="center">
+                    <div class="layui-input-block" align="center">
+                        <button class="layui-btn" type="button" onclick="saveDiseaseDabtabase()"> 保 存 </button>
+                        <button class="layui-btn layui-btn-primary" type="reset"> 重 置 </button>
+                        <button class="layui-btn" type="button" onclick="fanhui()"> 返 回 </button>
+                    </div>
+                </td>
+
+            </tr>
+
+        </table>
+    </div>
+
+
+</form>
+
+
+</body>
+</html>

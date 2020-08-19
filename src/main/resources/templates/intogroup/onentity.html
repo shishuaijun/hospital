@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="layui/css/layui.css"  media="all">
+    <script src="layui/jQuery/jquery-2.2.3.min.js"></script>
+
+    <script>
+
+
+       function save() {
+           var illnessCoded = $("#illnessCoded").val();
+           var illnessName = $("#illnessName").val();
+           if (illnessCoded =="" && illnessName==""){
+              alert("还没填写信息 哦");
+              return;
+           }
+           $.ajax({
+               url:"intotheroupupdate",
+               method:"post",
+               data:{
+                   "illnessCoded":illnessCoded,
+                   "illnessName":illnessName
+               }
+           }).success(function (data) {
+               alert("成功");
+               history.go(0);
+           }).error(function (data) {
+               console.log("服务器异常");
+           })
+       }
+    </script>
+</head>
+<body>
+
+<div class="layui-form-item">
+    <label class="layui-form-label">疾病编码</label>
+    <div class="layui-input-inline">
+        <input type="text" name="illnessCoded" id="illnessCoded" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+    </div>
+</div>
+<div class="layui-form-item">
+    <br><br>
+    <label class="layui-form-label">疾病名称</label>
+    <div class="layui-input-inline">
+        <input type="text" name="illnessName" id="illnessName" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
+    </div>
+</div>
+<div >
+    <br><br>
+    <div style="width: 216px; margin: 0;">
+        <button type="button" onclick="save()" class="layui-btn layui-btn-fluid">保&nbsp;&nbsp;&nbsp;&nbsp;存</button>
+    </div>
+</div>
+</body>
+</html>

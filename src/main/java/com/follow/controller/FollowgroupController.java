@@ -4,20 +4,30 @@ package com.follow.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.follow.common.Execel;
+import com.follow.common.*;
 import com.follow.dto.DataUtil;
 import com.follow.entity.Followgroup;
+import com.follow.mapper.FollowgroupMapper;
 import com.follow.service.FollowgroupService;
-import lombok.val;
-import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -33,6 +43,9 @@ public class FollowgroupController {
     @Autowired
     private FollowgroupService followgroupService;
 
+    @Resource
+    private FollowgroupMapper followgroupMapper;
+
 
     /**
      * 全查
@@ -43,13 +56,12 @@ public class FollowgroupController {
     @RequestMapping(value = "findPage", produces = {"application/json"})
     @ResponseBody
     public String findPage(Integer page, Integer limit) {
-        List<Followgroup> a = followgroupService.list();
-
+        Page<Followgroup> page1 = followgroupService.page(new Page<>(page, limit));
         DataUtil dataUtil = new DataUtil();
         dataUtil.setCode(0);
         dataUtil.setMsg("success");
-        dataUtil.setCount(a.size());
-        dataUtil.setData(a);
+        dataUtil.setCount((int)page1.getTotal());
+        dataUtil.setData(page1.getRecords());
 
         JSONObject json = new JSONObject();
 
@@ -149,5 +161,124 @@ public class FollowgroupController {
         }
         return "no";
     }
+
+
+    /**
+     * 功能描述： TODO[ 进行导入导出，需要有 相应流方法 ]
+     * @auther:  Zuan~
+     * @date:  2020/8/13  9:05
+     * @param:
+     * @return:
+     */
+    public void setResponseHeader(HttpServletResponse response,String fileName){
+        try{
+            try {
+                fileName = new String(fileName.getBytes(),"utf-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            response.setContentType("application/octet-stream;charset=utf-8");
+            response.setHeader("Content-Disposition", "attachment;filename="+fileName);
+            response.addHeader("Pargam", "no-cache");
+            response.addHeader("Cache-Control","no-cache");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * 功能描述： TODO[ 文档导入，excel表格导入 ]
+     * @auther:  Zuan~
+     * @date:  2020/8/13  9:14
+     * @param:
+     */
+    @RequestMapping("/daoru")
+    @ResponseBody
+    public String daoru(@RequestParam("file") MultipartFile[] file){
+        List<Followgroup> list = new ArrayList<>();
+        for(MultipartFile f : file){
+            try{
+                List<String[]> list1 = Execel.readExcel(f);
+                int i=0;
+                for(String[] strings : list1){
+                    if(i == 1){
+                        Followgroup registration = new Followgroup();
+
+                        registration.setFName(strings[0]);
+                        registration.setHospitalId(Integer.parseInt(strings[1]));
+                        registration.setDepartmentPerson(Integer.parseInt(strings[2]));
+                        registration.setDepartmentId(Integer.parseInt(strings[3]));
+                        registration.setFphone(strings[4]);
+                        registration.setFbackground(strings[5]);
+                        registration.setDiseaseId(Integer.parseInt(strings[6]));
+                        registration.setIsDelete(0);
+                        registration.setCreateTime(new Date());
+                        list.add(registration);
+                    }else{
+                        i++;
+                    }
+                }
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+        }
+        for(Followgroup followgroup : list){
+            followgroupService.insert(followgroup);
+        }
+        return "成功";
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/daochu")
+    public void daochu(HttpServletResponse response){
+        String message="";
+
+        //获取数据
+        List<Followgroup> list = followgroupMapper.selectAll();
+
+        //execel 标题
+        String[] title = {"随访组名称","医院id","负责人","责任科室","联系电话","背景","疾病id"};
+
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+
+        //execel 文件名
+        String fileName = sf.format(date)+".xls";
+
+        //sheet 名
+        String sheetName = "随访组";
+
+        String[][] content = new String[list.size()][];
+        for(int i=0;i<list.size();i++){
+            content[i] = new String[title.length];
+            Followgroup reg = list.get(i);
+            content[i][0] = reg.getFName()+"";
+            content[i][1] = reg.getHospitalId()+"";
+            content[i][2] = reg.getDepartmentPerson()+"";
+            content[i][3] = reg.getDepartmentId()+"";
+            content[i][4] = reg.getFphone()+"";
+            content[i][5] = reg.getFbackground()+"";
+            content[i][6] = reg.getDiseaseId()+"";
+        }
+
+        //创建 HSSFWorkbook
+        HSSFWorkbook wb = ExecelUtil.getHSSFWorkbook(sheetName,title,content,null);
+
+        //相应到客户端
+        try{
+            this.setResponseHeader(response,fileName);
+            OutputStream os = response.getOutputStream();
+            wb.write(os);
+            os.flush();
+            os.close();
+            message = "SUCCESS";
+        }catch(Exception e){
+            e.printStackTrace();
+            message = "ERROR";
+        }
+    }
+
 }
 

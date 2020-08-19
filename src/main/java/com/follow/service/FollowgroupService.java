@@ -12,4 +12,6 @@ import java.util.List;
  */
 public interface FollowgroupService extends IService<Followgroup>{
 
+    void insert(Followgroup followgroup);
+
 }

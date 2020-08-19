@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>病种数据库建立</title>
+
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <script type="text/javascript" src="layui/jQuery/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="layui/jQuery/jquery-2.2.3.min.js"></script>
+    <script type="text/javascript" src="layui/layui.all.js"></script>
+
+    <script type="text/javascript" src="layui/plugins/angularjs/angular.min.js"></script>
+    <script type="text/javascript" src="layui/plugins/angularjs/angular-animate.min.js"></script>
+    <script type="text/javascript" src="layui/plugins/angularjs/toaster.min.js"></script>
+
+
+    <script>
+        var table = layui.table;
+
+        $(function() {
+
+            //加载表格数据
+            table.render({
+                elem: '#mytable', //绑定表格的id
+                url:  '/findDisease',
+                width: 1100,
+                method: 'post',
+                cols: [
+                    [{
+                        title: '序号',
+                        field: 'id',
+                        width: 60,
+                        type: 'id',
+                        fixed: 'left'
+                    }, {
+                        field: 'diseaseNumber',
+                        title: '疾病编号',
+                        align: 'center', //字体居中
+                        width: 200
+                    }, {
+                        field: 'diseaseName',
+                        title: '疾病名称',
+                        align: 'center', //字体居中
+                        width: 100
+                    }, {
+                        field: 'pid',
+                        title: '父类id',
+                        align: 'center', //字体居中
+                        width: 150
+                    }, {
+                        width: 550,
+                        align: 'center',
+                        fixed: 'right',
+                        title: '操作',
+                        toolbar: '#myoperate'
+                    }]
+                ],
+                limits: [5, 10], //每页条数的选择项，默认：[10,20,30,40,50,60,70,80,90]。
+                limit: 5,
+                page: true //是否开启分页
+            });
+
+        })
+
+        table.on('tool(mytable)', function(obj) {
+
+            //获取当前的JSON对象，可以通过data.属性获取对应的属性值
+            var data = obj.data;
+            console.log(data.id)
+
+            //删除操作
+            if(obj.event === 'deleteDisease') {
+
+
+                layer.confirm('确认删除病种记录中名为【' + data.diseaseName + '】的记录吗？', {
+                    icon: 3,
+                    title: '提示'
+                }, function(index) {
+
+                    $.ajax({
+                        url: "/deleteDisease", //地址
+                        type: "post", //请求类型  看1
+                        data: {
+                            id: data.id
+                        }, //要传的值，以键值对的形式存在
+                        success: function(q) { //data是变量，是服务器传到jsp的数据。相当于以前从Servlet转发到jsp
+
+                            if(q == "yes") {
+
+                                layer.alert("删除成功！", function() {
+
+                                    //关闭弹框
+                                    layer.closeAll();
+                                    //重载表格数据
+                                    table.reload("mytable");
+
+                                    //删除当前行dom元素
+                                    //										obj.del();
+                                })
+
+                            } else {
+                                layer.alert("删除失败，请重试！")
+                            }
+
+                        }
+                    });
+
+                });
+            }
+
+
+            //				跳转至修改页面
+            if(obj.event === 'updateDisease') {
+                window.location = "disease_update.html?id=" + data.id;
+            }
+
+
+            //				跳转至诊疗方案页面
+            if (obj.event === 'treatmentplan') {
+
+                window.location = "treatment_plan.html?id=" + data.id;
+            }
+
+
+
+            //添加诊疗方案treatmentplanadd
+            if (obj.event === 'treatmentplanadd') {
+                window.location = "disease_treatment_add.html?id=" + data.id;
+            }
+
+        })
+    </script>
+
+    <script type="text/javascript">
+        function addDisease() {
+            window.location = "disease_add.html";
+        }
+    </script>
+
+
+</head>
+
+
+<body class="layui-layui-body">
+
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">病种数据库管理</div>
+    </div>
+
+
+
+    <div class="layui-body">
+
+        <div class="layui-card">
+            <!-- 内容主体区域 -->
+            <!--
+                作者：offline
+                时间：2020-08-06
+               描述：表格区域
+             -->
+            <div class="layui-card-body">
+
+                <input type="button" class="layui-btn layui-btn" value="新增" onclick="addDisease()" />
+
+                <table id="mytable" lay-filter="mytable"></table>
+
+                <script type="text/html" id="myoperate">
+                    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="updateDisease">编辑</a>
+                    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="deleteDisease">删除</a>
+                    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="treatmentplan">查看诊疗方案</a>
+                    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="treatmentplanadd">添加诊疗方案</a>
+                </script>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        <center>阳光嘉运科技有限公司&copy;2017-2019</center>
+    </div>
+
+</div>
+
+
+</body>
+</html>

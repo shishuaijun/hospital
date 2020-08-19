@@ -63,7 +63,7 @@
               templet : "<div>{{layui.util.toDateString(d.sbj_start, 'yyyy-MM-dd HH:mm:ss')}}</div>",
               width: 250
             }, {
-              width: 250,
+              width: 350,
               align: 'center',
               fixed: 'right',
               title: '操作',
@@ -81,7 +81,7 @@
 
         //获取当前的JSON对象，可以通过data.属性获取对应的属性值
         var data = obj.data;
-
+        console.log(data.diseaseId)
         //删除操作
 
         if(obj.event === 'delete') {
@@ -130,6 +130,20 @@
           window.location = "group_update.html?id=" + data.id;
         }
 
+
+        //				跳转至诊疗方案页面
+        if(obj.event === 'treatmentplan') {
+
+          window.location = "treatment_plan.html?diseaseId=" + data.diseaseId;
+        }
+
+        //				跳转至第二种诊疗方案页面
+        if(obj.event === 'treatmentplan1') {
+
+          window.location = "treatment_plan1.html?diseaseId=" + data.diseaseId;
+        }
+
+
       });
 
       //			跳转至新增页面
@@ -137,16 +151,40 @@
         window.location = "set_groups.html"
       }
 
-      //			跳转至修改页面
-      //var update = function() {
-      //  window.location = "group_update.html?id=" + data.id;
-      //}
-
-
 
     </script>
 
 
+
+    <script type="text/javascript">
+      function daoru(){
+        var myf = new FormData();
+        $.each($("#file")[0].files,function(index,item){  //循环获取需要的文件，
+          console.log(item);
+          myf.append('file',item);
+        })
+
+        $.ajax({
+          url:"daoru",
+          type:"post",
+          data:myf,
+          async:false,
+          contentType:false,  //避免后台解析成字符串类型
+          processData:false,
+
+          success: function(result){
+            alert(result);
+            window.history.go(0);
+          }
+        });
+      }
+
+
+
+      function daochu(){
+        window.location.href = "daochu";
+      }
+    </script>
 
 
 
@@ -174,12 +212,17 @@
         <div class="layui-card-body">
 
           <input type="button" class="layui-btn layui-btn" value="新增" onclick="add()" />
+          <input type="button" class="layui-btn layui-btn" value="导出" onclick="daochu()" data-toggle="modal" />
+          <input type="file" multiple="multiple" name="file" id="file" style="width: 300px;height: 25px"/>
+          <input type="button" class="layui-btn layui-btn" data-toggle="modal" value="导入" onclick="daoru()" />
 
           <table id="mytable" lay-filter="mytable"></table>
 
           <script type="text/html" id="myoperate">
             <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="update">编辑</a>
             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
+            <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="treatmentplan">第一种诊疗方案</a>
+            <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="treatmentplan1">第二种诊疗方案</a>
           </script>
 
         </div>

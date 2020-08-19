@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="js/vuejs-2.5.16.js"></script>
+    <link rel="stylesheet" href="layui/css/layui.css"  media="all">
+    <script src="layui/jQuery/jquery-2.2.3.min.js"></script>
+</head>
+<body>
+    <div id="app">
+            <table>
+              <div class="layui-bg-orange">选择结果集</div>
+                <br>
+                <div class="layui-bg-orange">
+                <tr v-for="(item,index) in list">
+                    <td><input type="radio" name="check" @click="checked(item.id)"/></td>
+                   <td >查询条件{{index+1}}: {{item.name}}名称等于{{item.result}}</td>
+                </tr>
+                </div>
+            </table>
+        <br> <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <button style="text-align: center" class="layui-btn layui-btn-normal" @click="save">保&nbsp;&nbsp;&nbsp;&nbsp;存</button>
+    </div>
+</body>
+
+<script>
+   new Vue({
+       el:"#app",
+       data:{
+           list:{},
+           id:{}
+       },
+       methods:{
+            save(){
+                var ids = this.id;
+                if(ids==undefined){
+                    alert("还未勾选结果集");
+                }else {
+                    $.ajax({
+                        url: "getresultbyid",
+                        type: "post",
+                        data:{
+                            "id":ids
+                        }
+                    }).success(function (data) {
+                        if(data=="true"){
+                            alert("成功");
+                            history.go(0);
+                        }else {
+                            alert("失败");
+                        }
+                    })
+                }
+            },
+           checked(ids){
+               this.id=ids;
+           }
+
+       },
+       mounted:function(){
+           let th = this;
+          $.ajax({
+              url: "getresult",
+              type: "post"
+          }).success(function (data) {
+              th.list = data.result ;
+          })
+
+       }
+   })
+
+</script>
+</html>

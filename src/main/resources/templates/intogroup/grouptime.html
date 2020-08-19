@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+    <script src="layui/jQuery/jquery-2.2.3.min.js"></script>
+    <script>
+        function save() {
+
+            var standards ="";
+            var standard = $('[name=standard]');
+            for (var i = 0; i <standard.length ; i++) {
+                if(standard[i].checked ){
+                    standards=standard[i].value;
+                }
+            }
+            var basiss="";
+            var basis = $('[name=basis]');
+            for (var i = 0; i <basis.length ; i++) {
+                if(basis[i].checked ){
+                    basiss=basis[i].value;
+                }
+            }
+            var degrees="";
+            var degree = $('[name=degree]');
+            for (var i = 0; i <degree.length ; i++) {
+                if(degree[i].checked ){
+                    var degrees=degree[i].value;
+                }
+            }
+            var doctors="";
+            var doctor = $('[name=doctor]');
+            for (var i = 0; i <doctor.length ; i++) {
+                if(doctor[i].checked ){
+                    var doctors=doctor[i].value;
+                }
+            }
+            var date = $('#date').val();
+            if(standards==""){
+                alert("基准事件 未选中");
+                return;
+            }
+            if(basiss==""&&degrees==""&&doctors==""){
+                alert("筛选条件 选一个吧");
+                return;
+            }
+            if(date==""){
+                alert("启始时间 还未选");
+                return;
+            }
+            $.ajax({
+                url:"groupsettime",
+                type:"post",
+                data:{
+                    "standards":standards,
+                    "basiss":basiss,
+                    "degrees":degrees,
+                    "doctors":doctors,
+                    "date":date
+                }
+            }).success(function (data){
+                if (data=="true"){
+                    alert("入组时间设置 成功！");
+                    history.go(0);
+                }else{
+                    alert("入组时间设置 失败！");
+                }
+            }).error(function (data) {
+                    alert("服务器异常");
+            });
+        }
+
+    </script>
+</head>
+<body>
+<div class="layui-form-item">
+    <label class="layui-form-label">基准事件:</label>
+    <div class="layui-input-block">
+        <input type="radio" name="standard" value="门诊">门诊
+        <input type="radio" name="standard" value="入院" >入院
+        <input type="radio" name="standard" value="出院">出院
+        <input type="radio" name="standard" value="手术">手术
+        <input type="radio" name="standard" value="入ICU">入ICU
+        <input type="radio" name="standard" value="出ICU">出ICU
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">筛选条件</label>
+    <div class="layui-input-block">
+        <input type="radio" name="basis" value="本院"  >本院
+        <input type="radio" name="basis" value="本科室" >本科室
+    </div>
+    <div class="layui-input-block">
+        <input type="radio" name="degree" value="首次"  >首次
+        <input type="radio" name="degree" value="末次" >末次
+    </div>
+    <div class="layui-input-block">
+        <input type="radio" name="doctor" value="本就诊"  >本就诊
+        <input type="radio" name="doctor" value="任意就诊" >任意就诊
+    </div>
+</div>
+<div class="layui-form-item">
+    <div class="layui-inline">
+        <label class="layui-form-label">起始:&nbsp;&nbsp;</label>
+        <div class="layui-input-block">
+            <input type="datetime-local" name="date" id="date" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+</div>
+<div >
+    <br><br>
+    <div style="width: 216px; margin: 0;">
+        <button type="button" onclick="save()" class="layui-btn layui-btn-fluid">保&nbsp;&nbsp;&nbsp;&nbsp;存</button>
+    </div>
+</div>
+</body>
+</html>

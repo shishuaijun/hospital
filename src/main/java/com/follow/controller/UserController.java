@@ -6,6 +6,7 @@ import com.follow.common.ResultEum;
 import com.follow.entity.User;
 import com.follow.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.alibaba.fastjson.JSON;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import java.util.List;
 
 /**
  * @author wangchunjun
@@ -62,5 +65,22 @@ public class UserController {
         }
         return jsonResult ;
     }
+
+    /**
+     *
+     * @Title: findAll
+     * @Description: 全查
+     * @return
+     * @return: String
+     */
+    @RequestMapping(value = "/findAll")
+    public String findAll() {
+
+        List<User> list = userService.findAll();
+        String jsonString = JSON.toJSONString(list);
+        return jsonString;
+
+    }
+
 }
 

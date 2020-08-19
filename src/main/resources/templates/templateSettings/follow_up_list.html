@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="layui/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="js/vuejs-2.5.16.js"></script>
+    <style>
+        table {
+            text-align:center;
+            margin:0 auto ;
+        }
+    </style>
+</head>
+<body>
+
+<div id="app">
+
+    <table style="color: #9F9F9F" width="60%" border="0" cellpadding="1" cellspacing="0">
+        <thead>
+            <tr style="color: #0000FF">
+                <th>序号</th>
+                <th>随访时间</th>
+                <th>随访组</th>
+                <th>科室</th>
+                <th>随访状态</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="(item,index) in list">
+                <td>{{index+1}}</td>
+                <td>{{item.time}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.desk}}</td>
+                <td><span v-if="item.state==1">已随访</span>
+                    <span style="color: red;" v-if="item.state==0">未随访</span>
+<!--                    {{item.state==1?"已随访":"未随访"}}-->
+                </td>
+            </tr>
+        </tbody>
+        <br><br>
+       <input  type="button" @click="go" value="返回">
+    </table>
+   <button @click="daochu" >导出Excel</button>
+</div>
+
+</body>
+<script>
+    new Vue({
+        el:"#app",
+        data:{
+            list:{}
+        },
+        methods:{
+           go(){
+
+               history.go(-1);
+           },
+           daochu(){
+               window.location.href="derivefollowuplist";
+             }
+        },
+        mounted:function(){
+            let th = this;
+            $.ajax({
+                url:"getfollowuplist",
+                type:"post"
+            }).success(function (data) {
+                th.list = data.result;
+            })
+        }
+
+    })
+</script>
+</html>

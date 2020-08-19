@@ -73,7 +73,7 @@ public class Patient implements Serializable {
     /**
      * 电话
      */
-    private Integer phone;
+    private String phone;
 
     /**
      * 邮箱
