@@ -202,7 +202,7 @@
                    '<div class="layui-inline">'+
                    '<label class="layui-form-label">姓名</label>'+
                    '<div class="layui-input-inline">'+
-                   '<input type="text" disabled value='+data.name+'" lay-verify="email" autocomplete="off" class="layui-input">'+
+                   '<input type="text" disabled value="'+data.name+'" lay-verify="email" autocomplete="off" class="layui-input">'+
                    '</div>'+
                    '</div>'+
                        '<div class="layui-inline">'+
@@ -220,13 +220,13 @@
                        '<div class="layui-inline">'+
                        '<label class="layui-form-label">入组日期</label>'+
                        '<div class="layui-input-inline">'+
-                       '<input type="tel" disabled value="'+data.groupTime+'" lay-verify="required|phone" autocomplete="off" class="layui-input">'+
+                       '<input type="tel" disabled value="'+data.groupTime.toString().substring(0,11)+'" lay-verify="required|phone" autocomplete="off" class="layui-input">'+
                        '</div>'+
                        '</div>'+
                        '<div class="layui-inline">'+
                        '<label class="layui-form-label">手术日期</label>'+
                        '<div class="layui-input-inline">'+
-                       '<input type="text" disabled value='+data.operationTime+'" lay-verify="email" autocomplete="off" class="layui-input">'+
+                       '<input type="text" disabled value='+data.operationTime.toString().substring(0,11)+'" lay-verify="email" autocomplete="off" class="layui-input">'+
                        '</div>'+
                        '</div>'+
                        '<div class="layui-inline">'+
@@ -238,7 +238,7 @@
                        '<div class="layui-inline">'+
                        '<label class="layui-form-label">手术操作者</label>'+
                        '<div class="layui-input-inline">'+
-                       '<input type="text" disabled value='+data.operator+'" lay-verify="email" autocomplete="off" class="layui-input">'+
+                       '<input type="text" disabled value="'+data.operator+'" lay-verify="email" autocomplete="off" class="layui-input">'+
                        '</div>'+
                        '</div>'+
                        '</div><br><br>'
