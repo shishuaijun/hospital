@@ -87,7 +87,9 @@
             ,cols: [
                 [
                     ,{field:'title', title:'名称' }
-                    ,{field:'rate', title:'入组率' }
+                    ,{field:'rates', title:'入组率',templet:function (d) {
+                        return '<span>'+d.rates+'%'+'</span>';
+                    }}
                     ,{field:'principal', title:'负责人'}
                     ,{field:'state', title:'状态',templet:function (d) {
                         if (d.state==0){
@@ -133,8 +135,7 @@
         table.on('tool(test)', function(obj){
             var data = obj.data;
             if(obj.event = "edit"){
-               alert("查看");
-                // window.location = "follow_records?id=" + data.id;
+                window.location = "basic_data?title=" + data.id;
             }
         });
     });

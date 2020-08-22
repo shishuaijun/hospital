@@ -9,9 +9,13 @@ import lombok.Data;
 @Data
 public class FollowUpTheRateVO {
 
+    private  Integer id;
+
     private String title;
 
     private Integer rate;
+
+    private String rates;
 
     private String principal;
 

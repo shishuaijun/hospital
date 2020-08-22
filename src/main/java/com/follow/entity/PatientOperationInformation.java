@@ -42,4 +42,8 @@ public class PatientOperationInformation implements Serializable {
 
     @TableField(value = "surgical_spot")
     private String surgicalSpot;
+
+    private String technique;
+
+    private String operator;
 }

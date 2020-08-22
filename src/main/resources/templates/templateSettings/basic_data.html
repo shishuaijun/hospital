@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="layui/css/layui.css"  media="all">
+    <script src="layui/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="js/vuejs-2.5.16.js"></script>
+    <style>
+        table {
+            text-align:center;
+            margin:0 auto ;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <input type="button" @click="go" value="返回"><br><br>
+    <table style="color: #eaf7ff" width="70%" border="0" cellpadding="1" cellspacing="0">
+    <div class="layui-bg-orange" style="text-align: center">数据基本情况</div>
+        <br>
+        <div class="layui-bg-orange">
+            <tr style="color: rgba(162,168,255,0.31)">
+                <th>数据表</th>
+                <th>开始于</th>
+                <th>截止于</th>
+                <th>记录数</th>
+                <th>记录比例</th>
+            </tr>
+            <tr v-for="(item) in list">
+                <td >{{item.table}}</td>
+                <td >{{item.begin}}</td>
+                <td >{{item.end}}</td>
+                <td >{{item.count}}</td>
+                <td >{{item.ratio}}</td>
+            </tr>
+        </div>
+    </table>
+</div>
+</body>
+<script>
+    new Vue({
+        el:"#app",
+        data:{
+            list:{},
+        },
+        methods:{
+            go(){
+                history.go(-1);
+            }
+        },
+        mounted:function(){
+            var search = window.location.search;
+            var searchArray = search.split("=");
+            id = searchArray[1];
+            let th = this;
+            $.ajax({
+                url: "getbasicdata",
+                type: "post",
+                data:{
+                    "id":id
+                }
+            }).success(function (data) {
+                th.list = data.data ;
+            })
+        }
+    })
+
+</script>
+</html>

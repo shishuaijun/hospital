@@ -2,6 +2,7 @@ package com.follow.controller;
 
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.follow.common.EmptyUtils;
 import com.follow.common.ResultEum;
 import com.follow.dto.DataResult;
@@ -165,18 +166,21 @@ public class JoinGroupController {
     @PostMapping("/getpatientrecords")
     public DataUtil getatientrRecords(Integer id) {
         ArrayList<CustomVo> patients = new ArrayList<>();
-        Patient byId = patientService.getById(id);
-        CustomVo customVo = new CustomVo();
-        customVo.setPatientName(byId.getPatientName());
-        customVo.setAdminssionnumber(byId.getSex()==1?"男":"女");
-        customVo.setOutpaientnumber(byId.getAdminssionnumber());
-        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String localTime = df.format(byId.getBirthday());
-        String substring = localTime.substring(0,11);
-        customVo.setBirthday(substring);
-        patients.add(customVo);
+        Patient byId = patientService.getByOneId(id);
         DataUtil<CustomVo> patientDataUtil = new DataUtil<>();
-        patientDataUtil.setData(patients);
+        if(EmptyUtils.isNotEmpty(byId)){
+            CustomVo customVo = new CustomVo();
+            customVo.setPatientName(byId.getPatientName());
+            customVo.setAdminssionnumber(byId.getSex()==1?"男":"女");
+            customVo.setOutpaientnumber(byId.getAdminssionnumber());
+            DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String localTime = df.format(byId.getBirthday());
+            String substring = localTime.substring(0,11);
+            customVo.setBirthday(substring);
+            patients.add(customVo);
+            patientDataUtil.setData(patients);
+        }
+
         return patientDataUtil;
     }
     /**

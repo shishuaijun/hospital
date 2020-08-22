@@ -1,6 +1,7 @@
 package com.follow.mapper;
 
 import com.follow.vo.FollowUpProgressVO;
+import com.follow.vo.FollowUpQueryVO;
 import com.follow.vo.FollowUpResultVO;
 import com.follow.vo.FollowUpTheRateVO;
 import org.apache.ibatis.annotations.Param;
@@ -35,33 +36,12 @@ public interface FollowUpPorgressMapper {
                                            @Param("startPage") Integer startPage,
                                            @Param("limit")Integer limit);
 
-    //    @Select("SELECT j.group_name groupName,group_time groupTime,o.condition,next_date nexDate,p.id ,patient_name name,adminssionnumber,outpaientnumber,sex,birthday  FROM join_group j,join_group_progress o,patient p where p.is_joingroup = 0 and p.id = j.patient_control_id and p.id  =o.patient_id ")
-//    List<FollowUpProgressVO> selectList();
-          /*  "and j.group_time BETWEEN '#{beginDate}' AND '#{endDate}'" +
-            "and o.next_date BETWEEN '#{beginDate}' AND '#{endDate}'"*/
+    List<FollowUpQueryVO> selectQueryList(@Param("page") Integer page,
+                                          @Param("limit") Integer limit,
+                                          @Param("array") String[] ids);
 
-           /* "and p.department_id = " +
 
-            "and p.adminssionnumber =" +
-            "and p.patient_name =" +*/
-//            "and o.condition = #{condition} "
-        /*    +
-            " LIMIT 0 ,2"*/
-//           )
-//    List<FollowUpProgressVO> selectList(@Param("groupName") String groupName);
-   /* @SelectProvider(type = listProvider.class, method = "selectList")*/
-    /*List<FollowUpProgressVO> selectList(@Param("beginDate") String beginDate,
-                                        @Param("endDate") String endDate,
-                                        @Param("state") Integer state);*/
-
-    /*class listProvider {
-        public String selectList(@Param("beginDate") String beginDate, @Param("endDate") String endDate) {
-            String sql = "SELECT j.group_name groupName,group_time groupTime,o.state,next_date nexDate,p.id ,patient_name name,adminssionnumber,outpaientnumber,sex,birthday  FROM join_group j,join_group_progress o,patient p where p.is_joingroup = 0 and p.id = j.patient_control_id and p.id  =o.patient_id";
-            if(beginDate!=null && endDate !=null) {
-                sql += "and j.group_time BETWEEN '#{beginDate}' AND '#{endDate}'";
-            }
-            return sql;
-        }
-    }*/
+    @Select("SELECT patient_id id FROM patient_situation WHERE 1=1 ${sb}")
+    List<FollowUpQueryVO> getbyPatientId(@Param("sb") String sb);
 }
 

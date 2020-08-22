@@ -6,12 +6,10 @@ import com.follow.common.ResultEum;
 import com.follow.dto.DataResult;
 import com.follow.dto.DataUtil;
 import com.follow.service.FollowUpPorgressService;
-import com.follow.vo.FollowUpCheckVO;
-import com.follow.vo.FollowUpProgressVO;
-import com.follow.vo.FollowUpResultVO;
-import com.follow.vo.FollowUpTheRateVO;
+import com.follow.vo.*;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,7 +29,6 @@ public class FollowUpProgressController {
 
     @Autowired
     private FollowUpPorgressService followUpPorgressService;
-
 
     @RequestMapping("/getfollowprogresslist")
     public  DataUtil<FollowUpProgressVO> getFollowprogressList(Integer page,
@@ -146,5 +143,23 @@ public class FollowUpProgressController {
         return dataUtil;
     }
 
+    @PostMapping("/getbasicdata")
+    public DataUtil<BasicDataVO> getBasicData(Integer id){
+        DataUtil<BasicDataVO> dataUtil = followUpPorgressService.getByBasicDataId(id);
+        return dataUtil;
+    }
+
+    /**
+     * 随访 查询
+     * @param page
+     * @param limit
+     * @param array
+     * @return
+     */
+    @GetMapping("/getfollowquerylist")
+    public DataUtil<FollowUpQueryVO> getBasicData(Integer page,Integer limit,String array){
+        DataUtil<FollowUpQueryVO> dataUtil = followUpPorgressService.getQueryList(page,limit,array);
+        return dataUtil;
+    }
 
 }

@@ -1,26 +1,19 @@
 package com.follow.service.impl;
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.follow.common.EmptyUtils;
 import com.follow.common.ExportExcelUtil;
 import com.follow.dto.DataUtil;
-import com.follow.entity.Check;
-import com.follow.entity.JoinGroupProgress;
-import com.follow.entity.Patient;
-import com.follow.mapper.CheckMapper;
-import com.follow.mapper.FollowUpPorgressMapper;
-import com.follow.mapper.JoinGroupProgressMapper;
-import com.follow.mapper.PatientMapper;
+import com.follow.entity.*;
+import com.follow.mapper.*;
 import com.follow.service.FollowUpPorgressService;
-import com.follow.vo.FollowUpCheckVO;
-import com.follow.vo.FollowUpProgressVO;
-import com.follow.vo.FollowUpResultVO;
-import com.follow.vo.FollowUpTheRateVO;
+import com.follow.vo.*;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,11 +28,15 @@ public class FollowUpPorgressServiceImpl implements FollowUpPorgressService {
     @Autowired
     private FollowUpPorgressMapper followUpPorgressMapper;
     @Autowired
+    private FollowgroupMapper followgroupMapper;
+    @Autowired
     private PatientMapper patientMapper;
     @Autowired
     private CheckMapper checkMapper;
     @Autowired
     private JoinGroupProgressMapper joinGroupProgressMapper;
+    @Autowired
+    private  JoinGroupMapper joinGroupMapper;
 
     @Override
     public List<FollowUpProgressVO> list(Integer page,Integer limit,Integer desk, String groupName, String dates, Integer admissionNumber, String name, Integer state) {
@@ -59,7 +56,7 @@ public class FollowUpPorgressServiceImpl implements FollowUpPorgressService {
     public List<FollowUpCheckVO> getList(Integer id) {
         FollowUpCheckVO followUpCheckVO = new FollowUpCheckVO();
 
-        Patient patient = patientMapper.selectById(id);
+        Patient patient = patientMapper.selectByokId(id);
         QueryWrapper<Check> checkQueryWrapper = new QueryWrapper<>();
         checkQueryWrapper.eq("patient_id",id);
         Check checks = checkMapper.selectOne(checkQueryWrapper);
@@ -186,6 +183,142 @@ public class FollowUpPorgressServiceImpl implements FollowUpPorgressService {
         }
         Integer startPage = (page-1) * limit;
         List<FollowUpTheRateVO> theRatelist = followUpPorgressMapper.getTheRatelist(principal, desk, state, begintime, endtime ,startPage,limit);
+        for (FollowUpTheRateVO followUpTheRateVO : theRatelist) {
+            QueryWrapper<JoinGroup> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("group_name",followUpTheRateVO.getTitle());
+            Integer integer = joinGroupMapper.selectCount(queryWrapper);
+
+            double dividend= integer;
+            double divisor =followUpTheRateVO.getRate();
+            double consult = dividend/divisor*100;
+            consult = (double) Math.round(consult * 100) / 100;
+            String d = consult+"";
+            followUpTheRateVO.setRates(d);
+        }
+
         return theRatelist;
     }
+
+    @Override
+    public DataUtil<BasicDataVO> getByBasicDataId(Integer id) {
+        DataUtil<BasicDataVO> basicDataVODataUtil = new DataUtil<>();
+
+        ArrayList<BasicDataVO> list = new ArrayList<>();
+        BasicDataVO basicDataVO = new BasicDataVO();
+        Followgroup followgroup = followgroupMapper.selectById(id);
+        basicDataVO.setTable("患者总数");
+        System.out.println(followgroup.getCreateTime()+"时间");
+        basicDataVO.setBegin(new SimpleDateFormat("yyyy-MM-dd").format(followgroup.getCreateTime()));
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String localTime = df.format(LocalDateTime.now());
+        basicDataVO.setEnd(localTime.substring(0,11));
+        basicDataVO.setCount(followgroup.getPatientsnumber());
+
+        QueryWrapper<JoinGroup> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("group_name",followgroup.getFName());
+        Integer integer = joinGroupMapper.selectCount(queryWrapper);
+
+        double dividend= integer;
+        double divisor =followgroup.getPatientsnumber();
+        double consult = dividend/divisor*100;
+        consult = (double) Math.round(consult * 100) / 100;
+        String d = consult+"%";
+        basicDataVO.setRatio(d);
+        BasicDataVO basicDataVO2 = new BasicDataVO();
+        basicDataVO2.setTable("基本信息");
+        basicDataVO2.setBegin(new SimpleDateFormat("yyyy-MM-dd").format(followgroup.getCreateTime()));
+        basicDataVO2.setEnd(localTime.substring(0,11));
+        basicDataVO2.setCount(followgroup.getPatientsnumber());
+        basicDataVO2.setRatio("100%");
+        list.add(basicDataVO);
+        list.add(basicDataVO2);
+
+
+        basicDataVODataUtil.setCode(0);
+        basicDataVODataUtil.setMsg("成功");
+        basicDataVODataUtil.setData(list);
+
+        return basicDataVODataUtil;
+    }
+
+    @Override
+    public DataUtil<FollowUpQueryVO> getQueryList(Integer page, Integer limit, String array) {
+        String sql ="";
+        StringBuffer stringBuffer = new StringBuffer();
+        if(EmptyUtils.isNotEmpty(array)){
+            String[] split = array.split("=");
+            for (int i = 0; i < split.length; i++) {
+                String[] strings = split[i].toString().split(",");
+                if(i==0){
+                    if(EmptyUtils.isNotEmpty(strings[1])
+                            && EmptyUtils.isNotEmpty(strings[2])
+                            && EmptyUtils.isNotEmpty(strings[3])){
+                        String val = "";
+                        if("0".equals(strings[2])){
+                            val = " > "+strings[3];
+                        }
+                        if("1".equals(strings[2])){
+                            val = " = '"+strings[3]+"' ";
+                        }
+                        if("2".equals(strings[2])){
+                            val = " < "+strings[3];
+                        }
+                        if("3".equals(strings[2])){
+                            val = " like '%"+strings[3]+"%' ";
+                        }
+                        sql = " and "+strings[1]+" "+val;
+
+                    }
+                }else {
+                    if(EmptyUtils.isNotEmpty(strings[2])
+                            && EmptyUtils.isNotEmpty(strings[3])
+                            && EmptyUtils.isNotEmpty(strings[4])){
+                        String val = "";
+                        if("0".equals(strings[3])){
+                            val = "> "+strings[4];
+                        }
+                        if("1".equals(strings[3])){
+                            val = " = '"+strings[4]+"' ";
+                        }
+                        if("2".equals(strings[3])){
+                            val = " < "+strings[4]+" ";
+                        }
+                        if("3".equals(strings[3])){
+                            val = " like '%"+strings[4]+"%' ";
+
+                        }
+                        sql = " "+strings[1]+" "+strings[2]+" "+val;
+                    }
+                }
+                stringBuffer.append(sql);
+            }
+        }
+        String string = stringBuffer+"";
+        StringBuffer buffer = new StringBuffer();
+        String[] ids = null;
+        if(EmptyUtils.isNotEmpty(string)){
+            List<FollowUpQueryVO> vOS = followUpPorgressMapper.getbyPatientId(string);
+            for (FollowUpQueryVO vO : vOS) {
+                if (buffer.length()>0){
+                    buffer.append(",");
+                }
+                buffer.append(vO.getId());
+            }
+            ids = buffer.toString().split(",");
+        }
+        int startPage = (page - 1 ) * limit;
+        List<FollowUpQueryVO> list = followUpPorgressMapper.selectQueryList(startPage,limit,ids);
+        int count = 0;
+        if(EmptyUtils.isNotEmpty(limit)){
+            count = list.size();
+        }
+        DataUtil<FollowUpQueryVO> dataUtil = new DataUtil<>();
+        dataUtil.setCode(0);
+        dataUtil.setMsg("成功");
+        dataUtil.setCount(count);
+        dataUtil.setData(list);
+        return dataUtil;
+    }
+
+
 }
