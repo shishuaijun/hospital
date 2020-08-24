@@ -1,5 +1,6 @@
 package com.follow.web;
 
+import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,25 @@ import javax.servlet.http.HttpSession;
 public class HtmlController {
 
     /**
+     * 没有权限时，跳转的路径
+     * @return unauthorized.html
+     */
+    @RequestMapping("/unauthorized")
+    public String unauthorized(){
+        return "unauthorized";
+    }
+
+
+    /**unauthorized
+     * 跳转到登录
+     * @return login.html
+     */
+    @RequestMapping("/")
+    public String logintwo(){
+        return "login";
+    }
+
+    /**
      * 跳转到登录
      * @return login.html
      */
@@ -24,14 +44,30 @@ public class HtmlController {
         return "login";
     }
 
+    @RequestMapping("/tologin")
+    public String tologin(){
+
+        return "redirect:/login";
+    }
+
     /**
      * 跳转到主页
      * @return index.html
      */
-    @RequestMapping("/")
+    @RequestMapping("/index")
     public String index(){
         return "index";
     }
+
+    /**
+     * 跳转到主页
+     * @return index1.html
+     */
+    @RequestMapping("/index1")
+    public String index1(){
+        return "index1";
+    }
+
     /**
      * 跳转到欢迎页
      * @return welcome.html
@@ -301,5 +337,27 @@ public class HtmlController {
     public String permissionsUpdate(){
         return  "permissions_update" ;
     }
+
+
+    /**
+     * 功能描述： TODO[ 跳转用户注册页面 ]
+     */
+    @RequestMapping("user_add")
+    public String useradd(){
+        return  "user_add" ;
+    }
+
+
+    /**
+     * 功能描述： TODO[ 退出 ]
+     */
+    @RequestMapping("/logout")
+    public String logout(){
+        System.out.println("退出");
+        SecurityUtils.getSubject().logout();
+        return  "redirect:login" ;
+    }
+
+
 
 }

@@ -14,4 +14,7 @@ public interface UserMapper extends BaseMapper<User> {
 
     @Select("select * from user")
     List<User> selectAll();
+
+    User checkUser(User user);
+
 }
