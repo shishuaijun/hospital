@@ -1,9 +1,6 @@
 package com.follow.mapper;
 
-import com.follow.vo.FollowUpProgressVO;
-import com.follow.vo.FollowUpQueryVO;
-import com.follow.vo.FollowUpResultVO;
-import com.follow.vo.FollowUpTheRateVO;
+import com.follow.vo.*;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
@@ -43,5 +40,8 @@ public interface FollowUpPorgressMapper {
 
     @Select("SELECT patient_id id FROM patient_situation WHERE 1=1 ${sb}")
     List<FollowUpQueryVO> getbyPatientId(@Param("sb") String sb);
+
+    @Select("SELECT `table`,`begin`,`end`,count ,ratio FROM `basic_data` where f_id = #{fid}")
+    List<BasicDataVO> getbasicDataByIdList(@Param("fid") Integer fid);
 }
 

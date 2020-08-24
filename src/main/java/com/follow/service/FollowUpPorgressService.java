@@ -70,6 +70,11 @@ public interface FollowUpPorgressService {
      */
     List<FollowUpTheRateVO> theRatelist(String principal, Integer desk, Integer state, String time,Integer page,Integer limit);
 
+    /**
+     * 获取 基本情况
+     * @param id
+     * @return
+     */
     DataUtil<BasicDataVO> getByBasicDataId(Integer id);
 
     /**

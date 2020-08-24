@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="layui/css/layui.css"  media="all">
     <script src="layui/jQuery/jquery-2.2.3.min.js"></script>
     <script src="js/vuejs-2.5.16.js"></script>
+    <script src="layui/layui.js"></script>
     <style>
         table {
             text-align:center;
@@ -16,29 +17,39 @@
 <body>
 <div id="app">
     <input type="button" @click="go" value="返回"><br><br>
-    <table style="color: #eaf7ff" width="70%" border="0" cellpadding="1" cellspacing="0">
+    <div id="aped"></div>
+    <!--<table  width="80%" border="0" cellpadding="1" cellspacing="0">
     <div class="layui-bg-orange" style="text-align: center">数据基本情况</div>
         <br>
         <div class="layui-bg-orange">
-            <tr style="color: rgba(162,168,255,0.31)">
+            <tr style="color: rgba(22,20,255,0.97)">
                 <th>数据表</th>
                 <th>开始于</th>
                 <th>截止于</th>
                 <th>记录数</th>
                 <th>记录比例</th>
-            </tr>
-            <tr v-for="(item) in list">
-                <td >{{item.table}}</td>
-                <td >{{item.begin}}</td>
-                <td >{{item.end}}</td>
-                <td >{{item.count}}</td>
-                <td >{{item.ratio}}</td>
-            </tr>
-        </div>
-    </table>
+            </tr>-->
+
+<!--            <tr v-for="(item) in list">-->
+<!--                <td >{{item.table}}</td>-->
+<!--                <td >{{item.begin}}</td>-->
+<!--                <td >{{item.end}}</td>-->
+<!--                <td >{{item.count}}</td>-->
+<!--&lt;!&ndash;                <td>{item.ratio}}</td>&ndash;&gt;-->
+<!--                <td>-->
+<!--                    <div class="layui-progress layui-progress-big" lay-showpercent="true"  lay-filter="uploadProgressBar">-->
+<!--                        <div class="layui-progress-bar layui-bg-blue" lay-percent="0%"></div>-->
+<!--                    </div> {{item.ratio}}-->
+<!--                </td>-->
+<!--            </tr>-->
+<!--        </div>
+    </table>-->
 </div>
 </body>
 <script>
+    layui.use("element",function () {
+        const element = layui.element;
+    });
     new Vue({
         el:"#app",
         data:{
@@ -61,7 +72,33 @@
                     "id":id
                 }
             }).success(function (data) {
-                th.list = data.data ;
+                var list = data.data
+                var o = '<table style="border-collapse: separate;border-spacing: 3px 15px;"' +
+                    ' width="80%" border="0" cellpadding="1" cellspacing="0">\n' +
+                    '    <div class="layui-bg-orange" style="text-align: center">数据基本情况</div>\n' +
+                    '        <br>\n' +
+                    '        <div class="layui-bg-orange">\n' +
+                    '            <tr style="color: rgba(22,20,255,0.97)">\n' +
+                    '                <th>数据表</th>\n' +
+                    '                <th>开始于</th>\n' +
+                    '                <th>截止于</th>\n' +
+                    '                <th>记录数</th>\n' +
+                    '                <th width="300px">记录比例</th>\n' +
+                    '            </tr>';
+                for (let i = 0; i <list.length ; i++) {
+                   o+=('<tr><td>'+list[i].table+'</td>'+
+                    '<td>'+list[i].begin+'</td>'+
+                    '<td>'+list[i].end+'</td>'+
+                    '<td>'+list[i].count+'</td>'+
+
+                   '<td> <div  style="background-color: #ffffff" class="layui-progress " '+
+                   'lay-showpercent="true">'+
+                   '<div class="layui-progress-bar layui-bg-orange" lay-percent="'+list[i].ratio+
+                   '"></div> </div></td></tr>');
+                }
+                o+='</div>\n' +
+                    '    </table>';
+                $("#aped").append(o);
             })
         }
     })

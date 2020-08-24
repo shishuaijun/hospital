@@ -232,8 +232,10 @@ public class FollowUpPorgressServiceImpl implements FollowUpPorgressService {
         basicDataVO2.setRatio("100%");
         list.add(basicDataVO);
         list.add(basicDataVO2);
-
-
+        List<BasicDataVO> basicDataVOS = followUpPorgressMapper.getbasicDataByIdList(id);
+        for (BasicDataVO dataVO : basicDataVOS) {
+            list.add(dataVO);
+        }
         basicDataVODataUtil.setCode(0);
         basicDataVODataUtil.setMsg("成功");
         basicDataVODataUtil.setData(list);
