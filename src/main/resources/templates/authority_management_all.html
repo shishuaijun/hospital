@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>全院权限管理</title>
+
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <script type="text/javascript" src="layui/jQuery/jquery-2.2.3.min.js"></script>
+    <script type="text/javascript" src="layui/layui.all.js"></script>
+    <script type="text/javascript" src="js/authoriy_management_all.js"></script>
+
+
+    <!--<script type="text/javascript">
+      $axure.utils.getTransparentGifPath = function() { return 'resources/images/transparent.gif'; };
+      $axure.utils.getOtherPath = function() { return 'resources/Other.html'; };
+      $axure.utils.getReloadPath = function() { return 'resources/reload.html'; };
+    </script>-->
+
+    <!-- 模糊查询 + 分页 -->
+
+
+    <script type="text/javascript">
+        //跳转增加页面
+        // function addDepartment() {
+        //     window.location = "department_add.html";
+        // }
+    </script>
+</head>
+
+
+<body class="layui-layui-body">
+
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">管理科室权限</div>
+    </div>
+
+    <div style="width: 80% ; height: 120px ; margin: auto;padding-top: 20px ; background: #f4f5f7; ">
+        <div class="layui-form-item" style=" margin: auto;">
+            <label class="layui-form-label">科室名称:</label>
+                <select id="departmentName" style="float: left;height: 30px ; width: 200px">
+                    <option value="">全部</option>
+                </select>
+            <label class="layui-form-label">负责人:</label>
+            <select id="departmentBoss" style="float: left;height: 30px ; width: 200px">
+                <option value="">全部</option>
+            </select>
+        </div>
+        <div style="width: 100% ;">
+            <input type="button" id="addDepartment" class="layui-btn" style="float: left; margin-left: 30px " value="新增"/>
+            <input type="button" id="retrieval" class="layui-btn" style="float: right; margin-right: 30px" value="检索"/>
+        </div>
+    </div>
+
+    <table class="color_div_top" id="test" lay-filter="test">
+
+    </table>
+
+</div>
+
+<script type="text/html" id="permissions_edit">
+    <input type="button" class="layui-btn layui-btn-xs layui-btn-radius layui-btn-normal" lay-event="edit" value="编辑"/>
+    <input type="button" class="layui-btn layui-btn-xs layui-btn-radius layui-btn-danger" lay-event="del" value="删除"/>
+</script>
+<div style="position:fixed;bottom:0; width: 100%; background: #e2e2e2 ; height: 30px">
+    <!-- 底部固定区域 -->
+    <center>阳光嘉运科技有限公司&copy;2017-2019</center>
+</div>
+</body>
+<script src="layui/layui.js"></script>
+
+<script type="text/javascript">
+    //加载表格数据
+    layui.use(['table','layer'], function(){
+        var table = layui.table,layer = layui.layer;
+        table.render({
+            elem: '#test'
+            ,url:'/getDepartmentName'
+            ,page:true
+            ,cols: [[
+                {field:'id', title: '序号', sort: true ,  align:'center'}
+                ,{field:'departmentName', title: '科室名称' , align:'center'}
+                ,{field:'departmentBoss', title: '负责人' , align:'center'}
+                ,{fixed: 'right', title:'操作', toolbar: '#permissions_edit' , align:'center' }
+            ]]
+            ,id:"retr"
+        });
+        $("#retrieval").click(function(){
+            table.reload('retr',{
+                where:{
+                    departmentName:$("#departmentName").val(),
+                    departmentBoss:$("#departmentBoss").val()
+                }
+            })
+        });
+        table.on("tool(test)",function(obj){
+            if(obj.event === 'del'){
+               alert("删除");
+               $.ajax({
+                   type:"post",
+                   url:"dislodgeDepartment",
+                   data:{
+                        "id":obj.data.id
+                   }
+               }).success(function(data){
+                   layer.msg(data.data)
+               })
+            }else if(obj.event === 'edit'){
+                $.ajax({
+                    type:"post",
+                    url:"getDepartmentByHospital",
+                    data:{
+                        "id":obj.data.id
+                    }
+                }).success(function (data) {
+                    layer.open({
+                        type:5,
+                        anim:1,
+                        title:"科室编辑",
+                        area:["600px" , "400px"],
+                        content:
+                            '<input type="text" id="departmentId" value="'+data.data.id+'" style="display: none" />'+
+                            '<input type="text" id="hospitalId" value="'+data.data.hospitalId+'" style="display: none" />'+
+                            '<div style="width: 500px; margin: auto; padding-top: 30px;">\n' +
+                            '\t\t\t<div class="layui-form-item">\n' +
+                            '\t\t\t    <label class="layui-form-label">科室名称：</label>\n' +
+                            '\t\t\t    <div class="layui-input-block">\n' +
+                            '\t\t\t      <input type="text" id="departmentNameUpdate" value="'+data.data.departmentName+'" class="layui-input" />\n' +
+                            '\t\t\t    </div>\n' +
+                            '\t\t\t</div>\n' +
+                            '\t\t\t<div class="layui-form-item">\n' +
+                            '\t\t\t    <label class="layui-form-label">医院名称：</label>\n' +
+                            '\t\t\t    <div class="layui-input-block">\n' +
+                            '\t\t\t      <input type="text"  id="hospitalNameUpdate" value="'+data.data.hospitalName+'" class="layui-input layui-btn-disabled" disabled="disabled"/>\n' +
+                            '\t\t\t    </div>\n' +
+                            '\t\t\t</div>\n' +
+                            '\t\t\t<div class="layui-form-item">\n' +
+                            '\t\t\t    <label class="layui-form-label">负责人：</label>\n' +
+                            '\t\t\t    <div class="layui-input-block">\n' +
+                            '\t\t\t      <input type="text" id="departmentBossUpdate" value="'+data.data.departmentBoss+'"  class="layui-input"/>\n' +
+                            '\t\t\t    </div>\n' +
+                            '\t\t\t</div>\n' +
+                            '\t\t</div>'+
+                            '\t\t\t<div style="text-align: center;margin: auto;">\n' +
+                            '\t\t\t\t<input class="layui-btn layui-btn-radius" type="button" value="修改" onclick="updateDepartment()" id="updateDepar"/>\n' +
+                            '\t\t\t</div>'
+                        ,
+                    })
+                })
+            }
+        });
+
+        $('#addDepartment').on('click', function(){
+            $.ajax({
+                type:"post",
+                url:"getHospitalAll"
+            }).success(function(data){
+                console.log(data.data)
+                layer.open({
+                    type: 5,
+                    area: ['600px', '360px'],
+                    anim:4,
+                    shadeClose: true, //点击遮罩关闭
+                    content:
+                        '<div id="addDepartment" style="width: 500px; margin: auto; padding-top: 30px;">\n' +
+                        '\t\t<div class="layui-form-item">\n' +
+                        '\t\t\t<label class="layui-form-label">科室名称：</label>\n' +
+                        '\t\t\t<div class="layui-input-block">\n' +
+                        '\t\t\t  <input type="text"  name="departmentName" onmouseout="departmentName()" value="" class="layui-input" />\n' +
+                        '\t\t\t</div>\n' +
+                        '\t\t</div>\n' +
+                        '\t\t<div class="layui-form-item">\n' +
+                        '\t\t\t<label class="layui-form-label">医院名称：</label>\n' +
+                        '\t\t\t<div class="layui-input-block">\n' +
+                        '\t\t\t  <select id="hospitalName" name="hospitalId" class="layui-input">\n' +
+                        '\t\t\t  <option value="" >--请选中--</option>\n' +
+                        '\t\t\t  </select>\n' +
+                        '\t\t\t</div>\n' +
+                        '\t\t</div>\n' +
+                        '\t\t<div class="layui-form-item">\n' +
+                        '\t\t\t<label class="layui-form-label">负责人：</label>\n' +
+                        '\t\t\t<div class="layui-input-block">\n' +
+                        '\t\t\t  <input type="text" name="departmentBoss" onmouseout="departmentBoss()"  value=""  class="layui-input"/>\n' +
+                        '\t\t\t</div>\n' +
+                        '\t\t</div>\n' +
+                        '\t\t<div style="text-align: center;margin: auto;">\n' +
+                        '\t\t<input class="layui-btn layui-btn-radius" type="button" value="提交" onclick="submitDepartment()" id="submitDepartment"/>\n' +
+                        '\t\t</div>\n' +
+                        '\t\t</div>'
+                });
+                for (var i = 0; i <data.data.length ; i++) {
+                    $("#hospitalName").append('<option value="'+data.data[i].id+'">'+data.data[i].hospitalName+'</option>')
+                }
+            });
+        });
+        $("#updateDepar").click(function(){
+            $.ajax({
+                type:"post",
+                url:"updateDepartment",
+                data:{
+                    "departmentName":$("#departmentNameUpdate").val(),
+                    "hospitalName":$("#hospitalNameUpdate").val(),
+                    "departmentBoss":$("#departmentBossUpdate").val(),
+                    "id":$("#departmentId").val()
+                }
+            }).success(function(data){
+                layer.msg(data.data)
+            })
+        })
+    });
+</script>
+</html>

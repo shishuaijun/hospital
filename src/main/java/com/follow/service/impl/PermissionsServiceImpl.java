@@ -22,10 +22,16 @@ public class PermissionsServiceImpl extends ServiceImpl<PermissionsMapper, Permi
     private PermissionsMapper permissionsMapper;
 
     @Override
-    public List<PermissionsFollowgroupVo> queryPermissionsFollowgroup(Integer page, Integer limit) {
+    public List<PermissionsFollowgroupVo> queryPermissionsFollowgroup(Integer page, Integer limit,String userName , String remarks) {
         Integer topPage = (page-1)*limit;
         List<PermissionsFollowgroupVo> permissionsFollowgroupVos = new ArrayList<>();
-        for (PermissionsFollowgroupVo vo : permissionsMapper.selectPermissionsFollowgroupVo(topPage, limit)) {
+        if (userName == null){
+            userName = "";
+        }
+        if (remarks == null){
+            remarks = "" ;
+        }
+        for (PermissionsFollowgroupVo vo : permissionsMapper.selectPermissionsFollowgroupVo(topPage, limit,userName,remarks)) {
             switch (vo.getLevel()){
                 case "1":
                     vo.setLevel("一级");

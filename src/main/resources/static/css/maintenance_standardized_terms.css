@@ -1,0 +1,13 @@
+
+.headTop{
+    width:1% ;
+    height: 50px;
+    vertical-align: middle;
+    display:table-cell ;
+    margin: auto;
+    background-color: #393D49;
+}
+
+#userXinXi > table > tr> td{
+    padding: 40px;
+}

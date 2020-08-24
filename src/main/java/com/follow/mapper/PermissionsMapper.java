@@ -3,6 +3,7 @@ package com.follow.mapper;
 import com.follow.entity.Permissions;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.follow.vo.PermissionsFollowgroupVo;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
@@ -14,8 +15,7 @@ import java.util.List;
  */
 public interface PermissionsMapper extends BaseMapper<Permissions> {
 
-    @Select("select f.id , f.flevel as level , p.role_name as roleName , GROUP_CONCAT(p.user_name) as userName , p.jurisdiction ,f.department_id as departmentId from followgroup f , permissions p WHERE p.followgroup_id = f.id and f.is_delete = 0 GROUP BY f.id limit #{page} , #{limit}")
-    List<PermissionsFollowgroupVo> selectPermissionsFollowgroupVo(@Param("page") Integer page , @Param("limit") Integer limit);
+    List<PermissionsFollowgroupVo> selectPermissionsFollowgroupVo(@Param("page") Integer page , @Param("limit") Integer limit,@Param("userName") String userName,@Param("remarks")String remarks);
 
     @Select("select count(f.id) from followgroup f where f.is_delete = 0 ")
     Integer selectPermissionsFollowgroupSize();

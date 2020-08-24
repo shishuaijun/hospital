@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface PermissionsService extends IService<Permissions> {
 
-    List<PermissionsFollowgroupVo>  queryPermissionsFollowgroup(Integer page , Integer limit);
+    List<PermissionsFollowgroupVo>  queryPermissionsFollowgroup(Integer page , Integer limit,String userName, String remarks);
 
     Integer queryPermissionsFollowgroupSize();
 
