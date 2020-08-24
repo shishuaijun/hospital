@@ -5,17 +5,16 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.follow.common.Execel;
-import com.follow.common.*;
+import com.follow.common.ExecelUtil;
 import com.follow.dto.DataUtil;
 import com.follow.entity.Followgroup;
 import com.follow.mapper.FollowgroupMapper;
 import com.follow.service.FollowgroupService;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,7 +25,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -65,7 +63,7 @@ public class FollowgroupController {
 
         JSONObject json = new JSONObject();
 
-        return json.toJSONString(dataUtil);
+        return JSON.toJSONString(dataUtil);
     }
 
     /**

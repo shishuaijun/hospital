@@ -33,9 +33,15 @@ public class TemplateHtmlController {
     public String followUpList(){
         return "templateSettings/follow_up_list";
     }
-     @RequestMapping("/choiceoftreatment")
+
+    @RequestMapping("/choiceoftreatment")
     public String choiceoftreatment(){
         return "templateSettings/choiceoftreatment";
+    }
+
+    @RequestMapping("/basic_data")
+    public String basic_data(){
+        return "templateSettings/basic_data";
     }
 
 }

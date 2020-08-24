@@ -2,15 +2,14 @@ package com.follow.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.follow.common.EmptyUtils;
-import com.follow.common.JSONResult;
 import com.follow.common.ResultEum;
+import com.follow.dto.DataResult;
 import com.follow.dto.DataUtil;
 import com.follow.service.FollowUpPorgressService;
-import com.follow.vo.FollowUpCheckVO;
-import com.follow.vo.FollowUpProgressVO;
-import com.follow.vo.FollowUpResultVO;
+import com.follow.vo.*;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,7 +29,6 @@ public class FollowUpProgressController {
 
     @Autowired
     private FollowUpPorgressService followUpPorgressService;
-
 
     @RequestMapping("/getfollowprogresslist")
     public  DataUtil<FollowUpProgressVO> getFollowprogressList(Integer page,
@@ -61,9 +59,9 @@ public class FollowUpProgressController {
      * @return
      */
     @PostMapping("/getcheckbypatientidlist")
-    public JSONResult getCheckByPatientIdList(Integer id){
+    public DataResult getCheckByPatientIdList(Integer id){
         List<FollowUpCheckVO> list = followUpPorgressService.getList(id);
-        return new JSONResult(ResultEum.SUCCESS,0L,list);
+        return new DataResult(ResultEum.SUCCESS,0L,list);
     }
 
     /**
@@ -90,10 +88,10 @@ public class FollowUpProgressController {
      * @return
      */
     @PostMapping("/getfollowuplist")
-    public JSONResult getfollowuplist(){
+    public DataResult getfollowuplist(){
 
         List<FollowUpResultVO> list = followUpPorgressService.followUpResult();
-        return new JSONResult(ResultEum.SUCCESS,0L,list);
+        return new DataResult(ResultEum.SUCCESS,0L,list);
     }
     /**
      * 导出 随访组 信息
@@ -128,4 +126,40 @@ public class FollowUpProgressController {
             return JSON.toJSONString(isok);
         }
     }
+
+    @RequestMapping("/getOverviewprogresslist")
+    public DataUtil<FollowUpTheRateVO> getTheRatelist(String principal,Integer desk,Integer state,String time,Integer page,Integer limit){
+
+       List<FollowUpTheRateVO> list = followUpPorgressService.theRatelist(principal, desk, state, time,page,limit);
+        DataUtil<FollowUpTheRateVO> dataUtil = new DataUtil<>();
+        int count = 0 ;
+        if(EmptyUtils.isNotEmpty(list)){
+            count = list.size();
+        }
+        dataUtil.setCode(0);
+        dataUtil.setMsg("成功");
+        dataUtil.setCount(count);
+        dataUtil.setData(list);
+        return dataUtil;
+    }
+
+    @PostMapping("/getbasicdata")
+    public DataUtil<BasicDataVO> getBasicData(Integer id){
+        DataUtil<BasicDataVO> dataUtil = followUpPorgressService.getByBasicDataId(id);
+        return dataUtil;
+    }
+
+    /**
+     * 随访 查询
+     * @param page
+     * @param limit
+     * @param array
+     * @return
+     */
+    @GetMapping("/getfollowquerylist")
+    public DataUtil<FollowUpQueryVO> getBasicData(Integer page,Integer limit,String array){
+        DataUtil<FollowUpQueryVO> dataUtil = followUpPorgressService.getQueryList(page,limit,array);
+        return dataUtil;
+    }
+
 }

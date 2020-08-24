@@ -103,7 +103,7 @@ public class Followgroup implements Serializable {
     /**
      * 创建时间
      */
-    @TableField(value = "create_time",select = false)
+    @TableField(value = "create_time")
     private Date createTime;
 
     /**

@@ -2,9 +2,7 @@ package com.follow.service;
 
 import com.follow.dto.DataUtil;
 import com.follow.entity.JoinGroupProgress;
-import com.follow.vo.FollowUpCheckVO;
-import com.follow.vo.FollowUpProgressVO;
-import com.follow.vo.FollowUpResultVO;
+import com.follow.vo.*;
 import org.apache.poi.ss.usermodel.Workbook;
 
 import java.io.IOException;
@@ -61,4 +59,30 @@ public interface FollowUpPorgressService {
      * @return
      */
     boolean getByTreatName(String treatname,Integer id);
+
+    /**
+     * 查询 入组 进度 概况
+     * @param principal
+     * @param desk
+     * @param state
+     * @param time
+     * @return
+     */
+    List<FollowUpTheRateVO> theRatelist(String principal, Integer desk, Integer state, String time,Integer page,Integer limit);
+
+    /**
+     * 获取 基本情况
+     * @param id
+     * @return
+     */
+    DataUtil<BasicDataVO> getByBasicDataId(Integer id);
+
+    /**
+     * 随访 查询
+     * @param page
+     * @param limit
+     * @param array
+     * @return
+     */
+    DataUtil<FollowUpQueryVO> getQueryList(Integer page, Integer limit, String array);
 }

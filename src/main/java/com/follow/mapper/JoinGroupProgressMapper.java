@@ -12,4 +12,5 @@ public interface JoinGroupProgressMapper extends BaseMapper<JoinGroupProgress> {
 
     @Select("SELECT id,patient_id,next_date,treatment_scheme treatmentScheme  FROM join_group_progress WHERE patient_id = #{id}")
     JoinGroupProgress selectjoinGroupProgress(Integer id);
+
 }

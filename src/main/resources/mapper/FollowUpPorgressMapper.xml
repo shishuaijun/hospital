@@ -35,4 +35,48 @@
         </if>
     LIMIT #{startPage} ,#{limit}
     </select>
+
+    <select id="getTheRatelist" resultType="com.follow.vo.FollowUpTheRateVO">
+        SELECT DISTINCT f.f_name title,f.id,f.patientsnumber rate,u.user_name principal,f.fstate state, d.department_name desk ,f.`create_time` time
+        FROM followgroup f ,department d ,`user` u ,join_group s
+        where f.is_delete = 0
+        AND f.department_id =d.id
+        AND f.department_person = u.id
+        AND f.f_name = s.group_name
+        <if test="beginDate !=null and beginDate !=''">
+             and f.`create_time` &gt;  #{beginDate}
+        </if>
+        <if test="endDate !=null and endDate !=''">
+            and f.`create_time` &lt;  #{endDate}
+        </if>
+        <if test="principal !=null and principal !='' ">
+            and u.user_name = #{principal}
+        </if>
+        <if test="desk !=null and desk !='' ">
+            and d.id = #{desk}
+        </if>
+        <if test="state !=null and state !='' ">
+            and  f.fstate = #{state}
+        </if>
+        LIMIT #{startPage} ,#{limit}
+    </select>
+
+    <select id="selectQueryList" resultType="com.follow.vo.FollowUpQueryVO">
+        SELECT p.id,p.adminssionnumber,p.outpaientnumber,p.patient_name name,p.sex,p.birthday,j.group_time groupTime,a.operation_start_time operationTime,a.technique,a.operator
+        FROM patient p, join_group j ,patient_operation_information a
+        WHERE p.id = j.patient_control_id
+        and p.id = a.patient_id
+        <if test="array !=null and array !=''" >
+            and p.id in
+            <foreach collection="array" open="(" close=")" separator="," item="item">
+                #{item}
+            </foreach>
+        </if>
+        limit #{page},#{limit}
+    </select>
+<!--    <select id="getbyPatientId" resultType="com.follow.vo.FollowUpQueryVO">-->
+<!--        ${sb}-->
+<!--    </select>-->
+
+
 </mapper>

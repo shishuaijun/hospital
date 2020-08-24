@@ -9,4 +9,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface PatientService extends IService<Patient> {
 
+    /**
+     * 根据id 查询患者信息
+     * @param id
+     * @return
+     */
+    Patient getByOneId(Integer id);
 }
