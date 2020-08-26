@@ -101,8 +101,12 @@
             //背景
             var fbackground = $("#fbackground").val()
 
+
+
             //状态（下拉框）
             var fstate = $("[name='fstate']:checked").val()
+            //创建人
+            var user_id = $("#user_id").val()
 
             //开始日期（date）
             //var fstratTime = $("#fstratTime").val()
@@ -161,7 +165,8 @@
                     fName: fName,
                     fphone: fphone,
                     fbackground: fbackground,
-                    fstate: fstate
+                    fstate: fstate,
+                    user_id: user_id
                     // fstratTime: fstratTime,
                     // fendTime: fendTime
                 }, //要传的值，以键值对的形式存在
@@ -275,6 +280,13 @@
                 </td>
             </tr>
     -->
+            <tr>
+                <td>创建人：</td>
+
+                <td><input id="user_id" type="text" value="" disabled/></td>
+
+            </tr>
+
             <tr>
                 <td rowspan="2" align="center">
                     <div class="layui-input-block" align="center">

@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
@@ -82,7 +84,7 @@ public class FollowgroupController {
      */
     @PostMapping(value = "/save")
     @ResponseBody
-    public String save(Integer departmentId, Integer departmentPerson, Date createTime, String fName, String fphone, String fbackground, Integer fstate){
+    public String save(Integer departmentId, Integer departmentPerson, Date createTime, String fName, String fphone, String fbackground, Integer fstate, Integer userId, HttpServletRequest request){
         Followgroup f = new Followgroup();
         f.setDepartmentId(departmentId);
         f.setDepartmentPerson(departmentPerson);
@@ -91,8 +93,15 @@ public class FollowgroupController {
         f.setFphone(fphone);
         f.setFbackground(fbackground);
         f.setFstate(fstate);
+        //f.setUserId(userId);
         //f.setFstratTime(fstratTime);
         //f.setFendTime(fendTime);
+
+        HttpSession session = request.getSession();
+        Object id = session.getAttribute("id");
+        int i = Integer.parseInt(id.toString());
+
+        f.setUserId(i);
 
         boolean insert = followgroupService.save(f);
         if (insert == true){
