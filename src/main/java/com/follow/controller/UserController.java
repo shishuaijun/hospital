@@ -2,6 +2,7 @@ package com.follow.controller;
 
 import javax.servlet.http.Cookie;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.follow.common.JSONResult;
 import com.follow.common.ResultEum;
 import com.follow.entity.User;
@@ -188,7 +189,7 @@ public class UserController {
      * @return： String
      */
     @RequestMapping("/denglu")
-    public String denglu(String account, String passWord, Model model) {
+    public String denglu(String account, String passWord, Model model,HttpServletRequest request) {
         User user = new User();
         user.setAccount(account);
         user.setPassWord(passWord);
@@ -197,6 +198,17 @@ public class UserController {
         //使用 shiro 编写认证操作
         //1、 获取 Subject
         Subject subject = SecurityUtils.getSubject();
+        //保存登录信息
+        User user1 = (User) SecurityUtils.getSubject().getPrincipal();
+
+
+        Integer roleId = checkUser.getRoleId();
+        Long id = checkUser.getId();
+
+        //存储到session 中
+        HttpSession session = request.getSession();
+        session.setAttribute("id",id );
+        session.setAttribute("roleId1", roleId);
 
         //2、 封装用户数据
         UsernamePasswordToken token = new UsernamePasswordToken(account, passWord);
@@ -206,6 +218,10 @@ public class UserController {
             //判断登录的是用户还是管理员
             if (checkUser.getRoleId() == null) {
                 return "5";
+            } else if (checkUser.getRoleId() == 4) {
+                return "4";
+            } else if (checkUser.getRoleId() == 3) {
+                return "3";
             } else if (checkUser.getRoleId() == 2) {
                 return "2";
             } else if (checkUser.getRoleId() == 1) {

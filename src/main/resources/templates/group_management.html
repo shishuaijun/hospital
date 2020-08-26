@@ -150,7 +150,7 @@
       //获取当前的JSON对象，可以通过data.属性获取对应的属性值
       var data = obj.data;
       console.log(data.diseaseId);
-
+      console.log(obj.event);
 
       //删除操作
       if (obj.event === 'delete') {
@@ -225,6 +225,9 @@
 
 
   <script type="text/javascript">
+    function update() {
+
+    }
     function daoru() {
       var myf = new FormData();
       $.each($("#file")[0].files, function (index, item) {  //循环获取需要的文件，
@@ -287,8 +290,8 @@
 
         <script type="text/html" id="myoperate">
           <!--<a id="updateButton" class="layui-btn layui-btn-primary layui-btn-xs" lay-event="update">编辑</a>-->
-          <input type="button" id="updateButton" class="layui-btn layui-btn-xs" value="编辑" onclick="update()">
-          <a id="deleteButton" class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
+          <input type="button" class="layui-btn layui-btn-xs" value="编辑" lay-event="update">
+          <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
           <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="treatmentplan">第一种诊疗方案</a>
           <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="treatmentplan1">第二种诊疗方案</a>
         </script>

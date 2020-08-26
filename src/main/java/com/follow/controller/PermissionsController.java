@@ -198,8 +198,7 @@ public class PermissionsController {
             p.setRoleId(one.getRoleId());
             p.setRoleName(one.getRoleName());
             p.setJurisdiction(one.getJurisdiction());
-            p.setFollowgroupId(id);
-            p.setUserName(one.getUserName());
+            p.setFollowgroupId(id);p.setUserName(one.getUserName());
             p.setCreateTime(new Date());
             save = permissionsService.save(p);
         }

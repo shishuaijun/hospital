@@ -165,12 +165,12 @@
                     // fstratTime: fstratTime,
                     // fendTime: fendTime
                 }, //要传的值，以键值对的形式存在
-                success: function (data) { //data是变量，是服务器传到jsp的数据。相当于以前从Servlet转发到jsp
-
+                success:function (data) { //data是变量，是服务器传到jsp的数据。相当于以前从Servlet转发到jsp
+                    console.log(data)
                     if (data == "yes") {
 
                         layer.alert("添加成功！", function () {
-                            back();
+                            fanhui();
                         })
 
                     } else {
