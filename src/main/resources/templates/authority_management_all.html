@@ -5,13 +5,9 @@
     <title>全院权限管理</title>
 
     <link rel="stylesheet" href="layui/css/layui.css">
-    <script type="text/javascript" src="layui/jQuery/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="layui/jQuery/jquery-2.2.3.min.js"></script>
     <script type="text/javascript" src="layui/layui.all.js"></script>
-
-    <script type="text/javascript" src="layui/plugins/angularjs/angular.min.js"></script>
-    <script type="text/javascript" src="layui/plugins/angularjs/angular-animate.min.js"></script>
-    <script type="text/javascript" src="layui/plugins/angularjs/toaster.min.js"></script>
+    <script type="text/javascript" src="js/authoriy_management_all.js"></script>
 
 
     <!--<script type="text/javascript">
@@ -20,232 +16,14 @@
       $axure.utils.getReloadPath = function() { return 'resources/reload.html'; };
     </script>-->
 
-    <script>
-        var table = layui.table;
-
-        $(function () {
-
-            //加载表格数据
-            table.render({
-                elem: '#mytable', //绑定表格的id
-                url: '/getdepartment',
-                width: 1100,
-                method: 'get',
-                cols: [
-                    [{
-                        title: '序号',
-                        field: 'id',
-                        width: 60,
-                        type: 'id',
-                        fixed: 'left'
-                    }, {
-                        field: 'departmentName',
-                        title: '科室名称',
-                        align: 'center', //字体居中
-                        width: 200
-                    }, {
-                        field: 'hospitalId',
-                        title: '医院编号',
-                        align: 'center', //字体居中
-                        width: 100
-                    }, {
-                        field: 'departmentBoss',
-                        title: '负责人',
-                        align: 'center', //字体居中
-                        width: 150
-                    }, {
-                        width: 350,
-                        align: 'center',
-                        fixed: 'right',
-                        title: '操作',
-                        toolbar: '#myoperate'
-                    }]
-                ],
-                limits: [5, 10], //每页条数的选择项，默认：[10,20,30,40,50,60,70,80,90]。
-                limit: 5,
-                page: true //是否开启分页
-            });
-
-        })
-
-
-        table.on('tool(mytable)', function (obj) {
-
-            //获取当前的JSON对象，可以通过data.属性获取对应的属性值
-            var data = obj.data;
-            console.log(data.id)
-
-            if (obj.event === 'deleteDepartment') {
-
-
-                layer.confirm('确认删除科室名为【' + data.departmentName + '】的记录吗？', {
-                    icon: 3,
-                    title: '提示'
-                }, function (index) {
-
-                    $.ajax({
-                        url: "/deleteDepartment", //地址
-                        type: "post", //请求类型  看1
-                        data: {
-                            id: data.id
-                        }, //要传的值，以键值对的形式存在
-                        success: function (q) { //data是变量，是服务器传到jsp的数据。相当于以前从Servlet转发到jsp
-
-                            if (q == "yes") {
-
-                                layer.alert("删除成功！", function () {
-
-                                    //关闭弹框
-                                    layer.closeAll();
-                                    //重载表格数据
-                                    table.reload("mytable");
-
-                                    //删除当前行dom元素
-                                    //										obj.del();
-                                })
-
-                            } else {
-                                layer.alert("删除失败，请重试！")
-                            }
-
-                        }
-                    });
-
-                });
-            }
-
-
-            //				跳转至修改页面
-            if (obj.event === 'updateDepartment') {
-
-                window.location = "department_update.html?id=" + data.id;
-            }
-
-
-
-
-
-        })
-    </script>
-
     <!-- 模糊查询 + 分页 -->
-    <script type="text/javascript">
-        //加载表格数据
-        var loadData = function() {
 
-            var name = $("#name").val()
-            var modifyMan = $("#modifyMan").val()
-
-            //加载表格数据
-            table.render({
-                elem: '#mytable', //绑定表格的id
-                url: '/findByDepartment',
-                width: 1100,
-                method: 'get',
-                where: {
-                    departmentName: departmentName,
-                    departmentBoss: departmentBoss
-                },
-                cols: [
-                    [{
-                        title: '序号',
-                        field: 'id',
-                        width: 60,
-                        type: 'id',
-                        fixed: 'left'
-                    }, {
-                        field: 'departmentName',
-                        title: '科室名称',
-                        align: 'center', //字体居中
-                        width: 200
-                    }, {
-                        field: 'hospitalId',
-                        title: '医院编号',
-                        align: 'center', //字体居中
-                        width: 100
-                    }, {
-                        field: 'departmentBoss',
-                        title: '负责人',
-                        align: 'center', //字体居中
-                        width: 150
-                    }, {
-                        width: 350,
-                        align: 'center',
-                        fixed: 'right',
-                        title: '操作',
-                        toolbar: '#myoperate'
-                    }]
-                ],
-                limits: [5, 10], //每页条数的选择项，默认：[10,20,30,40,50,60,70,80,90]。
-                limit: 5,
-                page: true //是否开启分页
-            });
-
-
-            table.on('tool(mytable)', function (obj) {
-
-                //获取当前的JSON对象，可以通过data.属性获取对应的属性值
-                var data = obj.data;
-                console.log(data.id);
-                //删除操作
-
-                if (obj.event === 'deleteDepartment') {
-
-
-                    layer.confirm('确认删除科室名为【' + data.departmentName + '】的记录吗？', {
-                        icon: 3,
-                        title: '提示'
-                    }, function (index) {
-
-                        $.ajax({
-                            url: "/deleteDepartment", //地址
-                            type: "post", //请求类型  看1
-                            data: {
-                                id: data.id
-                            }, //要传的值，以键值对的形式存在
-                            success: function (q) { //data是变量，是服务器传到jsp的数据。相当于以前从Servlet转发到jsp
-
-                                if (q == "yes") {
-
-                                    layer.alert("删除成功！", function () {
-
-                                        //关闭弹框
-                                        layer.closeAll();
-                                        //重载表格数据
-                                        table.reload("mytable");
-
-                                        //删除当前行dom元素
-                                        //										obj.del();
-                                    })
-
-                                } else {
-                                    layer.alert("删除失败，请重试！")
-                                }
-
-                            }
-                        });
-
-                    });
-                }
-
-
-                //				跳转至修改页面
-                if (obj.event === 'updateDepartment') {
-
-                    window.location = "department_update.html?id=" + data.id;
-                }
-
-
-            })
-        }
-
-    </script>
 
     <script type="text/javascript">
         //跳转增加页面
-        function addDepartment() {
-            window.location = "department_add.html";
-        }
+        // function addDepartment() {
+        //     window.location = "department_add.html";
+        // }
     </script>
 </head>
 
@@ -257,62 +35,178 @@
         <div class="layui-logo">管理科室权限</div>
     </div>
 
-
-    <div class="layui-body">
-
-        <div class="layui-card">
-            <!-- 内容主体区域 -->
-            <div class="layui-card-body">
-
-                <form class="layui-form" action="">
-
-                    <div>
-                        <label class="layui-form-label">科室名称：</label>
-                        <div class="layui-inline">
-                            <input class="layui-input" name="departmentName" id="departmentName"
-                                   autocomplete="off" placeholder="请输入参数：">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="layui-form-label">负责人：</label>
-                        <div class="layui-inline">
-                            <input class="layui-input" name="departmentBoss" id="departmentBoss"
-                                   autocomplete="off" placeholder="请输入参数：">
-                        </div>
-                    </div>
-
-                    <!--按钮-->
-                    <div class="layui-form-item">
-                        <div class="layui-input-block">
-                            <button class="layui-btn" type="button" onclick="loadData()">查询</button>
-                            <button class="layui-btn layui-btn-primary" type="reset">重置</button>
-                        </div>
-                    </div>
-                </form>
-                <br>
-                <div>
-                    <input type="button" class="layui-btn layui-btn" value="新增科室" onclick="addDepartment()"/>
-                </div>
-                <table id="mytable" lay-filter="mytable"></table>
-                <script type="text/html" id="myoperate">
-                    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="updateDepartment">编辑</a>
-                    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="deleteDepartment">删除</a>
-                </script>
-
-
-            </div>
-
+    <div style="width: 80% ; height: 120px ; margin: auto;padding-top: 20px ; background: #f4f5f7; ">
+        <div class="layui-form-item" style=" margin: auto;">
+            <label class="layui-form-label">科室名称:</label>
+                <select id="departmentName" style="float: left;height: 30px ; width: 200px">
+                    <option value="">全部</option>
+                </select>
+            <label class="layui-form-label">负责人:</label>
+            <select id="departmentBoss" style="float: left;height: 30px ; width: 200px">
+                <option value="">全部</option>
+            </select>
         </div>
-
+        <div style="width: 100% ;">
+            <input type="button" id="addDepartment" class="layui-btn" style="float: left; margin-left: 30px " value="新增"/>
+            <input type="button" id="retrieval" class="layui-btn" style="float: right; margin-right: 30px" value="检索"/>
+        </div>
     </div>
 
-    <div class="layui-footer">
-        <!-- 底部固定区域 -->
-        <center>阳光嘉运科技有限公司&copy;2017-2019</center>
-    </div>
+    <table class="color_div_top" id="test" lay-filter="test">
+
+    </table>
 
 </div>
 
-
+<script type="text/html" id="permissions_edit">
+    <input type="button" class="layui-btn layui-btn-xs layui-btn-radius layui-btn-normal" lay-event="edit" value="编辑"/>
+    <input type="button" class="layui-btn layui-btn-xs layui-btn-radius layui-btn-danger" lay-event="del" value="删除"/>
+</script>
+<div style="position:fixed;bottom:0; width: 100%; background: #e2e2e2 ; height: 30px">
+    <!-- 底部固定区域 -->
+    <center>阳光嘉运科技有限公司&copy;2017-2019</center>
+</div>
 </body>
+<script src="layui/layui.js"></script>
+
+<script type="text/javascript">
+    //加载表格数据
+    layui.use(['table','layer'], function(){
+        var table = layui.table,layer = layui.layer;
+        table.render({
+            elem: '#test'
+            ,url:'/getDepartmentName'
+            ,page:true
+            ,cols: [[
+                {field:'id', title: '序号', sort: true ,  align:'center'}
+                ,{field:'departmentName', title: '科室名称' , align:'center'}
+                ,{field:'departmentBoss', title: '负责人' , align:'center'}
+                ,{fixed: 'right', title:'操作', toolbar: '#permissions_edit' , align:'center' }
+            ]]
+            ,id:"retr"
+        });
+        $("#retrieval").click(function(){
+            table.reload('retr',{
+                where:{
+                    departmentName:$("#departmentName").val(),
+                    departmentBoss:$("#departmentBoss").val()
+                }
+            })
+        });
+        table.on("tool(test)",function(obj){
+            if(obj.event === 'del'){
+               alert("删除");
+               $.ajax({
+                   type:"post",
+                   url:"dislodgeDepartment",
+                   data:{
+                        "id":obj.data.id
+                   }
+               }).success(function(data){
+                   layer.msg(data.data)
+               })
+            }else if(obj.event === 'edit'){
+                $.ajax({
+                    type:"post",
+                    url:"getDepartmentByHospital",
+                    data:{
+                        "id":obj.data.id
+                    }
+                }).success(function (data) {
+                    layer.open({
+                        type:5,
+                        anim:1,
+                        title:"科室编辑",
+                        area:["600px" , "400px"],
+                        content:
+                            '<input type="text" id="departmentId" value="'+data.data.id+'" style="display: none" />'+
+                            '<input type="text" id="hospitalId" value="'+data.data.hospitalId+'" style="display: none" />'+
+                            '<div style="width: 500px; margin: auto; padding-top: 30px;">\n' +
+                            '\t\t\t<div class="layui-form-item">\n' +
+                            '\t\t\t    <label class="layui-form-label">科室名称：</label>\n' +
+                            '\t\t\t    <div class="layui-input-block">\n' +
+                            '\t\t\t      <input type="text" id="departmentNameUpdate" value="'+data.data.departmentName+'" class="layui-input" />\n' +
+                            '\t\t\t    </div>\n' +
+                            '\t\t\t</div>\n' +
+                            '\t\t\t<div class="layui-form-item">\n' +
+                            '\t\t\t    <label class="layui-form-label">医院名称：</label>\n' +
+                            '\t\t\t    <div class="layui-input-block">\n' +
+                            '\t\t\t      <input type="text"  id="hospitalNameUpdate" value="'+data.data.hospitalName+'" class="layui-input layui-btn-disabled" disabled="disabled"/>\n' +
+                            '\t\t\t    </div>\n' +
+                            '\t\t\t</div>\n' +
+                            '\t\t\t<div class="layui-form-item">\n' +
+                            '\t\t\t    <label class="layui-form-label">负责人：</label>\n' +
+                            '\t\t\t    <div class="layui-input-block">\n' +
+                            '\t\t\t      <input type="text" id="departmentBossUpdate" value="'+data.data.departmentBoss+'"  class="layui-input"/>\n' +
+                            '\t\t\t    </div>\n' +
+                            '\t\t\t</div>\n' +
+                            '\t\t</div>'+
+                            '\t\t\t<div style="text-align: center;margin: auto;">\n' +
+                            '\t\t\t\t<input class="layui-btn layui-btn-radius" type="button" value="修改" onclick="updateDepartment()" id="updateDepar"/>\n' +
+                            '\t\t\t</div>'
+                        ,
+                    })
+                })
+            }
+        });
+
+        $('#addDepartment').on('click', function(){
+            $.ajax({
+                type:"post",
+                url:"getHospitalAll"
+            }).success(function(data){
+                console.log(data.data)
+                layer.open({
+                    type: 5,
+                    area: ['600px', '360px'],
+                    anim:4,
+                    shadeClose: true, //点击遮罩关闭
+                    content:
+                        '<div id="addDepartment" style="width: 500px; margin: auto; padding-top: 30px;">\n' +
+                        '\t\t<div class="layui-form-item">\n' +
+                        '\t\t\t<label class="layui-form-label">科室名称：</label>\n' +
+                        '\t\t\t<div class="layui-input-block">\n' +
+                        '\t\t\t  <input type="text"  name="departmentName" onmouseout="departmentName()" value="" class="layui-input" />\n' +
+                        '\t\t\t</div>\n' +
+                        '\t\t</div>\n' +
+                        '\t\t<div class="layui-form-item">\n' +
+                        '\t\t\t<label class="layui-form-label">医院名称：</label>\n' +
+                        '\t\t\t<div class="layui-input-block">\n' +
+                        '\t\t\t  <select id="hospitalName" name="hospitalId" class="layui-input">\n' +
+                        '\t\t\t  <option value="" >--请选中--</option>\n' +
+                        '\t\t\t  </select>\n' +
+                        '\t\t\t</div>\n' +
+                        '\t\t</div>\n' +
+                        '\t\t<div class="layui-form-item">\n' +
+                        '\t\t\t<label class="layui-form-label">负责人：</label>\n' +
+                        '\t\t\t<div class="layui-input-block">\n' +
+                        '\t\t\t  <input type="text" name="departmentBoss" onmouseout="departmentBoss()"  value=""  class="layui-input"/>\n' +
+                        '\t\t\t</div>\n' +
+                        '\t\t</div>\n' +
+                        '\t\t<div style="text-align: center;margin: auto;">\n' +
+                        '\t\t<input class="layui-btn layui-btn-radius" type="button" value="提交" onclick="submitDepartment()" id="submitDepartment"/>\n' +
+                        '\t\t</div>\n' +
+                        '\t\t</div>'
+                });
+                for (var i = 0; i <data.data.length ; i++) {
+                    $("#hospitalName").append('<option value="'+data.data[i].id+'">'+data.data[i].hospitalName+'</option>')
+                }
+            });
+        });
+        $("#updateDepar").click(function(){
+            $.ajax({
+                type:"post",
+                url:"updateDepartment",
+                data:{
+                    "departmentName":$("#departmentNameUpdate").val(),
+                    "hospitalName":$("#hospitalNameUpdate").val(),
+                    "departmentBoss":$("#departmentBossUpdate").val(),
+                    "id":$("#departmentId").val()
+                }
+            }).success(function(data){
+                layer.msg(data.data)
+            })
+        })
+    });
+</script>
 </html>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.follow.mapper.PermissionsMapper">
+
+    <select id="selectPermissionsFollowgroupVo" resultType="com.follow.vo.PermissionsFollowgroupVo">
+        select f.id , f.flevel as level , p.role_name as roleName , GROUP_CONCAT(p.user_name) as userName , p.jurisdiction ,f.department_id as departmentId
+        from followgroup f , permissions p
+        WHERE p.followgroup_id = f.id
+        and f.is_delete = 0
+        <if test="userName != null and userName != ''">
+            and p.role_name = #{userName}
+        </if>
+        <if test="remarks != null and remarks != ''">
+            and f.fbackground = #{remarks}
+        </if>
+        GROUP BY f.id limit #{page} , #{limit}
+    </select>
+
+</mapper>

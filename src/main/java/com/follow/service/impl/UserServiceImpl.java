@@ -23,4 +23,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public List<User> findAll() {
         return userMapper.selectAll();
     }
+
+    @Override
+    public User checkUser(User user) {
+        User u = userMapper.checkUser(user);
+        return u;
+    }
+
+    @Override
+    public User findById(Long id) {
+        return userMapper.selectById(id);
+    }
+
 }

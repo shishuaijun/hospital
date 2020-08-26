@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>用户注册</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+
+    <script src="resources/scripts/jquery-1.7.1.min.js"></script>
+    <script src="resources/scripts/jquery-ui-1.8.10.custom.min.js"></script>
+
+    <script type="text/javascript" src="layui/layui.all.js"></script>
+   <!-- <script type="text/javascript">
+        $axure.utils.getTransparentGifPath = function () {
+            return 'resources/images/transparent.gif';
+        };
+        $axure.utils.getOtherPath = function () {
+            return 'resources/Other.html';
+        };
+        $axure.utils.getReloadPath = function () {
+            return 'resources/reload.html';
+        };
+    </script>-->
+    <script>
+
+        //		返回至分组管理页面
+        var fanhui = function () {
+            window.location = "/";
+        }
+
+    </script>
+
+    <script type="text/javascript">
+        var form = layui.form;
+
+        //提交
+        var saveEntity = function () {
+
+            //用户姓名
+            var userName = $("#userName").val();
+
+            //账号
+            var account = $("#account").val();
+
+            //密码
+            var passWord = $("#passWord").val();
+
+
+            // 如果错误计数器为0， 则认为校验通过，可以提交给后台处理
+
+            $.ajax({
+                url: "/saveUser",
+                type: "post",
+                data: {
+                    userName: userName,
+                    account: account,
+                    passWord: passWord
+                }, //要传的值，以键值对的形式存在
+                success: function (data) { //data是变量，是服务器传到jsp的数据。相当于以前从Servlet转发到jsp
+
+                    if (data == "yes") {
+
+                        layer.alert("注册成功！请登录", function () {
+                            back();
+                        })
+
+                    } else {
+                        layer.alert("注册失败，请重试！")
+                    }
+
+                }
+            });
+
+
+        }
+
+        //返回
+        var back = function () {
+            window.location = "/";
+        }
+    </script>
+</head>
+<body>
+<center>
+    <form class="layui-form">
+        <div id="u106" class="ax_default paragraph">
+            <p><span style="text-decoration:underline;">
+            <input type="button" class="layui-btn layui-btn" value="重新登陆" onclick="back()"/>
+        </span></p>
+        </div>
+
+        <div>
+            <table id="table1" align="center" style="top:10px;right:10px;">
+                <tr>
+                    <td>用户姓名：</td>
+                    <td><input id="userName" type="text" value=""/></td>
+                </tr>
+                <tr>
+                    <td>账号：</td>
+                    <td><input id="account" type="text" value=""/></td>
+                </tr>
+                <tr>
+                    <td>密码：</td>
+                    <td><input id="passWord" type="password" value=""/></td>
+                </tr>
+                <br><br><br>
+
+                <tr>
+                    <td rowspan="2" align="center">
+                        <div class="layui-input-block" align="center">
+                            <button class="layui-btn layui-btn-xs" type="button" onclick="saveEntity()">注 册</button>
+                            <button class="layui-btn layui-btn-primary" type="reset"> 重 置</button>
+                            <button class="layui-btn layui-btn-normal" type="button" onclick="fanhui()"> 重新登陆</button>
+                        </div>
+                    </td>
+
+                </tr>
+
+            </table>
+        </div>
+
+
+    </form>
+
+</center>
+</body>
+</html>

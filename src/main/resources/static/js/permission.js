@@ -9,18 +9,3 @@ function qinchu (){
 		$("[ name='remarks']").val('')  ;
 	}
 }
-
-function queryPermissions(){
-	var userName = $("input[name='userName']").val();
-	var remarks = $("input[name='remarks']").val();
-	$.ajax({
-		type:"post",
-		url:"",
-		data:{
-			"userName":userName,
-			"remarks":remarks
-		}
-	}).success(function(data){
-
-	})
-}
