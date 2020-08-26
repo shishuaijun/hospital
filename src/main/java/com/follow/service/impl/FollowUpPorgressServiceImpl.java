@@ -25,6 +25,14 @@ import java.util.List;
 @Service
 public class FollowUpPorgressServiceImpl implements FollowUpPorgressService {
 
+    private final Integer KEY_YI = 1;
+    private final Integer KEY_ER  = 2;
+    private final Integer KEY_SAN = 3;
+    private final Integer KEY_SI  = 4;
+    private final Integer KEY_WU  = 5;
+    private final Integer KEY_LIU = 6;
+    private final Integer KEY_QI = 7;
+
     @Autowired
     private FollowUpPorgressMapper followUpPorgressMapper;
     @Autowired
@@ -322,5 +330,63 @@ public class FollowUpPorgressServiceImpl implements FollowUpPorgressService {
         return dataUtil;
     }
 
+
+    @Override
+    public DataUtil<DateCalendarVO> getdateCalendar() {
+
+        DataUtil<DateCalendarVO> dataUtil = new DataUtil<>();
+
+        List<CalendarVO> calendarVOS = patientMapper.selectNumList();
+        List<DateCalendarVO> list = new ArrayList<>();
+
+        List<DateCalendarVO> lists = new ArrayList<>();
+
+        for (CalendarVO calendarVO : calendarVOS) {
+            DateCalendarVO vo = new DateCalendarVO();
+            DateCalendarVO vo1 = new DateCalendarVO();
+
+            String y = calendarVO.getActual().substring(0, 4);
+            String m1 = calendarVO.getActual().substring(5, 6);
+            String d = calendarVO.getActual().substring(8, 10);
+            String mm =  calendarVO.getActual().substring(6, 7);
+            Integer m = Integer.parseInt(mm)-1;
+
+            Integer state = patientMapper.selectCountState(calendarVO.getActual());
+            Integer integer = patientMapper.selectCountsum(calendarVO.getActual());
+            List<CalendarVO> patientNames = patientMapper.selectPatientNameList(calendarVO.getActual());
+
+            double dividend= state;
+            double divisor =integer;
+            double consult = dividend/divisor*100;
+            consult = (double) Math.round(consult * 100) / 100;
+            String t = "计划随访 : "+integer+" 实际随访 : "+state+" 随访进度:  "+consult+"%    ";
+            String tt="";
+            if(EmptyUtils.isNotEmpty(patientNames)){
+                 StringBuffer buffer = new StringBuffer();
+                 for (int i = 0; i < patientNames.size(); i++) {
+                     if(buffer.length()>0){
+                         buffer.append(" ");
+                     }
+                     buffer.append(i+1+":"+patientNames.get(i).getProgress());
+                 }
+                 tt= "患者列表 : "+buffer;
+             }
+            vo.setT(t);
+            vo.setY(y);
+            vo.setM(m1+m);
+            vo.setD(d);
+            vo1.setT(tt);
+            vo1.setY(y);
+            vo1.setM(m1+m);
+            vo1.setD(d);
+            list.add(vo);
+            list.add(vo1);
+        }
+        dataUtil.setCode(0);
+        dataUtil.setMsg("");
+        dataUtil.setCount(0);
+        dataUtil.setData(list);
+        return dataUtil;
+    }
 
 }
