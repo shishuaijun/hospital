@@ -1,15 +1,13 @@
 package com.follow.controller;
 
-import com.alibaba.fastjson.JSON;
-import com.follow.entity.User;
 import com.follow.service.UserService;
-
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author wangchunjun
@@ -25,8 +23,10 @@ public class TestController {
 
     @RequestMapping("/test")
     @ResponseBody
-    public String Test(){
-        List<User> list = userService.list();
-        return JSON.toJSONString(list);
+    public void Test(HttpServletRequest request){
+        val session = request.getSession();
+        Object id = session.getAttribute("id");
+        Integer userId = Integer.parseInt(id.toString());
+        System.out.println(userId);
     }
 }
