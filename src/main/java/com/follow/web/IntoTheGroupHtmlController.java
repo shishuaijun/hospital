@@ -2,6 +2,7 @@ package com.follow.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 入组管理  页面跳转 控制层
@@ -112,5 +113,15 @@ public class IntoTheGroupHtmlController {
     @RequestMapping("/regroupManagement")
     public String group_management(){
         return "group_management";
+    }
+
+    @RequestMapping("/quickMark")
+    public String quickMark(){
+        return "calendarView/quickMark";
+    }
+    @RequestMapping("/qrcode")
+    @ResponseBody
+    public String qrcode(){
+        return "你好";
     }
 }
