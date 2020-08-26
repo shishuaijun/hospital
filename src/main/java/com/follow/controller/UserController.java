@@ -33,6 +33,12 @@ import java.util.Map;
 
 import java.util.List;
 
+
+import java.util.Date;
+import java.util.Calendar;
+
+import java.text.SimpleDateFormat;
+
 /**
  * @author wangchunjun
  * @date 2020/8/6
@@ -207,6 +213,7 @@ public class UserController {
 
         //存储到session 中
         HttpSession session = request.getSession();
+        session.setAttribute("checkUser", checkUser);
         session.setAttribute("id",id );
         session.setAttribute("roleId1", roleId);
 
