@@ -108,6 +108,8 @@
             //创建人
             var user_id = $("#user_id").val()
 
+            //创建人
+            var create_time = $("#createTime").val()
             //开始日期（date）
             //var fstratTime = $("#fstratTime").val()
 
@@ -166,7 +168,8 @@
                     fphone: fphone,
                     fbackground: fbackground,
                     fstate: fstate,
-                    user_id: user_id
+                    user_id: user_id,
+                    create_time:create_time
                     // fstratTime: fstratTime,
                     // fendTime: fendTime
                 }, //要传的值，以键值对的形式存在
@@ -284,6 +287,11 @@
                 <td>创建人：</td>
 
                 <td><input id="user_id" type="text" value="" disabled/></td>
+
+                <td>创建时间：</td>
+                <td>
+                    <input id="createTime" type="date" value="" placeholder="请选择日期" disabled/>
+                </td>
 
             </tr>
 

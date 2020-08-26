@@ -84,11 +84,11 @@ public class FollowgroupController {
      */
     @PostMapping(value = "/save")
     @ResponseBody
-    public String save(Integer departmentId, Integer departmentPerson, Date createTime, String fName, String fphone, String fbackground, Integer fstate, Integer userId, HttpServletRequest request){
+    public String save(Integer departmentId, Integer departmentPerson, String fName, String fphone, String fbackground, Integer fstate, Integer userId, Date createTime, HttpServletRequest request){
         Followgroup f = new Followgroup();
         f.setDepartmentId(departmentId);
         f.setDepartmentPerson(departmentPerson);
-        f.setCreateTime(createTime);
+
         f.setFName(fName);
         f.setFphone(fphone);
         f.setFbackground(fbackground);
@@ -102,6 +102,12 @@ public class FollowgroupController {
         int i = Integer.parseInt(id.toString());
 
         f.setUserId(i);
+
+        SimpleDateFormat sdf = new SimpleDateFormat();// 格式化时间
+        sdf.applyPattern("yyyy-MM-dd HH:mm:ss a");// a为am/pm的标记
+        Date date = new Date();// 获取当前时间
+
+        f.setCreateTime(date);
 
         boolean insert = followgroupService.save(f);
         if (insert == true){
