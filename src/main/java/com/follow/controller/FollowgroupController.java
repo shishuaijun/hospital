@@ -107,6 +107,8 @@ public class FollowgroupController {
         sdf.applyPattern("yyyy-MM-dd HH:mm:ss a");// a为am/pm的标记
         Date date = new Date();// 获取当前时间
 
+        System.out.println(date);
+
         f.setCreateTime(date);
 
         boolean insert = followgroupService.save(f);
