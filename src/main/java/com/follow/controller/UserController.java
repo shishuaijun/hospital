@@ -213,6 +213,7 @@ public class UserController {
 
         //存储到session 中
         HttpSession session = request.getSession();
+        session.setAttribute("checkUser", checkUser);
         session.setAttribute("id",id );
         session.setAttribute("roleId1", roleId);
 
