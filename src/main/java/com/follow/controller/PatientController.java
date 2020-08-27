@@ -25,12 +25,11 @@ public class PatientController {
     private PatientService patientService ;
 
     @RequestMapping("getPatientUserVo")
-    public JSONResult getPatientUserVo(@RequestParam("userId") String userId , HttpServletRequest request){
-        Object attribute = request.getSession().getAttribute("");
-        System.out.println(attribute.toString());
+    public JSONResult getPatientUserVo(HttpServletRequest request){
+        Object attribute = request.getSession().getAttribute("id");
         JSONResult jsonResult = null ;
         try{
-        PatientUserVo patientUserVo = patientService.queryPatientUserVoByUserId(userId);
+        PatientUserVo patientUserVo = patientService.queryPatientUserVoByUserId(attribute.toString());
             jsonResult = new JSONResult(ResultEum.SUCCESS,1L,patientUserVo);
         }catch(Exception e){
             e.getLocalizedMessage();

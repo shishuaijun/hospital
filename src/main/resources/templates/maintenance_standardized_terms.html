@@ -77,10 +77,7 @@
                 var thisData = this ;
                 $.ajax({
                     type:"post",
-                    url:"getPatientUserVo",
-                    data:{
-                        'userId':'1'
-                    }
+                    url:"getPatientUserVo"
                 }).success(function(data){
                     thisData.symptiom  = data.data.patientName;
                     thisData.termClass = data.data.diseaseNumber;
