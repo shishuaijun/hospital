@@ -9,7 +9,7 @@
     <script src="vue/vuejs-2.5.16.js" ></script>
     <script src="vue/axios-0.18.0.js"></script>
     <script src="js/maintenance_standardized_terms.js"></script>
-    <title>字典术语维护</title>
+    <title>标准化术语维护</title>
 </head>
 <body>
 <div class="headTop">
@@ -18,32 +18,43 @@
 <div style="margin: auto; width: 90%;">
     <div class="layui-container">
         <div class="layui-row">
-            <div class="layui-col-md3" id="term">
-                树形数据
+            <div class="layui-col-md3" id="term" style="border: 1px #e2e2e2 solid ; height: 500px">
+
             </div>
-            <div class="layui-col-md9" style="border-bottom: 1px #4E5465  solid;">
-                <div style="height: 200px; vertical-align: middle;display:table-cell ; width: 850px">
-                    <div style="vertical-align: middle;margin: auto; display:table-cell ; text-align: center;width: 850px; height: 200px;">
-                        <h3 style="color: #138CDD;margin-right: 50px">提交信息：</h3>
+            <div class="layui-col-md9">
+                <div style="height: 200px; vertical-align: middle;display:table-cell ; width: 850px;">
+                    <div style="vertical-align: middle; display:table-cell ; width: 850px; height: 200px;">
+                        <h3 style="color: #138CDD;margin-right: 50px;float: left">提交信息：</h3>
                         <div id="userXinXi" style="float: right">
-                            <table style="width: 400px">
+                            <table >
                                 <tr>
-                                    <td>名称：{{symptiom}}</td>
-                                    <td>类型：{{termClass}}</td>
-                                    <td>分类：{{classify}}</td>
+                                    <td>名称：<input type="text" style="margin-right: 20px;width: 100px;" :value="symptiom"/></td>
+                                    <td>类型：<input type="text" style="margin-right: 20px;width: 100px;" :value="termClass"/></td>
+                                    <td>分类：<input type="text" style="margin-right: 20px;width: 100px;" :value="classify"/></td>
                                 </tr>
                                 <tr>
-                                    <td>创建人：{{establish}}</td>
-                                    <td>科室：{{kehsi}}</td>
-                                    <td>创建时间：{{newData}}</td>
+                                    <td>创建人：<input type="text" style="margin-right: 20px;width: 100px;" :value="establish"/></td>
+                                    <td>科室：<input type="text" style="margin-right: 20px;width: 100px;" :value="kehsi"/></td>
+                                    <td>创建时间：<input type="text" style="margin-right: 20px;width: 100px;" :value="newData"/></td>
                                 </tr>
                                 <tr>
-                                    <td>内容：{{datas}}</td>
+                                    <td>内容：<input type="text" style="margin-right: 20px;width: 100px;" :value="datas"/></td>
                                 </tr>
                             </table>
                         </div>
                     </div>
                 </div>
+
+                <div style="width: 100% ; border-bottom: 1px #9c9c9c solid; margin:20px 10px 20px 10px">
+
+                </div>
+
+                <div style="margin: auto;vertical-align: middle; background-color: #e2e2e2;">
+                    <div id="inputDiv">
+
+                    </div>
+                </div>
+                <input type="button" class="layui-btn " onclick="submit()"  style="vertical-align: middle;margin:auto ;text-align: center;" value="保存">
             </div>
         </div>
     </div>
@@ -54,22 +65,29 @@
         data:{
             symptiom:'暂无数据' ,
             termClass : '暂无数据',
-            classify:'暂无数据',
+            classify:'基本信息',
             establish:'暂无数据',
             kehsi:'暂无数据',
             newData:'暂无数据',
             datas:'暂无数据'
         },
         methods:{
+
             getUser:function(){
+                var thisData = this ;
                 $.ajax({
                     type:"post",
-                    url:"",
+                    url:"getPatientUserVo",
                     data:{
                         'userId':'1'
                     }
                 }).success(function(data){
-
+                    thisData.symptiom  = data.data.patientName;
+                    thisData.termClass = data.data.diseaseNumber;
+                    thisData.establish = data.data.userName;
+                    thisData.kehsi = data.data.departmentName ;
+                    thisData.newData = data.data.newDate;
+                    thisData.datas = data.data.symptom;
                 })
             }
         } ,

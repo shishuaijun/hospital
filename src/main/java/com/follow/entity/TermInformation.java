@@ -9,6 +9,8 @@ public class TermInformation {
 
     private String termName ;
 
-    private Integer beanId ;
+    private Integer erjiId ;
+
+    private Integer sanjiId;
 
 }
