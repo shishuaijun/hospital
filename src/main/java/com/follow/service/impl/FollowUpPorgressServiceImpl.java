@@ -191,17 +191,21 @@ public class FollowUpPorgressServiceImpl implements FollowUpPorgressService {
         }
         Integer startPage = (page-1) * limit;
         List<FollowUpTheRateVO> theRatelist = followUpPorgressMapper.getTheRatelist(principal, desk, state, begintime, endtime ,startPage,limit);
+
         for (FollowUpTheRateVO followUpTheRateVO : theRatelist) {
             QueryWrapper<JoinGroup> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("group_name",followUpTheRateVO.getTitle());
             Integer integer = joinGroupMapper.selectCount(queryWrapper);
-
-            double dividend= integer;
-            double divisor =followUpTheRateVO.getRate();
-            double consult = dividend/divisor*100;
-            consult = (double) Math.round(consult * 100) / 100;
-            String d = consult+"";
-            followUpTheRateVO.setRates(d);
+            if(EmptyUtils.isNotEmpty(followUpTheRateVO.getRate())){
+                double dividend= integer;
+                double divisor =followUpTheRateVO.getRate();
+                double consult = dividend/divisor*100;
+                consult = (double) Math.round(consult * 100) / 100;
+                String d = consult+"";
+                followUpTheRateVO.setRates(d);
+            }else {
+                followUpTheRateVO.setRates("0.0");
+            }
         }
 
         return theRatelist;
@@ -227,7 +231,10 @@ public class FollowUpPorgressServiceImpl implements FollowUpPorgressService {
         Integer integer = joinGroupMapper.selectCount(queryWrapper);
 
         double dividend= integer;
-        double divisor =followgroup.getPatientsnumber();
+        double divisor = 0;
+        if(EmptyUtils.isNotEmpty(followgroup.getPatientsnumber())){
+            divisor =followgroup.getPatientsnumber();
+        }
         double consult = dividend/divisor*100;
         consult = (double) Math.round(consult * 100) / 100;
         String d = consult+"%";
