@@ -85,4 +85,11 @@ public interface FollowUpPorgressService {
      * @return
      */
     DataUtil<FollowUpQueryVO> getQueryList(Integer page, Integer limit, String array);
+
+
+    /**
+     * 获取 所有 随访进度 信息
+     * @return
+     */
+    DataUtil<DateCalendarVO> getdateCalendar();
 }

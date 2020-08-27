@@ -1,5 +1,4 @@
 package com.follow.controller;
-
 import com.alibaba.fastjson.JSON;
 import com.follow.common.EmptyUtils;
 import com.follow.common.ResultEum;
@@ -162,4 +161,11 @@ public class FollowUpProgressController {
         return dataUtil;
     }
 
+
+    @PostMapping("/getdateview")
+    public DataUtil<DateCalendarVO> getdateview(){
+        DataUtil<DateCalendarVO> dataUtil = followUpPorgressService.getdateCalendar();
+
+        return dataUtil;
+    }
 }

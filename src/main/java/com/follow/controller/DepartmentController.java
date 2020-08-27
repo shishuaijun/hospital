@@ -49,6 +49,15 @@ public class DepartmentController {
     @ResponseBody
     public String getdepartment(Integer page, Integer limit) {
         Page<Department> page1 = departmentService.page(new Page<>(page, limit));
+
+
+        // 解决bug：最后一页删除多条数据后，页面显示无数据，需要将页数减一，重新进行查询
+        while (page1.getSize() == 0) {
+            page = page - 1;
+            page1 = departmentService.page(new Page<>(page, limit));
+        }
+
+
         DataUtil dataUtil = new DataUtil();
         dataUtil.setCode(0);
         dataUtil.setMsg("success");

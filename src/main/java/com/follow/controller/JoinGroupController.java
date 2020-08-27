@@ -2,7 +2,6 @@ package com.follow.controller;
 
 
 import com.alibaba.fastjson.JSON;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.follow.common.EmptyUtils;
 import com.follow.common.ResultEum;
 import com.follow.dto.DataResult;
@@ -11,6 +10,7 @@ import com.follow.entity.*;
 import com.follow.service.*;
 import com.follow.vo.CustomPatientVO;
 import com.follow.vo.CustomVo;
+import lombok.val;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -57,10 +57,13 @@ public class JoinGroupController {
      * @return
      */
     @PostMapping("/intotheroupupdate")
-    public String joinGroup(Integer desk, String illnessCoded, String illnessName, String array) {
+    public String joinGroup(Integer desk, String illnessCoded, String illnessName, String array ,HttpServletRequest request) {
+        val session = request.getSession();
+        Object id = session.getAttribute("id");
+        Integer userId = Integer.parseInt(id.toString());
         boolean isok = false;
         try {
-            isok = joinGroupService.intoTheGroup(desk, illnessCoded, illnessName,array);
+            isok = joinGroupService.intoTheGroup(desk, illnessCoded, illnessName,array,userId);
         } catch (Exception e) {
             e.printStackTrace();
             return JSON.toJSONString(isok);
@@ -75,14 +78,17 @@ public class JoinGroupController {
      * @return
      */
     @PostMapping("/intotheroupupdates")
-    public String joinGroups(CustomPatientVO patient) {
+    public String joinGroups(CustomPatientVO patient,HttpServletRequest request) {
+        val session = request.getSession();
+        Object id = session.getAttribute("id");
+        Integer userId = Integer.parseInt(id.toString());
 
         boolean isok = false;
         if(EmptyUtils.isEmpty(patient)){
             return JSON.toJSONString(isok);
         }
         try {
-            isok = joinGroupService.intoTheGroups(patient);
+            isok = joinGroupService.intoTheGroups(patient,userId);
         } catch (Exception e) {
             e.printStackTrace();
             return JSON.toJSONString(isok);
@@ -205,6 +211,9 @@ public class JoinGroupController {
      */
     @RequestMapping("/upload")
     public String upload(MultipartFile file, HttpServletRequest request) throws IOException {
+        val session = request.getSession();
+        Object id = session.getAttribute("id");
+        Integer userId = Integer.parseInt(id.toString());
         String fileName = file.getOriginalFilename();
         File path = new File("D:/upload");
         if (!path.exists()){
@@ -215,7 +224,7 @@ public class JoinGroupController {
 
         boolean isok = false;
         try {
-            isok = joinGroupService.importExcel(newPath);
+            isok = joinGroupService.importExcel(newPath,userId);
         } catch (Exception e) {
             e.printStackTrace();
         }finally {
@@ -256,10 +265,13 @@ public class JoinGroupController {
      * @return
      */
     @PostMapping("/getresultbyid")
-    public String ResultId(Integer id){
+    public String ResultId(Integer id,HttpServletRequest request) {
+        val session = request.getSession();
+        Object uid = session.getAttribute("id");
+        Integer userId = Integer.parseInt(uid.toString());
         boolean isok =false;
         try {
-             isok = joinGroupService.getResult(id);
+             isok = joinGroupService.getResult(id,userId);
         } catch (Exception e) {
             e.printStackTrace();
         }finally {
@@ -273,10 +285,13 @@ public class JoinGroupController {
      * @return
      */
     @PostMapping("/customPatient")
-    public String customPatient(CustomVo patient){
+    public String customPatient(CustomVo patient,HttpServletRequest request){
+        val session = request.getSession();
+        Object id = session.getAttribute("id");
+        Integer userId = Integer.parseInt(id.toString());
         boolean isok = false;
         try {
-            isok = joinGroupService.customPatient(patient);
+            isok = joinGroupService.customPatient(patient,userId);
         } catch (Exception e) {
             e.printStackTrace();
         }finally {

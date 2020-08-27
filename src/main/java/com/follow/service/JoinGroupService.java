@@ -22,21 +22,22 @@ public interface JoinGroupService extends IService<JoinGroup> {
      * @param illnessName
      * @return
      */
-    boolean intoTheGroup(Integer desk, String illnessCoded, String illnessName,String array);
+    boolean intoTheGroup(Integer desk, String illnessCoded, String illnessName, String array, Integer userId);
+
 
     /**
      * 自定义条件 将患者 进行入组
      * @param patient
      * @return
      */
-    boolean intoTheGroups(CustomPatientVO patient);
+    boolean intoTheGroups(CustomPatientVO patient,Integer userId);
 
     /**
      * 根据 结果集id 进行入组
      * @param id
      * @return
      */
-    boolean getResult(Integer id);
+    boolean getResult(Integer id,Integer userId);
 
     /**
      * 导出 模板
@@ -49,14 +50,14 @@ public interface JoinGroupService extends IService<JoinGroup> {
      * @param newPath
      * @return
      */
-    boolean importExcel(String newPath) throws Exception;
+    boolean importExcel(String newPath,Integer userId) throws Exception;
 
     /**
      * 自定义患者 进行入组
      * @param patient
      * @return
      */
-    boolean customPatient(CustomVo patient);
+    boolean customPatient(CustomVo patient,Integer userId);
 
     /**
      * 入组时间

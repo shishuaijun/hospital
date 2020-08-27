@@ -113,4 +113,10 @@ public class IntoTheGroupHtmlController {
     public String group_management(){
         return "group_management";
     }
+
+    @RequestMapping("/quickMark")
+    public String quickMark(){
+        return "calendarView/quickMark";
+    }
+
 }

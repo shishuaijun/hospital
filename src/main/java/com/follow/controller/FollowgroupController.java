@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
@@ -55,6 +57,13 @@ public class FollowgroupController {
     @ResponseBody
     public String findPage(Integer page, Integer limit) {
         Page<Followgroup> page1 = followgroupService.page(new Page<>(page, limit));
+
+        // 解决bug：最后一页删除多条数据后，页面显示无数据，需要将页数减一，重新进行查询
+        while (page1.getSize() == 0) {
+            page = page - 1;
+            page1 = followgroupService.page(new Page<>(page, limit));
+        }
+
         DataUtil dataUtil = new DataUtil();
         dataUtil.setCode(0);
         dataUtil.setMsg("success");
@@ -75,17 +84,32 @@ public class FollowgroupController {
      */
     @PostMapping(value = "/save")
     @ResponseBody
-    public String save(Integer departmentId, Integer departmentPerson, Date createTime, String fName, String fphone, String fbackground, Integer fstate){
+    public String save(Integer departmentId, Integer departmentPerson, String fName, String fphone, String fbackground, Integer fstate, Integer userId, Date createTime, HttpServletRequest request){
         Followgroup f = new Followgroup();
         f.setDepartmentId(departmentId);
         f.setDepartmentPerson(departmentPerson);
-        f.setCreateTime(createTime);
+
         f.setFName(fName);
         f.setFphone(fphone);
         f.setFbackground(fbackground);
         f.setFstate(fstate);
+        //f.setUserId(userId);
         //f.setFstratTime(fstratTime);
         //f.setFendTime(fendTime);
+
+        HttpSession session = request.getSession();
+        Object id = session.getAttribute("id");
+        int i = Integer.parseInt(id.toString());
+
+        f.setUserId(i);
+
+        SimpleDateFormat sdf = new SimpleDateFormat();// 格式化时间
+        sdf.applyPattern("yyyy-MM-dd HH:mm:ss a");// a为am/pm的标记
+        Date date = new Date();// 获取当前时间
+
+        System.out.println(date);
+
+        f.setCreateTime(date);
 
         boolean insert = followgroupService.save(f);
         if (insert == true){

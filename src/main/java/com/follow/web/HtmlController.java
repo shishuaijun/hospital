@@ -6,6 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -55,8 +57,20 @@ public class HtmlController {
      * @return index.html
      */
     @RequestMapping("/index")
-    public String index(){
-        return "index";
+    public String index(HttpServletRequest request){
+
+        HttpSession session = request.getSession();
+        Object o = session.getAttribute("roleId1");
+        String s = o.toString();
+        int i = Integer.parseInt(s);
+        //Integer roleId = Integer.parseInt(session.getAttribute("role_id").toString()) ;
+
+        if(i == 1 || i==2 || i == 3){
+          return "index1";
+        }else if(i == 4){
+            return "index";
+        }
+        return "unauthorized";
     }
 
     /**
@@ -64,8 +78,21 @@ public class HtmlController {
      * @return index1.html
      */
     @RequestMapping("/index1")
-    public String index1(){
-        return "index1";
+    public String index1(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        //Integer roleId = Integer.parseInt(session.getAttribute("role_id").toString()) ;
+
+        Object o = session.getAttribute("roleId1");
+        String s = o.toString();
+        int i = Integer.parseInt(s);
+        //Integer roleId = Integer.parseInt(session.getAttribute("role_id").toString()) ;
+
+        if(i == 1 || i==2 || i == 3){
+            return "index1";
+        }else if(i == 4){
+            return "index";
+        }
+        return "unauthorized";
     }
 
     /**

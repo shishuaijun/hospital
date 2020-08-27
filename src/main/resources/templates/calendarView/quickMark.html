@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="layui/jQuery/jquery-2.2.3.min.js"></script>
+    <script src="js/code.js"></script>
+    <style>
+        #search
+        {
+            text-align:center;
+            margin:0 auto ;
+        }
+    </style>
+</head>
+<body>
+<br><br><br>
+<div id="search">
+    <h2>扫一扫</h2>
+    <div id="qrcode" style="padding-left: 50px"></div>
+</div>
+</body>
+<script>
+    $(function(){
+
+        $("#qrcode").html("");
+        var url4 = "https://www.baidu.com/";
+        /* 生成二维码 */
+        $("#qrcode").qrcode({
+            render: "canvas",
+            width: 300,
+            height: 300,
+            typeNumber: -1,
+            background: "#ffffff",
+            foreground: "pink",
+            correctLevel:0,
+            text: url4
+        });
+    });
+</script>
+</html>

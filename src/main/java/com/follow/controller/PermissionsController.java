@@ -168,11 +168,13 @@ public class PermissionsController {
                                                   @RequestParam("id") Integer id) {
         JSONResult jsonResult = null;
         boolean save = false;
-        Set<String> names = new HashSet();
+        Set<String> names = new HashSet() ;
         if (userName != null && !"".equals(userName)) {
           /*  for (String name :userName.split(",")) {
                 names.add(name);
             }*/
+            System.out.println("============="+userName);
+
             String[] split = userName.split(",");
             for (int i = 0; i < split.length; i++) {
                 names.add(split[i]);
@@ -183,37 +185,33 @@ public class PermissionsController {
         List<Permissions> list = permissionsService.listByMap(map);
         List<String> listNames = new ArrayList<>();
         for (String namess : names) {
-            for (Permissions permission : list) {
-                if (namess.equals(permission.getUserName())) {
+            for (Permissions permission: list) {
+                if (namess.equals(permission.getUserName())){
                     listNames.add(namess);
                 }
             }
         }
-        for (int i = 0; i < listNames.size(); i++) {
+        for (int i = 0; i < listNames.size() ; i++) {
             names.remove(listNames.get(i));
         }
+        for (String name : names){
+            QueryWrapper<Permissions> objectQueryWrapper = new QueryWrapper<>();
+            objectQueryWrapper.eq("user_name", name);
+            Permissions one = permissionsService.getOne(objectQueryWrapper);
+            System.out.println(one.toString());
+            Permissions p = new Permissions();
+            p.setRoleId(one.getRoleId());
+            p.setRoleName(one.getRoleName());
+            p.setJurisdiction(one.getJurisdiction());
+            p.setFollowgroupId(id);
+            p.setUserName(one.getUserName());
+            p.setCreateTime(new Date());
+            save = permissionsService.save(p);
+        }
         try {
-            for (String name : names) {
-                QueryWrapper<User> objectQueryWrapper = new QueryWrapper<>();
-                objectQueryWrapper.eq("user_name", name);
-                System.out.println(
-                        name
-                );
-                User one = userService.getOne(objectQueryWrapper);
-                System.out.println(one.toString());
-                Permissions p = new Permissions();
-                p.setRoleId(one.getRoleId());
-                p.setJurisdiction("打工仔");
-                p.setFollowgroupId(id);
-                p.setUserName(one.getUserName());
-                p.setIsDelete(0);
-                p.setCreateTime(new Date());
-                save = permissionsService.save(p);
-            }
-
-            jsonResult = new JSONResult(ResultEum.SUCCESS, save ? 1L : 0L, save ? "添加成功" : "没有添加数据");
-        } catch (Exception e) {
-            jsonResult = new JSONResult(ResultEum.SUCCESS, 0L, "添加失败");
+            jsonResult = new JSONResult(ResultEum.SUCCESS, save?1L:0L, save?"添加成功":"没有添加数据");
+        }catch(Exception e){
+            jsonResult = new JSONResult(ResultEum.SUCCESS,0L,"添加失败");
         }
         return jsonResult;
     }

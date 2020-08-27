@@ -52,10 +52,16 @@ public class JoinGroupServiceImpl extends ServiceImpl<JoinGroupMapper, JoinGroup
     private JoinGroupTimeMapper joinGroupTimeMapper ;
     @Autowired
     private JoinGroupProgressMapper joinGroupProgressMapper;
+    @Autowired
+    private FollowgroupMapper followgroupMapper;
 
     @Override
-    public boolean intoTheGroup(Integer desk, String illnessCoded, String illnessName, String array) {
-
+    public boolean intoTheGroup(Integer desk, String illnessCoded, String illnessName, String array, Integer userId){
+        List<Followgroup> followgroups = followgroupMapper.selectByUserIdList(userId);
+        String groupName="";
+        if (EmptyUtils.isNotEmpty(followgroups)){
+            groupName = followgroups.get(0).getFName();
+        }
         // 科室 条件
         if(EmptyUtils.isNotEmpty(desk)){
             QueryWrapper<Patient> patientQueryWrapper = new QueryWrapper<>();
@@ -74,7 +80,7 @@ public class JoinGroupServiceImpl extends ServiceImpl<JoinGroupMapper, JoinGroup
             }
             List<Patient> patients = patientMapper.selectList(patientQueryWrapper);
             // 患者入组、更改患者状态(复用）
-            addUpateJoinGroup(patients, KEY_DESK);
+            addUpateJoinGroup(patients, KEY_DESK,groupName);
 
         }
         // 病种 条件
@@ -102,7 +108,7 @@ public class JoinGroupServiceImpl extends ServiceImpl<JoinGroupMapper, JoinGroup
                 patientQueryWrapper.eq("disease_id",disease.getId());
                 List<Patient> patients = patientMapper.selectList(patientQueryWrapper);
                 // 患者入组、更改患者状态(复用）
-                addUpateJoinGroup(patients,"病种");
+                addUpateJoinGroup(patients,"病种",groupName);
             }
         }
         // 人员 条件
@@ -118,7 +124,7 @@ public class JoinGroupServiceImpl extends ServiceImpl<JoinGroupMapper, JoinGroup
 
                         JoinGroup joinGroup = new JoinGroup();
                         // 入组名称 获取
-                        joinGroup.setGroupName("根据当前用户获取");
+                        joinGroup.setGroupName(groupName);
                         // 规则
                         joinGroup.setRule("人员");
                         // 患者id
@@ -139,7 +145,13 @@ public class JoinGroupServiceImpl extends ServiceImpl<JoinGroupMapper, JoinGroup
     }
 
     @Override
-    public boolean intoTheGroups(CustomPatientVO patient) {
+    public boolean intoTheGroups(CustomPatientVO patient,Integer userId) {
+        List<Followgroup> followgroups = followgroupMapper.selectByUserIdList(userId);
+        String groupName="";
+        if (EmptyUtils.isNotEmpty(followgroups)){
+            groupName = followgroups.get(0).getFName();
+        }
+
         QueryWrapper<Patient> patientQueryWrapper = new QueryWrapper<>();
         boolean a = false;
         if(EmptyUtils.isNotEmpty(patient.getId())){
@@ -191,7 +203,7 @@ public class JoinGroupServiceImpl extends ServiceImpl<JoinGroupMapper, JoinGroup
             patients = patientMapper.selectList(patientQueryWrapper);
         }
         // 患者入组、更改患者状态(复用）
-        addUpateJoinGroup(patients,"自定义-基本信息");
+        addUpateJoinGroup(patients,"自定义-基本信息",groupName);
         boolean b =false;
         QueryWrapper<PatientOperationInformation> oQueryWrapper = new QueryWrapper<>();
         if(EmptyUtils.isNotEmpty(patient.getTermOfOperation())){
@@ -226,7 +238,7 @@ public class JoinGroupServiceImpl extends ServiceImpl<JoinGroupMapper, JoinGroup
                 for (PatientOperationInformation patientOperationInformation : patientOperationInformations) {
                     JoinGroup joinGroup = new JoinGroup();
                     // 入组名称 获取
-                    joinGroup.setGroupName("根据当前用户获取");
+                    joinGroup.setGroupName(groupName);
                     // 规则
                     joinGroup.setRule("自定义-手术信息");
                     // 患者id
@@ -282,7 +294,7 @@ public class JoinGroupServiceImpl extends ServiceImpl<JoinGroupMapper, JoinGroup
                     System.out.println(patientOperationInformation.getPatientId());
                     JoinGroup joinGroup = new JoinGroup();
                     // 入组名称 获取
-                    joinGroup.setGroupName("根据当前用户获取");
+                    joinGroup.setGroupName(groupName);
                     // 规则
                     joinGroup.setRule("自定义-住院信息");
                     // 患者id
@@ -303,7 +315,13 @@ public class JoinGroupServiceImpl extends ServiceImpl<JoinGroupMapper, JoinGroup
     }
 
     @Override
-    public boolean getResult(Integer id) {
+    public boolean getResult(Integer id,Integer userId) {
+        List<Followgroup> followgroups = followgroupMapper.selectByUserIdList(userId);
+        String groupName="";
+        if (EmptyUtils.isNotEmpty(followgroups)){
+            groupName = followgroups.get(0).getFName();
+        }
+
         boolean isok = false;
         Result result = resultMapper.selectById(id);
         if(KEY_DESK.equals( result.getName())){
@@ -316,7 +334,7 @@ public class JoinGroupServiceImpl extends ServiceImpl<JoinGroupMapper, JoinGroup
             patientQueryWrapper.eq("department_id",deskId);
             List<Patient> patients = patientMapper.selectList(patientQueryWrapper);
             // 患者入组、更改患者状态(复用）
-            addUpateJoinGroup(patients, KEY_DESK);
+            addUpateJoinGroup(patients, KEY_DESK,groupName);
             isok =true;
         }else if(KEY_ILLNESS.equals( result.getName())){
             String diseaseName = result.getResult();
@@ -329,7 +347,7 @@ public class JoinGroupServiceImpl extends ServiceImpl<JoinGroupMapper, JoinGroup
             patientQueryWrapper.eq("disease_id",diseaseId);
             List<Patient> patients = patientMapper.selectList(patientQueryWrapper);
             // 患者入组、更改患者状态(复用）
-            addUpateJoinGroup(patients, KEY_ILLNESS);
+            addUpateJoinGroup(patients, KEY_ILLNESS,groupName);
             isok =true;
         }
         return isok;
@@ -356,7 +374,13 @@ public class JoinGroupServiceImpl extends ServiceImpl<JoinGroupMapper, JoinGroup
     }
 
     @Override
-    public boolean importExcel(String newPath) throws Exception{
+    public boolean importExcel(String newPath,Integer userId) throws Exception{
+        List<Followgroup> followgroups = followgroupMapper.selectByUserIdList(userId);
+        String groupName="";
+        if (EmptyUtils.isNotEmpty(followgroups)){
+            groupName = followgroups.get(0).getFName();
+        }
+
         List<List<Object>> lists = ReaderExcelUtil.readerExcel(newPath);
 
         for (List<Object> list : lists) {
@@ -380,7 +404,7 @@ public class JoinGroupServiceImpl extends ServiceImpl<JoinGroupMapper, JoinGroup
             patient.setIsJoingroup(1);
             patientMapper.insert(patient);
             JoinGroup joinGroup = new JoinGroup();
-            joinGroup.setGroupName("根据当前用户获取");
+            joinGroup.setGroupName(groupName);
             joinGroup.setRule("自定义/导入-导入");
             joinGroup.setPatientControlId(patient.getId());
             joinGroup.setGroupTime(LocalDateTime.now());
@@ -395,7 +419,12 @@ public class JoinGroupServiceImpl extends ServiceImpl<JoinGroupMapper, JoinGroup
     }
 
     @Override
-    public boolean customPatient(CustomVo patient) {
+    public boolean customPatient(CustomVo patient,Integer userId) {
+        List<Followgroup> followgroups = followgroupMapper.selectByUserIdList(userId);
+        String groupName="";
+        if (EmptyUtils.isNotEmpty(followgroups)){
+            groupName = followgroups.get(0).getFName();
+        }
         boolean isok =false;
         QueryWrapper<Patient> wrapper = new QueryWrapper<>();
         if(EmptyUtils.isNotEmpty(patient.getPatientName())){
@@ -418,7 +447,7 @@ public class JoinGroupServiceImpl extends ServiceImpl<JoinGroupMapper, JoinGroup
         if(isok){
             patients  = patientMapper.selectList(wrapper);
         }
-        addUpateJoinGroup(patients,"自定义/导入-患者");
+        addUpateJoinGroup(patients,"自定义/导入-患者",groupName);
         return true;
     }
 
@@ -448,12 +477,13 @@ public class JoinGroupServiceImpl extends ServiceImpl<JoinGroupMapper, JoinGroup
      * @param rule
      * @return
      */
-    protected  void addUpateJoinGroup(List<Patient> patients,String rule){
+    protected  void addUpateJoinGroup(List<Patient> patients, String rule,String groupName){
+
         if (EmptyUtils.isNotEmpty(patients)){
             for (Patient patient : patients) {
                 JoinGroup joinGroup = new JoinGroup();
                 // 入组名称 获取
-                joinGroup.setGroupName("根据当前用户获取");
+                joinGroup.setGroupName(groupName);
                 // 规则
                 joinGroup.setRule(rule);
                 // 患者id
@@ -491,5 +521,7 @@ public class JoinGroupServiceImpl extends ServiceImpl<JoinGroupMapper, JoinGroup
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return LocalDateTime.parse(sb, dateTimeFormatter);
     }
+
+
 }
 
