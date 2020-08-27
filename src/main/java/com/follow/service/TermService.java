@@ -7,4 +7,7 @@ import java.util.List;
 public interface TermService {
 
     List<TermInformation> queryTermInformation();
+
+    String addByupdateDataInformation(String[] dataValue , String[] dataId , String userId);
+
 }

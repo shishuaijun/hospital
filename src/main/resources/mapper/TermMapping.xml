@@ -3,38 +3,4 @@
 <mapper namespace="com.follow.mapper.TermMapping">
 
 
-    <select id="selectTermInformationAll"  resultType="com.follow.entity.TermInformation">
-        SELECT
-            term.id,
-            term.information_name as termName
-        FROM
-            terminformation term
-    </select>
-
-    <select id="selectEssentialInformationAll" resultType="com.follow.entity.TermInformation">
-        SELECT
-            esse.id,
-            esse.basic_name as termName,
-            esse.bean_id as beanId
-        FROM
-            essentialinformation esse
-    </select>
-
-    <select id="selectHomepageInformationAll" resultType="com.follow.entity.TermInformation">
-        SELECT
-            home.id,
-            home.home_page_name as termName,
-            home.bean_id as beanId
-        FROM
-            homepageinformation home
-    </select>
-
-    <select id="selectOperationInformationAll" resultType="com.follow.entity.TermInformation">
-        SELECT
-            oper.id,
-            oper.operation_name as termName,
-            oper.bean_id as beanId
-        FROM
-            operationinformation oper
-    </select>
 </mapper>

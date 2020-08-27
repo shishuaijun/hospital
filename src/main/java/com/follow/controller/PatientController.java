@@ -1,21 +1,45 @@
 package com.follow.controller;
-import com.follow.entity.Patient;
-import com.follow.service.PatientService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
 
+
+import com.follow.common.JSONResult;
+import com.follow.common.ResultEum;
+import com.follow.service.PatientService;
+import com.follow.vo.PatientUserVo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import com.follow.entity.Patient;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 
 /**
  * @author wangchunjun
  * @date 2020/8/6
  */
-@Controller
+@RestController
 public class PatientController {
 
     @Autowired
-    private PatientService patientService;
+    private PatientService patientService ;
+
+    @RequestMapping("getPatientUserVo")
+    public JSONResult getPatientUserVo(HttpServletRequest request){
+        Object attribute = request.getSession().getAttribute("id");
+        JSONResult jsonResult = null ;
+        try{
+        PatientUserVo patientUserVo = patientService.queryPatientUserVoByUserId(attribute.toString());
+            jsonResult = new JSONResult(ResultEum.SUCCESS,1L,patientUserVo);
+        }catch(Exception e){
+            e.getLocalizedMessage();
+            jsonResult = new JSONResult(ResultEum.ERROR,0L,null);
+        }
+        return jsonResult ;
+    }
+
+
+
 
     /**
      * 生成 多条 患者信息  测试

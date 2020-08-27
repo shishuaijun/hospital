@@ -4,6 +4,7 @@ import com.follow.entity.Patient;
 import com.follow.mapper.PatientMapper;
 import com.follow.service.PatientService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.follow.vo.PatientUserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,5 +21,10 @@ public class PatientServiceImpl extends ServiceImpl<PatientMapper, Patient> impl
     @Override
     public Patient getByOneId(Integer id) {
         return patientMapper.selectByokId(id);
+    }
+
+    @Override
+    public PatientUserVo queryPatientUserVoByUserId(String userId) {
+        return patientMapper.selectPatientUserVoByUserId(userId);
     }
 }

@@ -8,9 +8,11 @@ import com.follow.common.JSONResult;
 import com.follow.common.ResultEum;
 import com.follow.entity.Department;
 import com.follow.entity.Permissions;
+import com.follow.entity.User;
 import com.follow.service.FollowgroupService;
 import com.follow.service.PermissionsFollowgroupVoService;
 import com.follow.service.PermissionsService;
+import com.follow.service.UserService;
 import com.follow.vo.PermissionsFollowgroupVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -30,6 +32,9 @@ public class PermissionsController {
 
     @Autowired
     private PermissionsService permissionsService;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private FollowgroupService followgroupService;
@@ -198,7 +203,8 @@ public class PermissionsController {
             p.setRoleId(one.getRoleId());
             p.setRoleName(one.getRoleName());
             p.setJurisdiction(one.getJurisdiction());
-            p.setFollowgroupId(id);p.setUserName(one.getUserName());
+            p.setFollowgroupId(id);
+            p.setUserName(one.getUserName());
             p.setCreateTime(new Date());
             save = permissionsService.save(p);
         }

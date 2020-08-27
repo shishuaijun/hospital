@@ -2,6 +2,7 @@ package com.follow.service;
 
 import com.follow.entity.Patient;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.follow.vo.PatientUserVo;
 
 /**
  * @author wangchunjun
@@ -15,4 +16,6 @@ public interface PatientService extends IService<Patient> {
      * @return
      */
     Patient getByOneId(Integer id);
+
+    PatientUserVo queryPatientUserVoByUserId(String userId);
 }
