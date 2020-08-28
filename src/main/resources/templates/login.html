@@ -11,9 +11,20 @@
 
     <script>
 
+        //回车键触发方法
+        document.onkeydown=function(event){
+            var code = event.keyCode;
+            if(code ==13){
+                go();
+            }
+        };
 
         //登录操作
         var denglu = function () {
+            go();
+        };
+
+        function go() {
             var account = $("#account").val();
             var pass_word = $("#pass_word").val();
 
@@ -58,9 +69,7 @@
                     }
                 }
             })
-
-
-        };
+        }
 
 
         var zhuce = function () {
