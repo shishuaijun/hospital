@@ -1,19 +1,24 @@
 spring:
+#  配置连接池
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/follow_up?useUnicode=true&characterEncoding=gbk&zeroDateTimeBehavior=convertToNull&useSSL=false
     username: root
     password: root
+#  配置页面的路劲前坠和后缀的
   mvc:
     view:
       prefix: classpath:/templates/
       suffix: .html
+#  解决标签闭合错误
   thymeleaf:
     content-type: text/html
     cache: false
     mode: LEGACYHTML5
+#    设置端口号
 server:
   port: 8080
+#  配置mybatis-plus
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

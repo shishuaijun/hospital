@@ -141,7 +141,6 @@ function submit() {
             data:{
                 'dataValue':dataInput.toString(),
                 'dataId':dataInputId.toString(),
-                'userId':'1'
             }
         }).success(function (data) {
             alert(data.data);
@@ -153,5 +152,6 @@ function submit() {
     function back1() {
         window.location.href="maintenance_standardized_terms_list.html";
     }
+
 
 }

@@ -1,10 +1,8 @@
 package com.follow.mapper;
 
 import com.follow.entity.TermInformation;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import com.follow.vo.DataInromationByUserVo;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -17,8 +15,9 @@ public interface TermMapping {
     Integer  insertDataInformation(@Param("dataValue") String dataValue ,
                                   @Param("dataId") String dataId ,
                                   @Param("userId") String userId);
-    @Select("select count(id) from  datainformation where class_id = #{dataId} and user_id = #{userId}")
-    Integer selectDataInformation(@Param("dataId") String dataId,
+//    @Select("select count(id) from  datainformation where class_id = #{dataId} and user_id = #{userId}")
+    @Select("select id from  datainformation where class_id = #{dataId} and user_id = #{userId}")
+    DataInromationByUserVo selectDataInformation(@Param("dataId") String dataId,
                                   @Param("userId") String userId);
 
     @Update("update datainformation set data = #{dataValue} where class_id = #{dataId} and user_id = #{userId} ")
@@ -26,4 +25,12 @@ public interface TermMapping {
                                   @Param("dataId") String dataId ,
                                   @Param("userId") String userId);
 
+    @Select("select d.id,d.`data` `data`,t.termName as className,u.user_name as userName from `user` u , datainformation d , terminformation t where u.id = #{userId} and u.id = d.user_id and d.class_id = t.id LIMIT #{page},#{limit}")
+    List<DataInromationByUserVo> selectDataInformationAll(@Param("page") Integer page ,
+                                                 @Param("limit") Integer limit ,
+                                                 @Param("userId") String userId);
+
+
+    @Delete("DELETE from datainformation  where id = #{id}")
+    Integer deleteDataInformation(String id);
 }
