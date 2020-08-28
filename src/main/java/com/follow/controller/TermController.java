@@ -7,6 +7,7 @@ import com.follow.service.TermService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -59,5 +60,19 @@ public class TermController {
 //            jsonResult = new JSONResult(ResultEum.ERROR,0L,"服务异常");
 //        }
         return jsonResult;
+    }
+
+
+
+    /**
+     * 功能描述： TODO[ 全查+分页 ]
+     * @auther:  Zuan~
+     * @date:  2020/8/28  9:30
+     * @param:  findPageMaintenance
+     * @return:
+     */
+    @RequestMapping("/findPageMaintenance")
+    public String findPageMaintenance(Integer page,Integer limit){
+        return "";
     }
 }

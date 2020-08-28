@@ -104,6 +104,16 @@ public class HtmlController {
         return "welcome";
     }
 
+
+    /**maintenance_standardized_terms_list
+     * 跳转到术语展示
+     * @return welcome.html
+     */
+    @RequestMapping("/maintenance_standardized_terms_list")
+    public String maintenancestandardizedtermslist(){
+        return "maintenance_standardized_terms_list";
+    }
+
     /**
      * 跳转到 分组管理  页
      * @return
