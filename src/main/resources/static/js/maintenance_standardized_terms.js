@@ -132,8 +132,8 @@ function submit() {
             }
         }
     }
-    console.log(dataInput)
-    console.log(dataInputId)
+    //console.log(dataInput)
+    //console.log(dataInputId)
     if (dataInput.length > 0 && dataInputId.length > 0){
         $.ajax({
             type:"post",
@@ -141,11 +141,16 @@ function submit() {
             data:{
                 'dataValue':dataInput.toString(),
                 'dataId':dataInputId.toString(),
-                'userId':'1'
             }
         }).success(function (data) {
-            alert(data.data)
+            alert(data.data);
+            back1();
         })
+    }
+
+
+    function back1() {
+        window.location.href="maintenance_standardized_terms_list.html";
     }
 
 

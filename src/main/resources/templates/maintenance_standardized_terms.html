@@ -9,6 +9,7 @@
     <script src="vue/vuejs-2.5.16.js" ></script>
     <script src="vue/axios-0.18.0.js"></script>
     <script src="js/maintenance_standardized_terms.js"></script>
+    <script src="../static/js/maintenance_standardized_terms.js"></script>
     <title>标准化术语维护</title>
 </head>
 <body>
@@ -18,24 +19,28 @@
 <div style="margin: auto; width: 90%;">
     <div class="layui-container">
         <div class="layui-row">
+            <a class="layui-icon layui-icon-return" href="maintenance_standardized_terms_list">返回术语展示</a>
             <div class="layui-col-md3" id="term" style="border: 1px #e2e2e2 solid ; height: 500px">
 
             </div>
-            <div class="layui-col-md9">
+            <div class="layui-col-md9" id="userXinXi">
                 <div style="height: 200px; vertical-align: middle;display:table-cell ; width: 850px;">
                     <div style="vertical-align: middle; display:table-cell ; width: 850px; height: 200px;">
                         <h3 style="color: #138CDD;margin-right: 50px;float: left">提交信息：</h3>
-                        <div id="userXinXi" style="float: right">
+                        <div  style="float: right">
                             <table >
                                 <tr>
-                                    <td>名称：<input type="text" style="margin-right: 20px;width: 100px;" :value="symptiom"/></td>
-                                    <td>类型：<input type="text" style="margin-right: 20px;width: 100px;" :value="termClass"/></td>
-                                    <td>分类：<input type="text" style="margin-right: 20px;width: 100px;" :value="classify"/></td>
+                                    <td><span>名称：</span><span style="margin-right: 20px;width: 100px;" >{{symptiom}}</span></td>
+                                    <td><span>类型：</span><span style="margin-right: 20px;width: 100px;" >{{termClass}}</span></td>
+                                    <td><span>分类：</span><span style="margin-right: 20px;width: 100px;" >{{classify}}</span></td>
                                 </tr>
                                 <tr>
-                                    <td>创建人：<input type="text" style="margin-right: 20px;width: 100px;" :value="establish"/></td>
-                                    <td>科室：<input type="text" style="margin-right: 20px;width: 100px;" :value="kehsi"/></td>
-                                    <td>创建时间：<input type="text" style="margin-right: 20px;width: 100px;" :value="newData"/></td>
+                                    <td><span>创建人：</span>
+                                        <span style="margin-right: 20px;width: 100px;" >{{establish}}</span></td>
+                                    <td><span>科室：</span>
+                                        <span style="margin-right: 20px;width: 100px;" >{{kehsi}}</span></td>
+                                    <td><span>创建时间：</span>
+                                        <span style="margin-right: 20px;width: 100px;" >{{newData}}</span></td>
                                 </tr>
                                 <tr>
                                     <td>内容：<input type="text" style="margin-right: 20px;width: 100px;" :value="datas"/></td>
@@ -59,6 +64,10 @@
         </div>
     </div>
 </div>
+<script src="layui/layui.js"></script>
+<script>
+</script>
+
 <script>
     new Vue({
         el:'#userXinXi',
