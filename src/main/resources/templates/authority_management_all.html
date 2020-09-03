@@ -103,7 +103,8 @@
                         "id":obj.data.id
                    }
                }).success(function(data){
-                   layer.msg(data.data)
+                   layer.msg(data.data);
+                   window.location.go(0);
                })
             }else if(obj.event === 'edit'){
                 $.ajax({
