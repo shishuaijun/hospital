@@ -1,13 +1,12 @@
-$(function(){
-    departmentName();
+$(function () {
+    getDepartment();
 })
 
-function departmentName(){
+function getDepartment(){
     $.ajax({
         type:"post",
-        url:"getDepartmentName",
+        url:"getDepartment",
     }).success(function (data) {
-        console.log(data.data)
         var departmentNameS = '' ;
         var departmentBossS = '' ;
         for (var i = 0; i <data.data.length ; i++) {
